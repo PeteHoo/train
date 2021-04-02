@@ -155,6 +155,18 @@ function datetimeNow($time=''){
 
 }
 
+/** 组合短信实际内容
+ * @param $template
+ * @param $params
+ * @return string|string[]
+ */
+function getMessageContent($template,$params){
+    foreach ($params as $k=>$v){
+        $template=str_replace('${'.$k.'}',$v,$template);
+    }
+    return $template;
+}
+
 
 
 
