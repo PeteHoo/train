@@ -6,6 +6,11 @@ use Dcat\Admin\Admin;
 
 Admin::routes();
 Route::get('/admin/auth/register','App\Admin\Controllers\RegisterController@register');
+Route::post('/admin/auth/send-code','App\Admin\Controllers\RegisterController@sendCode');
+Route::post('/admin/auth/verify-code','App\Admin\Controllers\RegisterController@verifyCode');
+Route::get('/admin/auth/base-info','App\Admin\Controllers\RegisterController@baseInfo');
+Route::resource('/admin/register','App\Admin\Controllers\RegisterController');
+
 Route::group([
     'prefix'     => config('admin.route.prefix'),
     'namespace'  => config('admin.route.namespace'),
@@ -23,8 +28,6 @@ Route::group([
     $router->resource('mechanism', 'MechanismController');
     $router->resource('learning-material', 'LearningMaterialController');
 
-
-    $router->post('auth/send-code','RegisterController@sendCode');
 
     $router->get('api-version','ApiController@version');
     $router->get('api-occupation','ApiController@occupation');

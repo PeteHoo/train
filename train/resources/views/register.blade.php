@@ -30,7 +30,7 @@
             <div class="card-body login-card-body shadow-100">
                 <p class="login-box-msg mt-1 mb-1">{{ __('admin.register') }}</p>
 
-                <form id="login-form" method="POST" action="{{ admin_url('auth/register') }}">
+                <form id="login-form" method="POST">
 
                     <input type="hidden" name="_token" value="{{ csrf_token() }}"/>
 
@@ -89,18 +89,18 @@
                         @endif
 
                     </fieldset>
-                    <button onclick="sendCode()" class="btn btn-primary float-left login-btn">
+                    <span onclick="sendCode()" class="btn btn-primary float-left">
 
                         {{ __('admin.send_code') }}
                         &nbsp;
                         <i class="feather icon-arrow-right"></i>
-                    </button>
-                    <button type="submit" class="btn btn-primary float-right login-btn">
+                    </span>
+                    <span onclick="verifyCode()" class="btn btn-primary float-right">
 
                         {{ __('admin.register') }}
                         &nbsp;
                         <i class="feather icon-arrow-right"></i>
-                    </button>
+                    </span>
                 </form>
 
             </div>
@@ -109,24 +109,33 @@
 </div>
 
 <script>
-    Dcat.ready(function () {
-        // ajax表单提交
-        $('#login-form').form({
-            validate: true,
-        });
-    });
-
-
     function sendCode() {
         $.ajax({
             url:"send-code",
             async:false,
             method:'post',
             data:{
-                phone:'',
+                phone:$( "input[name='phone']").val() ,
             },
             success:function(res){
-                console.log(res);
+                alert(res.message);
+            }});
+    }
+    function verifyCode() {
+        $.ajax({
+            url:"verify-code",
+            async:false,
+            method:'post',
+            data:{
+                phone:$( "input[name='phone']").val() ,
+                code:$( "input[name='code']").val()
+            },
+            success:function(res){
+                if(res.code==200){
+                   location.window.href='';
+                }else{
+                    alert(res.message);
+                }
             }});
     }
 </script>
