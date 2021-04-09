@@ -122,6 +122,9 @@
             url:"send-code",
             async:false,
             method:'post',
+            data:{
+                phone:'',
+            },
             success:function(res){
                 console.log(res);
             }});

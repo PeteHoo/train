@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Dcat\Admin\Admin;
 
 Admin::routes();
-
+Route::get('/admin/auth/register','App\Admin\Controllers\RegisterController@register');
 Route::group([
     'prefix'     => config('admin.route.prefix'),
     'namespace'  => config('admin.route.namespace'),
@@ -23,10 +23,11 @@ Route::group([
     $router->resource('mechanism', 'MechanismController');
     $router->resource('learning-material', 'LearningMaterialController');
 
-    $router->get('auth/register','AuthController@register');
-    $router->post('auth/send-code','AuthController@sendCode');
+
+    $router->post('auth/send-code','RegisterController@sendCode');
 
     $router->get('api-version','ApiController@version');
     $router->get('api-occupation','ApiController@occupation');
 
 });
+
