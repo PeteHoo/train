@@ -132,7 +132,7 @@
             },
             success:function(res){
                 if(res.code==200){
-                   location.window.href='';
+                    window.location.href='/admin/register/create';
                 }else{
                     alert(res.message);
                 }

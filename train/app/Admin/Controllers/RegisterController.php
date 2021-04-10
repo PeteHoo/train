@@ -32,11 +32,15 @@ class RegisterController extends AdminController
         if(!$data['phone']){
             return self::error(ErrorCode::FAILURE,'手机号为空');
         }
+        if(\Dcat\Admin\Models\Administrator::where('phone',$data['phone'])->first()){
+            return self::error(ErrorCode::FAILURE,'该手机号已注册');
+        }
         $aliTask = new AliTask();
         $code = mt_rand(1000, 9999);
         Redis::setex($data['phone'], 60 * 5, $code);
         $data['params']['code'] = $code;
         $result = $aliTask->sendMessage($data['phone'],'SMS_171185461','皮特胡商城', '您正在申请手机注册，验证码为：${code}，5分钟内有效！', $data['params']);
+
         if (!$result) {
             return self::error('', '发送失败');
         }
@@ -59,7 +63,7 @@ class RegisterController extends AdminController
     public function form(){
         return Form::make(new Administrator(), function (Form $form) {
             $form->title('注册');
-            $form->action('step');
+            $form->action('register');
             $form->disableListButton();
             $form->multipleSteps()
                 ->remember() // 记住表单步骤，默认不开启
@@ -69,7 +73,11 @@ class RegisterController extends AdminController
 
                    // $step->html(Alert::make($info)->info());
 
-                    $step->radio('member_type', '会员类型')->options([1=>'机构',2=>'企业'])->required();
+                    $step->hidden('username', '用户名')->default(15728006876);
+                    $step->hidden('password', '密码')->default(15728006876);
+                    $step->hidden('name', '名称')->default(15728006876);
+                    $step->hidden('phone', '手机号')->default(15728006876);
+                    $step->select('member_type', '会员类型')->options([1=>'机构',2=>'企业'])->required();
                     // h5 表单验证
                     $step->text('company_name', '公司名称')
                         ->required();
@@ -93,45 +101,39 @@ class RegisterController extends AdminController
                     $step->text('legal_person_id_card', '法人身份证')
                         ->required();
 
-                    $step->text('contact_name', '手机号')
+                    $step->tel('contact_name', '联系人姓名')
                         ->required();
 
-                    $step->text('contact_phone', '收款方')
+                    $step->text('contact_phone', '联系人手机号')
                         ->required();
                 })
                 ->add('财务信息', function ($step) {
-                    $step->tags('hobbies', '爱好')
-                        ->options(['唱', '跳', 'RAP', '踢足球'])
-                        ->required();
-
-                    $step->text('books', '书籍');
-                    $step->text('music', '音乐');
-
+                    $step->text('payee', '收款方');
+                    $step->text('bank', '开户行');
+                    $step->text('bank_address', '开户行所在地');
+                    $step->text('bank_account', '银行账户');
+                    $step->text('bank_account_confirm', '账号确认');
                     // 事件
                     $step->shown(function () {
                         return <<<JS
-    Dcat.info('兴趣爱好');
-    console.log('兴趣爱好', args);
+    Dcat.info('财务信息');
+    console.log('财务信息', args);
     JS;
                 });
 
             })
-            ->add('地址', function ($step) {
-                $step->text('address', '街道地址');
-                $step->text('post_code', '邮政编码');
-                $step->tel('tel', ' 联系电话');
+            ->add('资质证明', function ($step) {
+                $step->file('business_picture', '营业执照')->url('file-register');
+                $step->file('bank_permit_picture', '银行许可照片')->url('file-register');
             })
             ->done(function () use ($form) {
-                $resource = $form->getResource(0);
-
+      
                 $data = [
-                    'title'       => '操作成功',
-                    'description' => '恭喜您成为第10086位用户',
-                    'createUrl'   => $resource,
-                    'backUrl'     => $resource,
+                    'title'       => '审核',
+                    'description' => '请等待平台管理员审核',
                 ];
 
-                return view('admin::form.done-step', $data);
+                return view('done-step', $data);
             });
     });
 

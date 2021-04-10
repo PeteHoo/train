@@ -204,6 +204,7 @@ return [
     'nothing_updated'           => '没有任何数据被更改',
     'welcome_back'              => '欢迎回来，请登录您的账号。',
     'register'                  => '账号注册',
+    'goto_login'                => '去登录',
     'send_code'                 => '发送短信',
     'documentation'             => '文档',
     'demo'                      => '示例',
