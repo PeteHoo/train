@@ -13,4 +13,8 @@ class Region extends Model
     {
         return self::where(['parent_id' => $parentId])->pluck('name','id');
     }
+    public static function getRegionById($id = 0)
+    {
+        return self::find($id)->name;
+    }
 }

@@ -7,6 +7,7 @@ use App\Models\Industry;
 use App\Models\Mechanism;
 use App\Models\Occupation;
 use App\Utils\Constants;
+use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -22,6 +23,9 @@ class LearningMaterialController extends AdminController
     protected function grid()
     {
         return Grid::make(new LearningMaterial(), function (Grid $grid) {
+            if(Admin::user()->isRole('mechanism')){
+                $grid->model()->where('mechanism_id',Admin::user()->id);
+            }
             $grid->column('id')->sortable();
             $grid->column('title');
             $grid->column('description');

@@ -41,7 +41,6 @@ class AliTask
                     ],
                 ])
                 ->request();
-
             if ($result->Message == 'OK') {
                 $data['phone'] = $phone;
                 $data['sms_template'] = $template;

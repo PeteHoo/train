@@ -4,13 +4,12 @@
 namespace App\Admin\Controllers;
 
 
-
-use App\Http\Controllers\Api\RegionController;
+use App\Models\AdminRoleUser;
 use App\Models\Region;
-use App\Rules\IDCard;
 use App\Rules\Mobile;
 use App\Utils\AliTask;
 use App\Utils\ApiResponse;
+use App\Utils\Constants;
 use App\Utils\ErrorCode;
 use Dcat\Admin\Form;
 use Dcat\Admin\Http\Controllers\AdminController;
@@ -68,25 +67,39 @@ class RegisterController extends AdminController
     }
 
 
-    public function form(){
+    public function create(Content $content)
+    {
+        return $content
+            ->title($this->title())
+            ->full()
+            ->body($this->form());
+    }
 
-        return Form::make(new Administrator(), function (Form $form) {
+    public function form(){
+        $phone=request()->get('phone');
+        $code=request()->get('code');
+        $check_code = Redis::get($phone);
+//        if(!$phone|!$code|!$check_code|$check_code != $code){
+//            return redirect('/admin/auth/register');
+//        }
+
+        return Form::make(new Administrator(), function (Form $form)use($phone) {
             $form->title('注册');
             $form->action('register');
             $form->disableListButton();
             $form->multipleSteps()
                 ->remember() // 记住表单步骤，默认不开启
                 ->width('950px')
-                ->add('基本信息', function ($step) {
+                ->add('基本信息', function ($step) use($phone){
                    // $info = '<i class="fa fa-exclamation-circle"></i> 表单字段支持前端验证和后端验证混用，前端验证支持H5表单验证以及自定义验证。';
 
                    // $step->html(Alert::make($info)->info());
 
-                    $step->hidden('username', '用户名')->default(15728006876);
-                    $step->hidden('password', '密码')->default(15728006876);
-                    $step->hidden('name', '名称')->default(15728006876);
-                    $step->hidden('phone', '手机号')->default(15728006876);
-                    $step->select('member_type', '会员类型')->options([1=>'机构',2=>'企业'])->required();
+                    $step->hidden('username', '用户名')->default($phone);
+                    $step->hidden('password', '密码')->default(bcrypt(111111));
+                    $step->hidden('name', '名称')->default($phone);
+                    $step->hidden('phone', '手机号')->default($phone);
+                    $step->select('member_type', '会员类型')->options(Constants::getMemberItems())->required();
                     // h5 表单验证
                     $step->text('company_name', '公司名称')
                         ->required();
@@ -118,7 +131,7 @@ class RegisterController extends AdminController
                         ->required();
                 })
                 ->add('财务信息', function ($step) {
-                    $step->text('payee', '收款方')->disable()->required();
+                    $step->text('payee', '收款方')->readonly()->required();
                     $step->text('bank', '开户行')->required();
                     $step->text('bank_address', '开户行所在地')->required();
                     $step->text('bank_account', '银行账户')->required()->rules('confirmed');
@@ -140,7 +153,12 @@ class RegisterController extends AdminController
                 $step->file('bank_permit_picture', '银行许可照片')->url('file-register')->required();
             })
             ->done(function () use ($form) {
-      
+
+                    $adminRoleUser=new AdminRoleUser();
+                    $adminRoleUser->role_id=2;
+                    $adminRoleUser->user_id=$form->getKey();
+                    $adminRoleUser->save();
+
                 $data = [
                     'title'       => '审核',
                     'description' => '请等待平台管理员审核',

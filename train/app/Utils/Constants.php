@@ -15,8 +15,8 @@ class Constants
     public static function getStatusItems()
     {
         return [
-            self::CLOSE => '关闭',
-            self::OPEN => '打开',
+            self::CLOSE => '否',
+            self::OPEN => '是',
         ];
     }
 
@@ -125,6 +125,22 @@ class Constants
     public static function getAgreementType($app)
     {
         return getItems(self::getAgreementItems(), $app);
+    }
+
+
+    const MECHANISM = 1;
+    const ENTERPRISE = 2;
+
+    public static function getMemberItems()
+    {
+        return [
+            self::MECHANISM => '机构',
+            self::ENTERPRISE => '企业',
+        ];
+    }
+
+    public static function getMemberType($type){
+        return getItems(self::getMemberItems(), $type);
     }
 
 
