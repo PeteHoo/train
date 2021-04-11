@@ -31,7 +31,7 @@ class AddAttributeToAdminUsers extends Migration
             $table->string('bank')->comment('开户行');
             $table->string('bank_address')->comment('开户行所在地');
             $table->string('bank_account')->comment('银行账户');
-            $table->string('bank_account_confirm')->comment('账号确认');
+            $table->string('bank_account_confirmation')->comment('账号确认');
 
             $table->string('business_picture')->comment('营业执照正面');
             $table->string('bank_permit_picture')->comment('营业执照正面');

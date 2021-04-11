@@ -118,23 +118,25 @@
                 phone:$( "input[name='phone']").val() ,
             },
             success:function(res){
-                alert(res.message);
+                Dcat.info(res.message);
             }});
     }
     function verifyCode() {
+        var phone=$( "input[name='phone']").val();
+        var code=$( "input[name='code']").val();
         $.ajax({
             url:"verify-code",
             async:false,
             method:'post',
             data:{
-                phone:$( "input[name='phone']").val() ,
-                code:$( "input[name='code']").val()
+                phone:phone ,
+                code:code
             },
             success:function(res){
                 if(res.code==200){
-                    window.location.href='/admin/register/create';
+                    window.location.href='/admin/register/create?phone='+phone+'&code='+code;
                 }else{
-                    alert(res.message);
+                    Dcat.info(res.message);
                 }
             }});
     }

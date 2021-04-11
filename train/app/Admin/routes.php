@@ -33,5 +33,6 @@ Route::group([
     $router->post('step','StepController@register');
     $router->resource('register','RegisterController');
     $router->any('file-register','FileController@registerFiles');
+    $router->get('api-region','RegionController@backend');
 });
 

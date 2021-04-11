@@ -5,6 +5,10 @@ namespace App\Admin\Controllers;
 
 
 
+use App\Http\Controllers\Api\RegionController;
+use App\Models\Region;
+use App\Rules\IDCard;
+use App\Rules\Mobile;
 use App\Utils\AliTask;
 use App\Utils\ApiResponse;
 use App\Utils\ErrorCode;
@@ -12,13 +16,14 @@ use Dcat\Admin\Form;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Http\Repositories\Administrator;
 use Dcat\Admin\Layout\Content;
-use Dcat\Admin\Widgets\Alert;
+use Dcat\Admin\Traits\LazyWidget;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
 class RegisterController extends AdminController
 {
     use ApiResponse;
+    use LazyWidget;
 
     public function register(Content $content){
         return $content
@@ -44,11 +49,14 @@ class RegisterController extends AdminController
         if (!$result) {
             return self::error('', '发送失败');
         }
-        return self::success($result['result'], '', '发送成功');
+        return self::success($result['result'], '', '发送成功,请输入您的验证码');
     }
 
     public function verifyCode(Request $request){
         $data = $request->post();
+        if(!($data['code']??'')){
+            return self::error(ErrorCode::FAILURE, '验证码不能为空');
+        }
         $check_code = Redis::get($data['phone']);
         if (!$check_code) {
             return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
@@ -61,6 +69,7 @@ class RegisterController extends AdminController
 
 
     public function form(){
+
         return Form::make(new Administrator(), function (Form $form) {
             $form->title('注册');
             $form->action('register');
@@ -86,10 +95,10 @@ class RegisterController extends AdminController
                     $step->text('social_code', '社会信用代码')->required();
 
                     // 后端验证
-                    $step->text('province', '省')
-                        ->required();
+                    $step->select('province', '省')->options(Region::getRegion())
+                        ->required()->load('city','api-region');
 
-                    $step->text('city', '市')
+                    $step->select('city', '市')
                         ->required();
 
                     $step->text('address', '地址')
@@ -100,31 +109,35 @@ class RegisterController extends AdminController
 
                     $step->text('legal_person_id_card', '法人身份证')
                         ->required();
+                    //->rules([new IDCard()])
 
                     $step->tel('contact_name', '联系人姓名')
                         ->required();
 
-                    $step->text('contact_phone', '联系人手机号')
+                    $step->text('contact_phone', '联系人手机号')->rules([new Mobile()])
                         ->required();
                 })
                 ->add('财务信息', function ($step) {
-                    $step->text('payee', '收款方');
-                    $step->text('bank', '开户行');
-                    $step->text('bank_address', '开户行所在地');
-                    $step->text('bank_account', '银行账户');
-                    $step->text('bank_account_confirm', '账号确认');
+                    $step->text('payee', '收款方')->disable()->required();
+                    $step->text('bank', '开户行')->required();
+                    $step->text('bank_address', '开户行所在地')->required();
+                    $step->text('bank_account', '银行账户')->required()->rules('confirmed');
+                    $step->text('bank_account_confirmation', '银行账号（再次确认）')->required();
                     // 事件
+
                     $step->shown(function () {
                         return <<<JS
     Dcat.info('财务信息');
     console.log('财务信息', args);
+    var firstFormArray = args.getFormArray(0);
+    $( "input[name='payee']").val(firstFormArray[6]['value']);
     JS;
                 });
 
             })
             ->add('资质证明', function ($step) {
-                $step->file('business_picture', '营业执照')->url('file-register');
-                $step->file('bank_permit_picture', '银行许可照片')->url('file-register');
+                $step->file('business_picture', '营业执照')->url('file-register')->required();
+                $step->file('bank_permit_picture', '银行许可照片')->url('file-register')->required();
             })
             ->done(function () use ($form) {
       
