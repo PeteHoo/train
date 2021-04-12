@@ -19,6 +19,7 @@ use Dcat\Admin\Traits\LazyWidget;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
+
 class RegisterController extends AdminController
 {
     use ApiResponse;
@@ -36,12 +37,22 @@ class RegisterController extends AdminController
         if(!$data['phone']){
             return self::error(ErrorCode::FAILURE,'手机号为空');
         }
+        if(!checkPhone($data['phone'])){
+            return self::error(ErrorCode::FAILURE,'手机号格式不正确');
+        }
+        //60秒的发送短信冷却时间
+        $cant_send=Redis::get($data['phone'].'time');
+        if($cant_send){
+            return self::error(ErrorCode::FAILURE,'60秒只能发送一条短信');
+        }
+
         if(\Dcat\Admin\Models\Administrator::where('phone',$data['phone'])->first()){
             return self::error(ErrorCode::FAILURE,'该手机号已注册');
         }
         $aliTask = new AliTask();
         $code = mt_rand(1000, 9999);
-        Redis::setex($data['phone'], 60 * 5, $code);
+        Redis::setex($data['phone'], 60 * 10, $code);
+        Redis::setex($data['phone'].'time',60, 1);
         $data['params']['code'] = $code;
         $result = $aliTask->sendMessage($data['phone'],'SMS_171185461','皮特胡商城', '您正在申请手机注册，验证码为：${code}，5分钟内有效！', $data['params']);
 
@@ -75,12 +86,18 @@ class RegisterController extends AdminController
             ->body($this->form());
     }
 
+    public function store()
+    {
+        return $this->form()->store();
+    }
+
     public function form(){
-        $phone=request()->get('phone');
-        $code=request()->get('code');
+        $phone=request()->input('phone');
+        $code=request()->input('code');
         $check_code = Redis::get($phone);
+
 //        if(!$phone|!$code|!$check_code|$check_code != $code){
-//            return redirect('/admin/auth/register');
+//
 //        }
 
         return Form::make(new Administrator(), function (Form $form)use($phone) {
@@ -90,13 +107,12 @@ class RegisterController extends AdminController
             $form->multipleSteps()
                 ->remember() // 记住表单步骤，默认不开启
                 ->width('950px')
-                ->add('基本信息', function ($step) use($phone){
-                   // $info = '<i class="fa fa-exclamation-circle"></i> 表单字段支持前端验证和后端验证混用，前端验证支持H5表单验证以及自定义验证。';
-
-                   // $step->html(Alert::make($info)->info());
-
+                ->add('账号注册',function ($step)use($phone){
                     $step->hidden('username', '用户名')->default($phone);
-                    $step->hidden('password', '密码')->default(bcrypt(111111));
+                    $step->password('password', '密码')->rules('confirmed');
+                    $step->password('password_confirmation', '确认密码');
+                })
+                ->add('基本信息', function ($step) use($phone){
                     $step->hidden('name', '名称')->default($phone);
                     $step->hidden('phone', '手机号')->default($phone);
                     $step->select('member_type', '会员类型')->options(Constants::getMemberItems())->required();
@@ -149,8 +165,20 @@ class RegisterController extends AdminController
 
             })
             ->add('资质证明', function ($step) {
-                $step->file('business_picture', '营业执照')->url('file-register')->required();
-                $step->file('bank_permit_picture', '银行许可照片')->url('file-register')->required();
+                $step->file('business_picture', '营业执照')->url('file-register')->on('startUpload', <<<JS
+        function () {
+            // 上传文件前附加自定义参数到文件上传接口
+            this.uploader.options.formData['phone'] =$(" input[ name='phone' ] ").val();
+        }
+JS
+                );
+                $step->file('bank_permit_picture', '银行许可照片')->url('file-register')->on('startUpload', <<<JS
+        function () {
+            // 上传文件前附加自定义参数到文件上传接口
+            this.uploader.options.formData['phone'] =$(" input[ name='phone' ] ").val();
+        }
+JS
+                );
             })
             ->done(function () use ($form) {
 

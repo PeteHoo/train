@@ -168,5 +168,19 @@ function getMessageContent($template,$params){
 }
 
 
+function checkPhone($value){
+    $money_reg= '/^[1][0-9][0-9]{9}$/';
+    return preg_match($money_reg, $value);
+}
+
+
+
+function u2c($str){
+    return preg_replace_callback("#\\\u([0-9a-f]{4})#i",
+        function ($r) {
+            return iconv('UCS-2BE', 'UTF-8', pack('H4', $r[1]));},
+        $str);
+}
+
 
 

@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Models\Region;
 use App\Utils\Constants;
+use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Http\Repositories\Administrator;
@@ -123,6 +124,9 @@ class MechanismController extends AdminController
     protected function form()
     {
         return Form::make(new Administrator(), function (Form $form) {
+            if(Admin::user()->isRole('administrator')){
+                $form->switch('status')->options(Constants::getStatusItems());
+            }
             $form->password('old_password', trans('admin.old_password'));
             $form->password('password', trans('admin.password'))
                 ->minLength(5)

@@ -13,11 +13,11 @@ class Mechanism extends Model
 
     public static function getMechanismData(){
         return self::where('status',Constants::OPEN)
-            ->pluck('name','id');
+            ->pluck('name','id')->toArray();
     }
 
     public static function getMechanismDataDetail($id){
         return self::where('id',$id)
-            ->first()->name??'';
+            ->first()->name??'平台';
     }
 }

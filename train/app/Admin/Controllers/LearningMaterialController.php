@@ -88,7 +88,11 @@ class LearningMaterialController extends AdminController
             $form->textarea('description');
             $form->select('industry_id')->options(Industry::getIndustryData())->load('occupation_id', 'api-occupation');
             $form->select('occupation_id');
-            $form->select('mechanism_id')->options(Mechanism::getMechanismData());
+            if(Admin::user()->isRole('administrator')){
+                $form->select('mechanism_id')->options(Mechanism::getMechanismData());
+            }elseif(Admin::user()->isRole('mechanism')){
+                $form->hidden('mechanism_id')->default(Admin::user()->id);
+            }
             $form->file('video')->accept('mp4,mov');
             $form->switch('status');
             $form->number('sort');

@@ -143,5 +143,54 @@ class Constants
         return getItems(self::getMemberItems(), $type);
     }
 
+    const SINGLE_CHOICE = 1;
+    const JUDGMENT = 2;
+
+    public static function getQuestionTypeItems()
+    {
+        return [
+            self::SINGLE_CHOICE => '单选题',
+            self::JUDGMENT => '判断题',
+        ];
+    }
+
+    public static function getQuestionType($type){
+        return getItems(self::getQuestionTypeItems(), $type);
+    }
+
+    const TEXT = 1;
+    const IMAGE = 2;
+
+    public static function getQuestionAttributeItems()
+    {
+        return [
+            self::TEXT => '文本',
+            self::IMAGE => '图片',
+        ];
+    }
+
+    public static function getQuestionAttributeType($type){
+        return getItems(self::getQuestionAttributeItems(), $type);
+    }
+
+
+    public static function getSingleChoiceOptionItems()
+    {
+        return [
+            'A' => 'A',
+            'B' => 'B',
+            'C' => 'C',
+            'D' => 'D',
+        ];
+    }
+
+    public static function getJudgmentOptionItems()
+    {
+        return [
+            '正确' => '正确',
+            '错误' => '错误',
+        ];
+    }
+
 
 }
