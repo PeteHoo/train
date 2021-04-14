@@ -63,6 +63,8 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection occupation_id
      * @property Grid\Column|Collection score
      * @property Grid\Column|Collection question_count
+     * @property Grid\Column|Collection exam_id
+     * @property Grid\Column|Collection question_id
      * @property Grid\Column|Collection href_way
      * @property Grid\Column|Collection material_id
      * @property Grid\Column|Collection link
@@ -152,6 +154,8 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection occupation_id(string $label = null)
      * @method Grid\Column|Collection score(string $label = null)
      * @method Grid\Column|Collection question_count(string $label = null)
+     * @method Grid\Column|Collection exam_id(string $label = null)
+     * @method Grid\Column|Collection question_id(string $label = null)
      * @method Grid\Column|Collection href_way(string $label = null)
      * @method Grid\Column|Collection material_id(string $label = null)
      * @method Grid\Column|Collection link(string $label = null)
@@ -246,6 +250,8 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection occupation_id
      * @property Show\Field|Collection score
      * @property Show\Field|Collection question_count
+     * @property Show\Field|Collection exam_id
+     * @property Show\Field|Collection question_id
      * @property Show\Field|Collection href_way
      * @property Show\Field|Collection material_id
      * @property Show\Field|Collection link
@@ -335,6 +341,8 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection occupation_id(string $label = null)
      * @method Show\Field|Collection score(string $label = null)
      * @method Show\Field|Collection question_count(string $label = null)
+     * @method Show\Field|Collection exam_id(string $label = null)
+     * @method Show\Field|Collection question_id(string $label = null)
      * @method Show\Field|Collection href_way(string $label = null)
      * @method Show\Field|Collection material_id(string $label = null)
      * @method Show\Field|Collection link(string $label = null)
