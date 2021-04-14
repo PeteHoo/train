@@ -23,6 +23,7 @@ Route::group([
         $router->resource('mechanism', 'MechanismController');
         $router->resource('learning-material', 'LearningMaterialController');
         $router->resource('test-question', 'TestQuestionController');
+        $router->resource('exam', 'ExamController');
 
         $router->get('api-version','ApiController@version');
         $router->get('api-occupation','ApiController@occupation');

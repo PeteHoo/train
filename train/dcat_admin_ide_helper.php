@@ -58,6 +58,11 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection status
      * @property Grid\Column|Collection position
      * @property Grid\Column|Collection content
+     * @property Grid\Column|Collection mechanism_id
+     * @property Grid\Column|Collection industry_id
+     * @property Grid\Column|Collection occupation_id
+     * @property Grid\Column|Collection score
+     * @property Grid\Column|Collection question_count
      * @property Grid\Column|Collection href_way
      * @property Grid\Column|Collection material_id
      * @property Grid\Column|Collection link
@@ -67,9 +72,6 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection payload
      * @property Grid\Column|Collection exception
      * @property Grid\Column|Collection failed_at
-     * @property Grid\Column|Collection industry_id
-     * @property Grid\Column|Collection occupation_id
-     * @property Grid\Column|Collection mechanism_id
      * @property Grid\Column|Collection video
      * @property Grid\Column|Collection social_credit_code
      * @property Grid\Column|Collection deposit_bank
@@ -86,8 +88,10 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection level
      * @property Grid\Column|Collection attributes
      * @property Grid\Column|Collection description_image
-     * @property Grid\Column|Collection answer_option
-     * @property Grid\Column|Collection true_answer
+     * @property Grid\Column|Collection answer_single_option
+     * @property Grid\Column|Collection answer_judgment_option
+     * @property Grid\Column|Collection true_single_answer
+     * @property Grid\Column|Collection true_judgment_answer
      * @property Grid\Column|Collection md5
      * @property Grid\Column|Collection download_link
      * @property Grid\Column|Collection after_version
@@ -143,6 +147,11 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection status(string $label = null)
      * @method Grid\Column|Collection position(string $label = null)
      * @method Grid\Column|Collection content(string $label = null)
+     * @method Grid\Column|Collection mechanism_id(string $label = null)
+     * @method Grid\Column|Collection industry_id(string $label = null)
+     * @method Grid\Column|Collection occupation_id(string $label = null)
+     * @method Grid\Column|Collection score(string $label = null)
+     * @method Grid\Column|Collection question_count(string $label = null)
      * @method Grid\Column|Collection href_way(string $label = null)
      * @method Grid\Column|Collection material_id(string $label = null)
      * @method Grid\Column|Collection link(string $label = null)
@@ -152,9 +161,6 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection payload(string $label = null)
      * @method Grid\Column|Collection exception(string $label = null)
      * @method Grid\Column|Collection failed_at(string $label = null)
-     * @method Grid\Column|Collection industry_id(string $label = null)
-     * @method Grid\Column|Collection occupation_id(string $label = null)
-     * @method Grid\Column|Collection mechanism_id(string $label = null)
      * @method Grid\Column|Collection video(string $label = null)
      * @method Grid\Column|Collection social_credit_code(string $label = null)
      * @method Grid\Column|Collection deposit_bank(string $label = null)
@@ -171,8 +177,10 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection level(string $label = null)
      * @method Grid\Column|Collection attributes(string $label = null)
      * @method Grid\Column|Collection description_image(string $label = null)
-     * @method Grid\Column|Collection answer_option(string $label = null)
-     * @method Grid\Column|Collection true_answer(string $label = null)
+     * @method Grid\Column|Collection answer_single_option(string $label = null)
+     * @method Grid\Column|Collection answer_judgment_option(string $label = null)
+     * @method Grid\Column|Collection true_single_answer(string $label = null)
+     * @method Grid\Column|Collection true_judgment_answer(string $label = null)
      * @method Grid\Column|Collection md5(string $label = null)
      * @method Grid\Column|Collection download_link(string $label = null)
      * @method Grid\Column|Collection after_version(string $label = null)
@@ -233,6 +241,11 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection status
      * @property Show\Field|Collection position
      * @property Show\Field|Collection content
+     * @property Show\Field|Collection mechanism_id
+     * @property Show\Field|Collection industry_id
+     * @property Show\Field|Collection occupation_id
+     * @property Show\Field|Collection score
+     * @property Show\Field|Collection question_count
      * @property Show\Field|Collection href_way
      * @property Show\Field|Collection material_id
      * @property Show\Field|Collection link
@@ -242,9 +255,6 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection payload
      * @property Show\Field|Collection exception
      * @property Show\Field|Collection failed_at
-     * @property Show\Field|Collection industry_id
-     * @property Show\Field|Collection occupation_id
-     * @property Show\Field|Collection mechanism_id
      * @property Show\Field|Collection video
      * @property Show\Field|Collection social_credit_code
      * @property Show\Field|Collection deposit_bank
@@ -261,8 +271,10 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection level
      * @property Show\Field|Collection attributes
      * @property Show\Field|Collection description_image
-     * @property Show\Field|Collection answer_option
-     * @property Show\Field|Collection true_answer
+     * @property Show\Field|Collection answer_single_option
+     * @property Show\Field|Collection answer_judgment_option
+     * @property Show\Field|Collection true_single_answer
+     * @property Show\Field|Collection true_judgment_answer
      * @property Show\Field|Collection md5
      * @property Show\Field|Collection download_link
      * @property Show\Field|Collection after_version
@@ -318,6 +330,11 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection status(string $label = null)
      * @method Show\Field|Collection position(string $label = null)
      * @method Show\Field|Collection content(string $label = null)
+     * @method Show\Field|Collection mechanism_id(string $label = null)
+     * @method Show\Field|Collection industry_id(string $label = null)
+     * @method Show\Field|Collection occupation_id(string $label = null)
+     * @method Show\Field|Collection score(string $label = null)
+     * @method Show\Field|Collection question_count(string $label = null)
      * @method Show\Field|Collection href_way(string $label = null)
      * @method Show\Field|Collection material_id(string $label = null)
      * @method Show\Field|Collection link(string $label = null)
@@ -327,9 +344,6 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection payload(string $label = null)
      * @method Show\Field|Collection exception(string $label = null)
      * @method Show\Field|Collection failed_at(string $label = null)
-     * @method Show\Field|Collection industry_id(string $label = null)
-     * @method Show\Field|Collection occupation_id(string $label = null)
-     * @method Show\Field|Collection mechanism_id(string $label = null)
      * @method Show\Field|Collection video(string $label = null)
      * @method Show\Field|Collection social_credit_code(string $label = null)
      * @method Show\Field|Collection deposit_bank(string $label = null)
@@ -346,8 +360,10 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection level(string $label = null)
      * @method Show\Field|Collection attributes(string $label = null)
      * @method Show\Field|Collection description_image(string $label = null)
-     * @method Show\Field|Collection answer_option(string $label = null)
-     * @method Show\Field|Collection true_answer(string $label = null)
+     * @method Show\Field|Collection answer_single_option(string $label = null)
+     * @method Show\Field|Collection answer_judgment_option(string $label = null)
+     * @method Show\Field|Collection true_single_answer(string $label = null)
+     * @method Show\Field|Collection true_judgment_answer(string $label = null)
      * @method Show\Field|Collection md5(string $label = null)
      * @method Show\Field|Collection download_link(string $label = null)
      * @method Show\Field|Collection after_version(string $label = null)
