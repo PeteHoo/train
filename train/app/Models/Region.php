@@ -15,6 +15,6 @@ class Region extends Model
     }
     public static function getRegionById($id = 0)
     {
-        return self::find($id)->name;
+        return self::find($id)->name??'';
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\ChooseQuestionBatch;
 use App\Admin\Repositories\TestQuestion;
 use App\Models\Mechanism;
 use App\Utils\Constants;
@@ -30,19 +31,19 @@ class TestQuestionController extends AdminController
                 return Constants::getQuestionAttributeType($attributes);
             });
             $grid->column('description');
-            $grid->column('description_image');
+            $grid->column('description_image')->image();
             $grid->column('选项')->display(function (){
                 if($this->type==Constants::SINGLE_CHOICE){
                     return u2c($this->answer_single_option);
                 }else{
-                    return $this->answer_judgment_option;
+                    return u2c($this->answer_judgment_option);
                 }
             });
             $grid->column('答案')->display(function (){
                 if($this->type==Constants::SINGLE_CHOICE){
                     return u2c($this->true_single_answer);
                 }else{
-                    return $this->true_judgment_answer;
+                    return u2c($this->true_judgment_answer);
                 }
             });
 
@@ -51,7 +52,6 @@ class TestQuestionController extends AdminController
             });
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
-
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
 
@@ -75,13 +75,27 @@ class TestQuestionController extends AdminController
             });;
             $show->field('attributes')->as(function ($attributes){
                 return Constants::getQuestionAttributeType($attributes);
-            });;
+            });
             $show->field('description');
-            $show->field('description_image');
-            $show->field('answer_single_option');
-            $show->field('true_single_answer');
-            $show->field('answer_judgment_option');
-            $show->field('true_judgment_answer');
+            if($show->model()->attributes==Constants::TEXT){
+                 $show->field('description');
+            }else{
+                 $show->field('description_image')->image();
+            }
+            $show->field('选项')->as(function ()use($show){
+                if($show->model()->type==Constants::SINGLE_CHOICE){
+                    return u2c($show->model()->answer_single_option);
+                }else{
+                    return u2c($show->model()->answer_judgment_option);
+                }
+            });
+            $show->field('答案')->as(function ()use($show){
+                if($this->type==Constants::SINGLE_CHOICE){
+                    return u2c($show->model()->true_single_answer);
+                }else{
+                    return u2c($show->model()->true_judgment_answer);
+                }
+            });
             $show->field('mechanism_id')->as(function ($mechanism_id){
                 return Mechanism::getMechanismDataDetail($mechanism_id);
             });;

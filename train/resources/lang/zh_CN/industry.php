@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
     'labels' => [
         'Industry' => '行业',
@@ -6,6 +6,7 @@ return [
     ],
     'fields' => [
         'name' => '行业名字',
+        'mechanism_id'=>'机构',
         'status' => '状态',
         'sort' => '排序',
     ],

@@ -27,6 +27,8 @@ Route::group([
 
         $router->get('api-version','ApiController@version');
         $router->get('api-occupation','ApiController@occupation');
+        $router->get('api-industry','ApiController@industry');
+
     });
 
     $router->get('phone-register','RegisterController@register');

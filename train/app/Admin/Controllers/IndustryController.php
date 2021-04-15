@@ -3,6 +3,9 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\Industry;
+use App\Models\Mechanism;
+use App\Utils\Constants;
+use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -20,6 +23,9 @@ class IndustryController extends AdminController
         return Grid::make(new Industry(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('name');
+            $grid->column('mechanism_id')->display(function ($mechanism_id){
+                return Mechanism::getMechanismDataDetail($mechanism_id);
+            });
             $grid->column('status')->switch();
             $grid->column('sort');
             $grid->column('created_at');
@@ -44,6 +50,9 @@ class IndustryController extends AdminController
         return Show::make($id, new Industry(), function (Show $show) {
             $show->field('id');
             $show->field('name');
+            $show->field('mechanism_id')->as(function ($mechanism_id){
+                return Mechanism::getMechanismDataDetail($mechanism_id);
+            });
             $show->field('status');
             $show->field('sort');
             $show->field('created_at');
@@ -61,6 +70,12 @@ class IndustryController extends AdminController
         return Form::make(new Industry(), function (Form $form) {
             $form->display('id');
             $form->text('name');
+
+            if(Admin::user()->isRole('administrator')){
+                $form->select('mechanism_id')->options(Mechanism::getMechanismData());
+            }elseif(Admin::user()->isRole('mechanism')){
+                $form->hidden('mechanism_id')->default(Admin::user()->id);
+            }
             $form->switch('status');
             $form->number('sort')->default(0);
 

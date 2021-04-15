@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
     'labels' => [
         'Exam' => '试卷',
@@ -12,6 +12,12 @@ return [
         'score' => '总分',
         'question_count' => '总题数',
         'status' => '状态',
+        'items'=>'题目',
+        'attributes' => '属性',
+        'description'=>'文本描述',
+        'description_image'=>'图片描述',
+        'judgment'=>'判断题',
+        'single'=>'单选题'
     ],
     'options' => [
     ],
