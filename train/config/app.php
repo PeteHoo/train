@@ -53,7 +53,7 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-
+    'file_url' => env('APP_URL', 'http://localhost').'/uploads/',
     'asset_url' => env('ASSET_URL', null),
 
     /*
