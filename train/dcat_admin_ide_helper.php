@@ -11,6 +11,9 @@ namespace Dcat\Admin {
     use Illuminate\Support\Collection;
 
     /**
+     * @property Grid\Column|Collection width
+     * @property Grid\Column|Collection judgment
+     * @property Grid\Column|Collection single
      * @property Grid\Column|Collection id
      * @property Grid\Column|Collection name
      * @property Grid\Column|Collection type
@@ -58,17 +61,22 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection status
      * @property Grid\Column|Collection position
      * @property Grid\Column|Collection content
+     * @property Grid\Column|Collection nick_name
+     * @property Grid\Column|Collection sex
+     * @property Grid\Column|Collection birthday
+     * @property Grid\Column|Collection attribute
      * @property Grid\Column|Collection mechanism_id
      * @property Grid\Column|Collection industry_id
      * @property Grid\Column|Collection occupation_id
+     * @property Grid\Column|Collection token
      * @property Grid\Column|Collection score
      * @property Grid\Column|Collection question_count
      * @property Grid\Column|Collection exam_id
      * @property Grid\Column|Collection question_id
+     * @property Grid\Column|Collection sort
      * @property Grid\Column|Collection href_way
      * @property Grid\Column|Collection material_id
      * @property Grid\Column|Collection link
-     * @property Grid\Column|Collection sort
      * @property Grid\Column|Collection connection
      * @property Grid\Column|Collection queue
      * @property Grid\Column|Collection payload
@@ -86,8 +94,8 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection exam_time
      * @property Grid\Column|Collection passing_grade
      * @property Grid\Column|Collection email
-     * @property Grid\Column|Collection token
-     * @property Grid\Column|Collection level
+     * @property Grid\Column|Collection lng
+     * @property Grid\Column|Collection lat
      * @property Grid\Column|Collection attributes
      * @property Grid\Column|Collection description_image
      * @property Grid\Column|Collection answer_single_option
@@ -102,6 +110,9 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection os
      * @property Grid\Column|Collection version_code
      *
+     * @method Grid\Column|Collection width(string $label = null)
+     * @method Grid\Column|Collection judgment(string $label = null)
+     * @method Grid\Column|Collection single(string $label = null)
      * @method Grid\Column|Collection id(string $label = null)
      * @method Grid\Column|Collection name(string $label = null)
      * @method Grid\Column|Collection type(string $label = null)
@@ -149,17 +160,22 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection status(string $label = null)
      * @method Grid\Column|Collection position(string $label = null)
      * @method Grid\Column|Collection content(string $label = null)
+     * @method Grid\Column|Collection nick_name(string $label = null)
+     * @method Grid\Column|Collection sex(string $label = null)
+     * @method Grid\Column|Collection birthday(string $label = null)
+     * @method Grid\Column|Collection attribute(string $label = null)
      * @method Grid\Column|Collection mechanism_id(string $label = null)
      * @method Grid\Column|Collection industry_id(string $label = null)
      * @method Grid\Column|Collection occupation_id(string $label = null)
+     * @method Grid\Column|Collection token(string $label = null)
      * @method Grid\Column|Collection score(string $label = null)
      * @method Grid\Column|Collection question_count(string $label = null)
      * @method Grid\Column|Collection exam_id(string $label = null)
      * @method Grid\Column|Collection question_id(string $label = null)
+     * @method Grid\Column|Collection sort(string $label = null)
      * @method Grid\Column|Collection href_way(string $label = null)
      * @method Grid\Column|Collection material_id(string $label = null)
      * @method Grid\Column|Collection link(string $label = null)
-     * @method Grid\Column|Collection sort(string $label = null)
      * @method Grid\Column|Collection connection(string $label = null)
      * @method Grid\Column|Collection queue(string $label = null)
      * @method Grid\Column|Collection payload(string $label = null)
@@ -177,8 +193,8 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection exam_time(string $label = null)
      * @method Grid\Column|Collection passing_grade(string $label = null)
      * @method Grid\Column|Collection email(string $label = null)
-     * @method Grid\Column|Collection token(string $label = null)
-     * @method Grid\Column|Collection level(string $label = null)
+     * @method Grid\Column|Collection lng(string $label = null)
+     * @method Grid\Column|Collection lat(string $label = null)
      * @method Grid\Column|Collection attributes(string $label = null)
      * @method Grid\Column|Collection description_image(string $label = null)
      * @method Grid\Column|Collection answer_single_option(string $label = null)
@@ -198,6 +214,9 @@ namespace Dcat\Admin {
     class MiniGrid extends Grid {}
 
     /**
+     * @property Show\Field|Collection width
+     * @property Show\Field|Collection judgment
+     * @property Show\Field|Collection single
      * @property Show\Field|Collection id
      * @property Show\Field|Collection name
      * @property Show\Field|Collection type
@@ -245,17 +264,22 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection status
      * @property Show\Field|Collection position
      * @property Show\Field|Collection content
+     * @property Show\Field|Collection nick_name
+     * @property Show\Field|Collection sex
+     * @property Show\Field|Collection birthday
+     * @property Show\Field|Collection attribute
      * @property Show\Field|Collection mechanism_id
      * @property Show\Field|Collection industry_id
      * @property Show\Field|Collection occupation_id
+     * @property Show\Field|Collection token
      * @property Show\Field|Collection score
      * @property Show\Field|Collection question_count
      * @property Show\Field|Collection exam_id
      * @property Show\Field|Collection question_id
+     * @property Show\Field|Collection sort
      * @property Show\Field|Collection href_way
      * @property Show\Field|Collection material_id
      * @property Show\Field|Collection link
-     * @property Show\Field|Collection sort
      * @property Show\Field|Collection connection
      * @property Show\Field|Collection queue
      * @property Show\Field|Collection payload
@@ -273,8 +297,8 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection exam_time
      * @property Show\Field|Collection passing_grade
      * @property Show\Field|Collection email
-     * @property Show\Field|Collection token
-     * @property Show\Field|Collection level
+     * @property Show\Field|Collection lng
+     * @property Show\Field|Collection lat
      * @property Show\Field|Collection attributes
      * @property Show\Field|Collection description_image
      * @property Show\Field|Collection answer_single_option
@@ -289,6 +313,9 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection os
      * @property Show\Field|Collection version_code
      *
+     * @method Show\Field|Collection width(string $label = null)
+     * @method Show\Field|Collection judgment(string $label = null)
+     * @method Show\Field|Collection single(string $label = null)
      * @method Show\Field|Collection id(string $label = null)
      * @method Show\Field|Collection name(string $label = null)
      * @method Show\Field|Collection type(string $label = null)
@@ -336,17 +363,22 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection status(string $label = null)
      * @method Show\Field|Collection position(string $label = null)
      * @method Show\Field|Collection content(string $label = null)
+     * @method Show\Field|Collection nick_name(string $label = null)
+     * @method Show\Field|Collection sex(string $label = null)
+     * @method Show\Field|Collection birthday(string $label = null)
+     * @method Show\Field|Collection attribute(string $label = null)
      * @method Show\Field|Collection mechanism_id(string $label = null)
      * @method Show\Field|Collection industry_id(string $label = null)
      * @method Show\Field|Collection occupation_id(string $label = null)
+     * @method Show\Field|Collection token(string $label = null)
      * @method Show\Field|Collection score(string $label = null)
      * @method Show\Field|Collection question_count(string $label = null)
      * @method Show\Field|Collection exam_id(string $label = null)
      * @method Show\Field|Collection question_id(string $label = null)
+     * @method Show\Field|Collection sort(string $label = null)
      * @method Show\Field|Collection href_way(string $label = null)
      * @method Show\Field|Collection material_id(string $label = null)
      * @method Show\Field|Collection link(string $label = null)
-     * @method Show\Field|Collection sort(string $label = null)
      * @method Show\Field|Collection connection(string $label = null)
      * @method Show\Field|Collection queue(string $label = null)
      * @method Show\Field|Collection payload(string $label = null)
@@ -364,8 +396,8 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection exam_time(string $label = null)
      * @method Show\Field|Collection passing_grade(string $label = null)
      * @method Show\Field|Collection email(string $label = null)
-     * @method Show\Field|Collection token(string $label = null)
-     * @method Show\Field|Collection level(string $label = null)
+     * @method Show\Field|Collection lng(string $label = null)
+     * @method Show\Field|Collection lat(string $label = null)
      * @method Show\Field|Collection attributes(string $label = null)
      * @method Show\Field|Collection description_image(string $label = null)
      * @method Show\Field|Collection answer_single_option(string $label = null)

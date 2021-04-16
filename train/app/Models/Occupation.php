@@ -12,8 +12,7 @@ class Occupation extends Model
     protected $table = 'occupation';
 
     public static function getOccupationData(){
-        return self::where('status',Constants::OPEN)
-            ->pluck('name','id');
+        return self::pluck('name','id');
     }
 
     public static function getOccupationDataDetail($id){

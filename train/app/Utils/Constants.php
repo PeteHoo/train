@@ -192,5 +192,23 @@ class Constants
         ];
     }
 
+    /**
+     * 性别状态
+     */
+    const MALE = 1;
+    const FEMALE = 2;
+
+    public static function getSexItems()
+    {
+        return [
+            self::MALE => '男',
+            self::FEMALE => '女',
+        ];
+    }
+
+    public static function getSexType($sex)
+    {
+        return getItems(self::getSexItems(), $sex);
+    }
 
 }

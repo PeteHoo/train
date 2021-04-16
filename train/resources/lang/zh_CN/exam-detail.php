@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
     'labels' => [
         'ExamDetail' => '试题关联题库表',
@@ -7,6 +7,8 @@ return [
     'fields' => [
         'exam_id' => '试卷',
         'question_id' => '问题',
+        'type'=>'题型',
+        'sort'=>'排序',
     ],
     'options' => [
     ],

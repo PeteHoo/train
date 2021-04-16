@@ -110,6 +110,22 @@ function getCompleteUrls($attributes)
 /** 创建订单
  * @return string
  */
+function getUserId()
+{
+    $ip = getRealIp();
+    $ipNum = intval( implode("", explode('.', $ip)) );
+    $timestamp = explode(' ', microtime());
+    $sectionOne = sprintf('%04d', $timestamp[1] % 3600);
+    $sectionTwo = sprintf('%04d', intval(($timestamp[0] * 1000000) % 1000));
+    $sectionThree = sprintf('%04d', mt_rand(0, 987654321) % 1000);
+    $sectionFour = sprintf('%04d', crc32($ipNum * (mt_rand(0, 987654321) % 1000)) % 10000);
+    return (datetimeNow(). $sectionOne. $sectionTwo . $sectionOne . $sectionThree . $sectionFour);
+}
+
+
+/** 创建订单
+ * @return string
+ */
 function getOrderId()
 {
     $ip = getRealIp();

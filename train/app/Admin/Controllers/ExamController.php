@@ -3,7 +3,6 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Actions\ChooseQuestionBatch;
-use App\Admin\Actions\ChooseSingleBatch;
 use App\Admin\Repositories\Exam;
 use App\Models\Industry;
 use App\Models\Mechanism;
@@ -35,13 +34,15 @@ class ExamController extends AdminController
             });
             $grid->column('occupation_id')->display(function ($occupation_id){
                 return Occupation::getOccupationDataDetail($occupation_id);
-            });;
+            });
             $grid->column('score');
             $grid->column('question_count');
             $grid->column('status')->switch();
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
-
+            $grid->actions(function (Grid\Displayers\Actions $actions){
+                $actions->append('<a href="exam-detail?exam_id='.$actions->row->id.'"><i class="fa fa-eye">题目详情</i></a>');
+            });
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
 

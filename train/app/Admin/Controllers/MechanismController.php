@@ -56,7 +56,7 @@ class MechanismController extends AdminController
                 return Constants::getStatusType($is_permit);
             });
             $grid->column('updated_at')->sortable();
-
+            $grid->disableCreateButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
 
