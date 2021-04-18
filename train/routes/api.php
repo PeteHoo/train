@@ -17,7 +17,7 @@ Route::group([],function ($route){
     $route->post('user/send-code','Api\UserController@sendCode');//发送短信
     $route->post('user/code-login','Api\UserController@codeLogin');//短信登录
 
-    $route->get('learning-material/list','Api\LearningMaterialController@materialList');//考试概况
+
 });
 
 Route::group(['middleware' => ['auth.api']], function ($route) {
@@ -29,6 +29,11 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
     $route->post('user/update-info','Api\UserController@updateInfo');//考试概况
     $route->get('user/info','Api\UserController@info');//考试概况
     $route->post('user/change-password','Api\UserController@changePassword');//考试概况
+
+    $route->get('learning-material/list','Api\LearningMaterialController@materialList');//资料列表
+    $route->get('learning-material/detail','Api\LearningMaterialController@materialDetail');//资料详情
+    $route->get('learning-material/search','Api\LearningMaterialController@searchMaterial');//资料搜素
+
 
 
 

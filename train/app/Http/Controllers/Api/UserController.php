@@ -65,7 +65,7 @@ class UserController extends ApiController
             $user->api_token=generateToken(32,true);
             $user->save();
         }
-        return self::success(['api_token'=>$user->api_token], ErrorCode::SUCCESS, '登录成功');
+        return self::success(['api_token'=>$user->api_token,'has_password'=>$user->password?0:1], ErrorCode::SUCCESS, '登录成功');
     }
 
     /** 更新用户信息

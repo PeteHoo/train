@@ -9,8 +9,6 @@
 namespace App\Http\Requests;
 
 
-use App\Rules\CheckOccupation;
-
 class LearningMaterialRequest extends BaseRequest
 {
     public function rules()
@@ -18,9 +16,18 @@ class LearningMaterialRequest extends BaseRequest
         switch ($this->route()->uri) {
             case 'api/learning-material/list':
                 return [
-                    'occupation_id'=>['required',new CheckOccupation()],
                     'perPage'=>['integer'],
                     'page'=>['integer'],
+                ];
+                break;
+            case 'api/learning-material/detail':
+                return [
+                    'id'=>['required'],
+                ];
+                break;
+            case 'api/learning-material/search':
+                return [
+                    'search_word'=>['required'],
                 ];
                 break;
             default;return [];

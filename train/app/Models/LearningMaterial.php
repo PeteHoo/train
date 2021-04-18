@@ -21,4 +21,16 @@ class LearningMaterial extends Model
         return self::where('id',$id)
                 ->first()->title??'';
     }
+
+    public function mechanism(){
+        return $this->hasOne('App\Models\Mechanism','id','mechanism_id');
+    }
+
+    public function industry(){
+        return $this->hasOne('App\Models\Industry','id','industry_id');
+    }
+
+    public function occupation(){
+        return $this->hasOne('App\Models\Occupation','id','occupation_id');
+    }
 }
