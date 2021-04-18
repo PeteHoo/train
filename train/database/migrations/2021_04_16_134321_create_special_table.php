@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateExhibitionTable extends Migration
+class CreateSpecialTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,13 @@ class CreateExhibitionTable extends Migration
      */
     public function up()
     {
-        Schema::create('exhibition', function (Blueprint $table) {
+        Schema::create('special', function (Blueprint $table) {
             $table->increments('id');
             $table->string('title')->default('')->comment('标题');
             $table->integer('occupation_id')->comment('职业');
-            $table->string('href_way')->default('')->comment('跳转方式');
-            $table->integer('material_id')->nullable()->comment('站内素材');
-            $table->string('link')->nullable()->comment('链接');
-            $table->tinyInteger('status')->default(0)->comment('状态');
-            $table->integer('sort')->default(0)->comment('排序');
+            $table->string('material_ids')->nullable()->comment('素材集合');
+            $table->tinyInteger('status')->nullable()->comment('状态');
+            $table->integer('sort')->default('0')->comment('排序');
             $table->timestamps();
         });
     }
@@ -33,6 +31,6 @@ class CreateExhibitionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('exhibition');
+        Schema::dropIfExists('special');
     }
 }

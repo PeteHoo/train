@@ -83,10 +83,6 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection exception
      * @property Grid\Column|Collection failed_at
      * @property Grid\Column|Collection video
-     * @property Grid\Column|Collection social_credit_code
-     * @property Grid\Column|Collection deposit_bank
-     * @property Grid\Column|Collection bank_card_number
-     * @property Grid\Column|Collection id_card
      * @property Grid\Column|Collection choice_question_num
      * @property Grid\Column|Collection choice_question_score
      * @property Grid\Column|Collection judgment_question_num
@@ -96,6 +92,7 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection email
      * @property Grid\Column|Collection lng
      * @property Grid\Column|Collection lat
+     * @property Grid\Column|Collection material_ids
      * @property Grid\Column|Collection attributes
      * @property Grid\Column|Collection description_image
      * @property Grid\Column|Collection answer_single_option
@@ -182,10 +179,6 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection exception(string $label = null)
      * @method Grid\Column|Collection failed_at(string $label = null)
      * @method Grid\Column|Collection video(string $label = null)
-     * @method Grid\Column|Collection social_credit_code(string $label = null)
-     * @method Grid\Column|Collection deposit_bank(string $label = null)
-     * @method Grid\Column|Collection bank_card_number(string $label = null)
-     * @method Grid\Column|Collection id_card(string $label = null)
      * @method Grid\Column|Collection choice_question_num(string $label = null)
      * @method Grid\Column|Collection choice_question_score(string $label = null)
      * @method Grid\Column|Collection judgment_question_num(string $label = null)
@@ -195,6 +188,7 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection email(string $label = null)
      * @method Grid\Column|Collection lng(string $label = null)
      * @method Grid\Column|Collection lat(string $label = null)
+     * @method Grid\Column|Collection material_ids(string $label = null)
      * @method Grid\Column|Collection attributes(string $label = null)
      * @method Grid\Column|Collection description_image(string $label = null)
      * @method Grid\Column|Collection answer_single_option(string $label = null)
@@ -286,10 +280,6 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection exception
      * @property Show\Field|Collection failed_at
      * @property Show\Field|Collection video
-     * @property Show\Field|Collection social_credit_code
-     * @property Show\Field|Collection deposit_bank
-     * @property Show\Field|Collection bank_card_number
-     * @property Show\Field|Collection id_card
      * @property Show\Field|Collection choice_question_num
      * @property Show\Field|Collection choice_question_score
      * @property Show\Field|Collection judgment_question_num
@@ -299,6 +289,7 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection email
      * @property Show\Field|Collection lng
      * @property Show\Field|Collection lat
+     * @property Show\Field|Collection material_ids
      * @property Show\Field|Collection attributes
      * @property Show\Field|Collection description_image
      * @property Show\Field|Collection answer_single_option
@@ -385,10 +376,6 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection exception(string $label = null)
      * @method Show\Field|Collection failed_at(string $label = null)
      * @method Show\Field|Collection video(string $label = null)
-     * @method Show\Field|Collection social_credit_code(string $label = null)
-     * @method Show\Field|Collection deposit_bank(string $label = null)
-     * @method Show\Field|Collection bank_card_number(string $label = null)
-     * @method Show\Field|Collection id_card(string $label = null)
      * @method Show\Field|Collection choice_question_num(string $label = null)
      * @method Show\Field|Collection choice_question_score(string $label = null)
      * @method Show\Field|Collection judgment_question_num(string $label = null)
@@ -398,6 +385,7 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection email(string $label = null)
      * @method Show\Field|Collection lng(string $label = null)
      * @method Show\Field|Collection lat(string $label = null)
+     * @method Show\Field|Collection material_ids(string $label = null)
      * @method Show\Field|Collection attributes(string $label = null)
      * @method Show\Field|Collection description_image(string $label = null)
      * @method Show\Field|Collection answer_single_option(string $label = null)

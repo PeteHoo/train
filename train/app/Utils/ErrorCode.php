@@ -10,6 +10,8 @@ class ErrorCode
     const PARAMETER_ERROR = 220;
     //失败
     const FAILURE = 250;
+    //token错误
+    const AUTH_ERROR=230;
 
 
     /**

@@ -24,10 +24,10 @@ class CreateAppUserTable extends Migration
             $table->string('password')->nullable()->comment('密码');
             $table->integer('attribute')->nullable()->comment('属性');
             $table->string('avatar')->nullable()->comment('头像');
-            $table->integer('mechanism_id')->default('0')->comment('机构');
-            $table->integer('industry_id')->default('0')->comment('行业id');
-            $table->integer('occupation_id')->default('0')->comment('职业');
-            $table->string('token')->default('')->comment('token');
+            $table->integer('mechanism_id')->nullable()->default('0')->comment('机构');
+            $table->integer('industry_id')->nullable()->default('0')->comment('行业id');
+            $table->integer('occupation_id')->nullable()->default('0')->comment('职业');
+            $table->string('token')->nullable()->default('')->comment('token');
             $table->tinyInteger('status')->default('0')->comment('状态');
             $table->timestamps();
         });

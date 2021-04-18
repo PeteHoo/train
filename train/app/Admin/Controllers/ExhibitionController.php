@@ -3,8 +3,11 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\Exhibition;
+use App\Models\Industry;
 use App\Models\LearningMaterial;
+use App\Models\Occupation;
 use App\Utils\Constants;
+use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -20,10 +23,15 @@ class ExhibitionController extends AdminController
     protected function grid()
     {
         return Grid::make(new Exhibition(), function (Grid $grid) {
+            if(Admin::user()->isRole('mechanism')){
+                $industry=Industry::where('mechanism_id',Admin::user()->id)->pluck('id');
+                $occupation=Occupation::whereIn('industry_id',$industry)->pluck('id');
+                $grid->model()->whereIn('occupation_id',$occupation);
+            }
             $grid->column('id')->sortable();
             $grid->column('title');
-            $grid->column('type')->display(function ($type){
-                return Constants::getExhibitionType($type);
+            $grid->column('occupation_id')->display(function ($occupation_id){
+                return Occupation::getOccupationDataDetail($occupation_id);
             });
             $grid->column('href_way')->display(function ($href_way){
                 return Constants::getHrefWayType($href_way);
@@ -58,8 +66,8 @@ class ExhibitionController extends AdminController
         return Show::make($id, new Exhibition(), function (Show $show) {
             $show->field('id');
             $show->field('title');
-            $show->field('type')->as(function ($type){
-                return Constants::getExhibitionType($type);
+            $show->field('occupation_id')->as(function ($occupation_id){
+                return Occupation::getOccupationDataDetail($occupation_id);
             });
             $show->field('href_way')->as(function ($href_way){
                 return Constants::getHrefWayType($href_way);
@@ -87,10 +95,16 @@ class ExhibitionController extends AdminController
         return Form::make(new Exhibition(), function (Form $form) {
             $form->display('id');
             $form->text('title');
-            $form->select('type')->options(Constants::getExhibitionItems());
-            $form->select('href_way')->options(Constants::getHrefWayItems());
-            $form->select('material_id')->options(LearningMaterial::getLearningMaterialData());
-            $form->url('link');
+            if(Admin::user()->isRole('administrator')){
+                $form->select('occupation_id')->options(Occupation::getOccupationData())->required();
+            }elseif(Admin::user()->isRole('mechanism')){
+                $form->select('occupation_id')->options(Occupation::getOccupationDataByMechanism(Admin::user()->id))->required();
+            }
+            $form->select('href_way')->options(Constants::getHrefWayItems())->when(Constants::H5,function ($form){
+                $form->url('link');
+            })->when(Constants::IN,function ($form){
+                $form->select('material_id')->options(LearningMaterial::getLearningMaterialData());
+            });
             $form->switch('status');
             $form->number('sort');
             $form->display('created_at');

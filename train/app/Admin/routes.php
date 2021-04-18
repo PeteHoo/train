@@ -26,8 +26,7 @@ Route::group([
         $router->resource('exam', 'ExamController');
         $router->resource('exam-detail', 'ExamDetailController');
         $router->resource('app-user', 'AppUserController');
-
-
+        $router->resource('special', 'SpecialController');
 
         $router->get('api-version','ApiController@version');
         $router->get('api-occupation','ApiController@occupation');

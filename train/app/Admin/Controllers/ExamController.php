@@ -9,6 +9,7 @@ use App\Models\Mechanism;
 use App\Models\Occupation;
 use App\Models\TestQuestion;
 use App\Utils\Constants;
+use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -24,6 +25,9 @@ class ExamController extends AdminController
     protected function grid()
     {
         return Grid::make(new Exam(), function (Grid $grid) {
+            if (Admin::user()->isRole('mechanism')) {
+                $grid->model()->where('mechanism_id', Admin::user()->id);
+            }
             $grid->column('id')->sortable();
             $grid->column('name');
             $grid->column('mechanism_id')->display(function ($mechanism_id){
@@ -179,9 +183,18 @@ class ExamController extends AdminController
         return Form::make(new Exam(), function (Form $form) {
             $form->display('id');
             $form->text('name');
-            $form->select('mechanism_id')->options(Mechanism::getMechanismData())->load('industry_id', 'api-industry');
-            $form->select('industry_id')->load('occupation_id', 'api-occupation');
-            $form->select('occupation_id');
+
+
+            if (Admin::user()->isRole('administrator')) {
+                $form->select('mechanism_id')->options(Mechanism::getMechanismData())->load('industry_id', 'api-industry');
+                $form->select('industry_id')->load('occupation_id', 'api-occupation');
+                $form->select('occupation_id');
+            } elseif (Admin::user()->isRole('mechanism')) {
+                $form->select('mechanism_id')->options(Mechanism::getMechanismData())->default(Admin::user()->id)->load('industry_id', 'api-industry');
+                $form->select('industry_id')->load('occupation_id', 'api-occupation');
+                $form->select('occupation_id');
+            }
+
             $form->switch('status');
             $form->display('created_at');
             $form->display('updated_at');

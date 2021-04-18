@@ -4,12 +4,13 @@ namespace App\Models;
 
 
 use App\Utils\Constants;
+use Dcat\Admin\Models\Administrator;
 use Illuminate\Database\Eloquent\Model;
 
 class Mechanism extends Model
 {
 
-    protected $table = 'mechanism';
+    protected $table = 'admin_users';
 
     public static function getMechanismData(){
         return self::where('status',Constants::OPEN)
@@ -17,7 +18,6 @@ class Mechanism extends Model
     }
 
     public static function getMechanismDataDetail($id){
-        return self::where('id',$id)
-            ->first()->name??'平台';
+        return self::find($id)->name??'平台';
     }
 }

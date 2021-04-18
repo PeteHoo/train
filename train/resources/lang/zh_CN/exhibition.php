@@ -6,7 +6,7 @@ return [
     ],
     'fields' => [
         'title' => '标题',
-        'type' => '类型',
+        'occupation_id' => '职业',
         'href_way' => '跳转方式',
         'material_id' => '站内素材',
         'link' => '链接',
