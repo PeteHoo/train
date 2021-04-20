@@ -18,11 +18,11 @@ use Illuminate\Support\Facades\Auth;
 class LearningMaterialController extends ApiController
 {
      public function materialList(LearningMaterialRequest $request){
-         $query=LearningMaterial::where('occupation_id',$request->get('occupation_id'))
-             ->where('status',Constants::OPEN)
+         $query=LearningMaterial::where('status',Constants::OPEN)
              ->orderBy('sort', 'DESC')
              ->orderBy('created_at', 'DESC');
          if($occupation_id=Auth::user()->occupation_id){
+
              $query->where('occupation_id',$occupation_id);
          }
          return self::success(

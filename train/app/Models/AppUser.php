@@ -6,7 +6,7 @@ use Illuminate\Foundation\Auth\User;
 
 class AppUser extends User
 {
-	
+
     protected $table = 'app_user';
     protected $fillable=[
         'user_id',
@@ -37,6 +37,6 @@ class AppUser extends User
     }
 
     public function occupation_id(){
-        return $this->hasOne('App\Models\Occupation_id','id','occupation_id');
+        return $this->hasOne('App\Models\Occupation','id','occupation_id');
     }
 }
