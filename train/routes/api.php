@@ -19,6 +19,8 @@ Route::group([],function ($route){
 
     $route->post('user/code-change-password','Api\UserController@codeChangePassword');//短信修改密码
 
+    $route->get('base-data/industry','Api\BaseDataController@industry');//行业数据
+    $route->get('base-data/occupation','Api\BaseDataController@occupation');//职业数据
 
 
 });

@@ -20,6 +20,10 @@ class Occupation extends Model
         return self::whereIn('industry_id',$industry)->pluck('name','id');
     }
 
+    public static function getOccupationDataByIndustry_id($industry_id){
+        return self::where('industry_id',$industry_id)->pluck('name','id');
+    }
+
     public static function getOccupationDataDetail($id){
         return self::where('id',$id)
                 ->first()->name??'';
