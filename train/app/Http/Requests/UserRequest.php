@@ -18,6 +18,7 @@ class UserRequest extends BaseRequest
         switch ($this->route()->uri) {
             case 'api/user/send-code':
                 return [
+                    'type'=>['required','integer'],
                     'phone'=>['required',new Mobile()],
                 ];
                 break;
@@ -32,6 +33,14 @@ class UserRequest extends BaseRequest
                     'new_password'=>['required'],
                 ];
                 break;
+            case 'api/user/code-change-password':
+                return [
+                    'new_password'=>['required'],
+                    'phone'=>['required'],
+                    'code'=>['required'],
+                ];
+                break;
+
             default;return [];
         }
     }
@@ -39,6 +48,7 @@ class UserRequest extends BaseRequest
     public function attributes()
     {
         return [
+            'type'=>'短信类型',
             'phone' => '手机号',
             'code' => '验证码',
             'old_password'=>'旧密码',

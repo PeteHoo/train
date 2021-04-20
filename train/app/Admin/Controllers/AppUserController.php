@@ -124,7 +124,7 @@ class AppUserController extends AdminController
                 if ($form->isCreating()) {
                     $form->user_id = getOrderId();
                 }
-                $form->password = bcrypt($form->password);
+                $form->password = md5($form->password);
             });
         });
     }

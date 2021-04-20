@@ -29,6 +29,7 @@ class UserResource extends JsonResource
             'occupation' => $this->occupation->name??'',
             'api_token' => $this->api_token,
             'status' => $this->status,
+            'has_password'=>$this->password?1:0,
         ];
     }
 }

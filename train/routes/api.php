@@ -17,6 +17,9 @@ Route::group([],function ($route){
     $route->post('user/send-code','Api\UserController@sendCode');//发送短信
     $route->post('user/code-login','Api\UserController@codeLogin');//短信登录
 
+    $route->post('user/code-change-password','Api\UserController@codeChangePassword');//短信修改密码
+
+
 
 });
 

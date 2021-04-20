@@ -211,4 +211,16 @@ class Constants
         return getItems(self::getSexItems(), $sex);
     }
 
+    /**
+     * 短信类型
+     */
+    const LOGIN=1;
+    const CHANGE_PASSWORD=2;
+    public static function getPhoneCodeItems()
+    {
+        return [
+            self::LOGIN => '登录',
+            self::CHANGE_PASSWORD => '修改密码',
+        ];
+    }
 }

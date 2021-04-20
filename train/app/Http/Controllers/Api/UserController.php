@@ -13,6 +13,7 @@ use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\AppUser;
 use App\Utils\AliTask;
+use App\Utils\Constants;
 use App\Utils\ErrorCode;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redis;
@@ -26,14 +27,14 @@ class UserController extends ApiController
     public function sendCode(UserRequest $request){
         $data = $request->post();
         //60秒的发送短信冷却时间
-        $cant_send=Redis::get($data['phone'].'time');
+        $cant_send=Redis::get($data['type'].'_'.$data['phone'].'time');
         if($cant_send){
             return self::error(ErrorCode::FAILURE,'60秒只能发送一条短信');
         }
         $aliTask = new AliTask();
         $code = mt_rand(1000, 9999);
-        Redis::setex($data['phone'], 60 * 10, $code);
-        Redis::setex($data['phone'].'time',60, 1);
+        Redis::setex($data['type'].'_'.$data['phone'], 60 * 10, $code);
+        Redis::setex($data['type'].'_'.$data['phone'].'time',60, 1);
         $data['params']['code'] = $code;
         $result = $aliTask->sendMessage($data['phone'],'SMS_171185461','皮特胡商城', '您正在申请手机注册，验证码为：${code}，5分钟内有效！', $data['params']);
 
@@ -43,13 +44,13 @@ class UserController extends ApiController
         return self::success('', '', '发送成功,请输入您的验证码');
     }
 
-    /** 短信验证登录
+    /** 短信验证登录注册
      * @param UserRequest $request
      * @return null|string
      */
     public function codeLogin(UserRequest $request){
         $data = $request->post();
-        $check_code = Redis::get($data['phone']);
+        $check_code = Redis::get(Constants::LOGIN.'_'.$data['phone']);
         if (!$check_code) {
             return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
         }
@@ -65,8 +66,31 @@ class UserController extends ApiController
             $user->api_token=generateToken(32,true);
             $user->save();
         }
-        return self::success(['api_token'=>$user->api_token,'has_password'=>$user->password?0:1], ErrorCode::SUCCESS, '登录成功');
+        return self::success(new UserResource($user), ErrorCode::SUCCESS, '登录成功');
     }
+
+    /** 短信验证修改密码
+     * @param UserRequest $request
+     * @return null|string
+     */
+    public function codeChangePassword(UserRequest $request){
+        $data = $request->post();
+        $check_code = Redis::get(Constants::CHANGE_PASSWORD.'_'.$data['phone']);
+        if (!$check_code) {
+            return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
+        }
+        if ($check_code != $data['code']) {
+            return self::error(ErrorCode::FAILURE, '验证码错误');
+        }
+        if(!$user=AppUser::where('phone',$data['phone'])->first()){
+           return self::error(ErrorCode::FAILURE,'用户不存在');
+        }
+        $user->password=$data['new_password'];
+        $user->save();
+        return self::success(new UserResource($user), ErrorCode::SUCCESS, '修改密码成功');
+    }
+
+
 
     /** 更新用户信息
      * @param UserRequest $request
