@@ -10,7 +10,7 @@ return [
         'industry_id' => '行业',
         'occupation_id' => '职业',
         'mechanism_id' => '机构',
-        'video' => '视频',
+        'picture' => '预览图',
         'status' => '状态',
         'sort' => '排序',
     ],

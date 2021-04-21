@@ -22,6 +22,8 @@ Route::group([
         $router->resource('agreement', 'AgreementController');
         $router->resource('mechanism', 'MechanismController');
         $router->resource('learning-material', 'LearningMaterialController');
+        $router->resource('learning-material-chapter', 'LearningMaterialChapterController');
+        $router->resource('learning-material-detail', 'LearningMaterialDetailController');
         $router->resource('test-question', 'TestQuestionController');
         $router->resource('exam', 'ExamController');
         $router->resource('exam-detail', 'ExamDetailController');
@@ -31,6 +33,8 @@ Route::group([
         $router->get('api-version','ApiController@version');
         $router->get('api-occupation','ApiController@occupation');
         $router->get('api-industry','ApiController@industry');
+        $router->get('api-chapter','ApiController@chapter');
+
 
     });
 

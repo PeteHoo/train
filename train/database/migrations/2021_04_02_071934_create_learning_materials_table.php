@@ -20,7 +20,7 @@ class CreateLearningMaterialsTable extends Migration
             $table->integer('industry_id')->comment('行业');
             $table->integer('occupation_id')->comment('职业');
             $table->integer('mechanism_id')->comment('机构');
-            $table->string('video')->nullable()->comment('视频');
+            $table->string('picture')->nullable()->comment('视频预览图');
             $table->tinyInteger('status')->default('0')->comment('状态');
             $table->integer('sort')->default('0')->comment('排序');
             $table->timestamps();

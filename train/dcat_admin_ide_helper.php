@@ -68,7 +68,7 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection mechanism_id
      * @property Grid\Column|Collection industry_id
      * @property Grid\Column|Collection occupation_id
-     * @property Grid\Column|Collection token
+     * @property Grid\Column|Collection api_token
      * @property Grid\Column|Collection score
      * @property Grid\Column|Collection question_count
      * @property Grid\Column|Collection exam_id
@@ -82,7 +82,14 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection payload
      * @property Grid\Column|Collection exception
      * @property Grid\Column|Collection failed_at
+     * @property Grid\Column|Collection learning_material_id
+     * @property Grid\Column|Collection chapter_id
      * @property Grid\Column|Collection video
+     * @property Grid\Column|Collection duration
+     * @property Grid\Column|Collection social_credit_code
+     * @property Grid\Column|Collection deposit_bank
+     * @property Grid\Column|Collection bank_card_number
+     * @property Grid\Column|Collection id_card
      * @property Grid\Column|Collection choice_question_num
      * @property Grid\Column|Collection choice_question_score
      * @property Grid\Column|Collection judgment_question_num
@@ -90,6 +97,7 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection exam_time
      * @property Grid\Column|Collection passing_grade
      * @property Grid\Column|Collection email
+     * @property Grid\Column|Collection token
      * @property Grid\Column|Collection lng
      * @property Grid\Column|Collection lat
      * @property Grid\Column|Collection material_ids
@@ -164,7 +172,7 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection mechanism_id(string $label = null)
      * @method Grid\Column|Collection industry_id(string $label = null)
      * @method Grid\Column|Collection occupation_id(string $label = null)
-     * @method Grid\Column|Collection token(string $label = null)
+     * @method Grid\Column|Collection api_token(string $label = null)
      * @method Grid\Column|Collection score(string $label = null)
      * @method Grid\Column|Collection question_count(string $label = null)
      * @method Grid\Column|Collection exam_id(string $label = null)
@@ -178,7 +186,14 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection payload(string $label = null)
      * @method Grid\Column|Collection exception(string $label = null)
      * @method Grid\Column|Collection failed_at(string $label = null)
+     * @method Grid\Column|Collection learning_material_id(string $label = null)
+     * @method Grid\Column|Collection chapter_id(string $label = null)
      * @method Grid\Column|Collection video(string $label = null)
+     * @method Grid\Column|Collection duration(string $label = null)
+     * @method Grid\Column|Collection social_credit_code(string $label = null)
+     * @method Grid\Column|Collection deposit_bank(string $label = null)
+     * @method Grid\Column|Collection bank_card_number(string $label = null)
+     * @method Grid\Column|Collection id_card(string $label = null)
      * @method Grid\Column|Collection choice_question_num(string $label = null)
      * @method Grid\Column|Collection choice_question_score(string $label = null)
      * @method Grid\Column|Collection judgment_question_num(string $label = null)
@@ -186,6 +201,7 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection exam_time(string $label = null)
      * @method Grid\Column|Collection passing_grade(string $label = null)
      * @method Grid\Column|Collection email(string $label = null)
+     * @method Grid\Column|Collection token(string $label = null)
      * @method Grid\Column|Collection lng(string $label = null)
      * @method Grid\Column|Collection lat(string $label = null)
      * @method Grid\Column|Collection material_ids(string $label = null)
@@ -265,7 +281,7 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection mechanism_id
      * @property Show\Field|Collection industry_id
      * @property Show\Field|Collection occupation_id
-     * @property Show\Field|Collection token
+     * @property Show\Field|Collection api_token
      * @property Show\Field|Collection score
      * @property Show\Field|Collection question_count
      * @property Show\Field|Collection exam_id
@@ -279,7 +295,14 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection payload
      * @property Show\Field|Collection exception
      * @property Show\Field|Collection failed_at
+     * @property Show\Field|Collection learning_material_id
+     * @property Show\Field|Collection chapter_id
      * @property Show\Field|Collection video
+     * @property Show\Field|Collection duration
+     * @property Show\Field|Collection social_credit_code
+     * @property Show\Field|Collection deposit_bank
+     * @property Show\Field|Collection bank_card_number
+     * @property Show\Field|Collection id_card
      * @property Show\Field|Collection choice_question_num
      * @property Show\Field|Collection choice_question_score
      * @property Show\Field|Collection judgment_question_num
@@ -287,6 +310,7 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection exam_time
      * @property Show\Field|Collection passing_grade
      * @property Show\Field|Collection email
+     * @property Show\Field|Collection token
      * @property Show\Field|Collection lng
      * @property Show\Field|Collection lat
      * @property Show\Field|Collection material_ids
@@ -361,7 +385,7 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection mechanism_id(string $label = null)
      * @method Show\Field|Collection industry_id(string $label = null)
      * @method Show\Field|Collection occupation_id(string $label = null)
-     * @method Show\Field|Collection token(string $label = null)
+     * @method Show\Field|Collection api_token(string $label = null)
      * @method Show\Field|Collection score(string $label = null)
      * @method Show\Field|Collection question_count(string $label = null)
      * @method Show\Field|Collection exam_id(string $label = null)
@@ -375,7 +399,14 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection payload(string $label = null)
      * @method Show\Field|Collection exception(string $label = null)
      * @method Show\Field|Collection failed_at(string $label = null)
+     * @method Show\Field|Collection learning_material_id(string $label = null)
+     * @method Show\Field|Collection chapter_id(string $label = null)
      * @method Show\Field|Collection video(string $label = null)
+     * @method Show\Field|Collection duration(string $label = null)
+     * @method Show\Field|Collection social_credit_code(string $label = null)
+     * @method Show\Field|Collection deposit_bank(string $label = null)
+     * @method Show\Field|Collection bank_card_number(string $label = null)
+     * @method Show\Field|Collection id_card(string $label = null)
      * @method Show\Field|Collection choice_question_num(string $label = null)
      * @method Show\Field|Collection choice_question_score(string $label = null)
      * @method Show\Field|Collection judgment_question_num(string $label = null)
@@ -383,6 +414,7 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection exam_time(string $label = null)
      * @method Show\Field|Collection passing_grade(string $label = null)
      * @method Show\Field|Collection email(string $label = null)
+     * @method Show\Field|Collection token(string $label = null)
      * @method Show\Field|Collection lng(string $label = null)
      * @method Show\Field|Collection lat(string $label = null)
      * @method Show\Field|Collection material_ids(string $label = null)

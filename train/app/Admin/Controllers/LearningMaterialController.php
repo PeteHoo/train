@@ -39,22 +39,17 @@ class LearningMaterialController extends AdminController
             $grid->column('id')->sortable();
             $grid->column('title');
             $grid->column('description');
+            $grid->column('mechanism_id')->display(function ($mechanism_id){
+                return Mechanism::getMechanismDataDetail($mechanism_id);
+            });
             $grid->column('industry_id')->display(function ($industry_id){
                 return Industry::getIndustryDataDetail($industry_id);
             });
             $grid->column('occupation_id')->display(function ($occupation_id){
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
-            $grid->column('mechanism_id')->display(function ($mechanism_id){
-                return Mechanism::getMechanismDataDetail($mechanism_id);
-            });
-            $grid->column('video')->display(function ($video){
-                if($video){
-                    return '<div class="lake-form-media-row-img"><video style="width:200px;height: 100px"controls="controls" width="100%" height="100%" src="'.config('app.file_url').$video.'"></video>';
-                }else{
-                    return '';
-                }
-            });
+
+            $grid->column('picture')->image();
             $grid->column('status')->switch();
             $grid->column('sort')->editable();
             $grid->column('created_at');
@@ -80,10 +75,16 @@ class LearningMaterialController extends AdminController
             $show->field('id');
             $show->field('title');
             $show->field('description');
-            $show->field('industry_id');
-            $show->field('occupation_id');
-            $show->field('mechanism_id');
-            $show->field('video');
+            $show->field('mechanism_id')->as(function ($mechanism_id){
+                return Mechanism::getMechanismDataDetail($mechanism_id);
+            });
+            $show->field('industry_id')->as(function ($industry_id){
+                return Industry::getIndustryDataDetail($industry_id);
+            });
+            $show->field('occupation_id')->as(function ($occupation_id){
+                return Occupation::getOccupationDataDetail($occupation_id);
+            });
+            $show->field('picture')->image();
             $show->field('status');
             $show->field('sort');
             $show->field('created_at');
@@ -109,7 +110,7 @@ class LearningMaterialController extends AdminController
             }
             $form->select('industry_id')->options(Industry::getIndustryData())->load('occupation_id', 'api-occupation')->required();
             $form->select('occupation_id')->required();
-            $form->file('video');  //可删除
+            $form->image('picture');  //可删除
             $form->switch('status');
             $form->number('sort');
 

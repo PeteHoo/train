@@ -48,6 +48,23 @@ function getItems($items, $key = null)
     return '';
 }
 
+function getMultipleItems($items, $keys = null)
+{
+    $keys=json_decode($keys);
+    if($keys){
+        $result=array();
+        foreach ($keys as $k=>$v){
+            if($v!==null){
+                if (isset($items[$v])) {
+                    $result[]=$items[$v];
+                }
+            }
+        }
+        return $result;
+    }
+    return array();
+}
+
 function getKey($items, $content = null)
 {
     if ($content !== null) {
@@ -239,3 +256,4 @@ function getImageUrl($url)
 {
     return $url?config('app.file_url') . $url:'';
 }
+

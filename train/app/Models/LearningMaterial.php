@@ -11,10 +11,22 @@ class LearningMaterial extends Model
 
     protected $table = 'learning_materials';
 
-    public static function getLearningMaterialData(){
-        return self::where('status',Constants::OPEN)
-            ->orderBy('sort','DESC')
-            ->pluck('title','id');
+    public static function getLearningMaterialData($mechanism_id=0){
+        $query=self::where('status',Constants::OPEN)
+            ->orderBy('sort','DESC');
+        if($mechanism_id){
+            $query->where('mechanism_id',$mechanism_id);
+        }
+        return $query->pluck('title','id');
+    }
+
+    public static function getLearningMaterialIds($mechanism_id=0){
+        $query=self::where('status',Constants::OPEN)
+            ->orderBy('sort','DESC');
+        if($mechanism_id){
+            $query->where('mechanism_id',$mechanism_id);
+        }
+        return $query->pluck('id');
     }
 
     public static function getLearningMaterialDataDetail($id){
