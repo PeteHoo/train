@@ -21,7 +21,7 @@ class BaseDataController extends ApiController
      */
     public function industry()
     {
-       return self::success(Industry::getIndustryData());
+       return self::success(Industry::getIndustryData(Auth::user()->mechanism_id));
     }
 
     /** 职业数据
@@ -31,6 +31,7 @@ class BaseDataController extends ApiController
     public function occupation(Request $request)
     {
         $industry=$request->get('industry_id');
+        $industry=json_decode($industry);
         if(!$industry){
             return self::error(ErrorCode::PARAMETER_ERROR,'行业id必填');
         }

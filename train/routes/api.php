@@ -16,12 +16,7 @@ Route::group([],function ($route){
     //登录相关接口
     $route->post('user/send-code','Api\UserController@sendCode');//发送短信
     $route->post('user/code-login','Api\UserController@codeLogin');//短信登录
-
     $route->post('user/code-change-password','Api\UserController@codeChangePassword');//短信修改密码
-
-    $route->get('base-data/industry','Api\BaseDataController@industry');//行业数据
-    $route->get('base-data/occupation','Api\BaseDataController@occupation');//职业数据
-
 
 });
 
@@ -39,12 +34,10 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
     $route->get('learning-material/detail','Api\LearningMaterialController@materialDetail');//资料详情
     $route->get('learning-material/search','Api\LearningMaterialController@searchMaterial');//资料搜素
 
+    $route->get('exam/list','Api\ExamController@examList');//考试列表
 
-
-
-
-
-
+    $route->get('base-data/industry','Api\BaseDataController@industry');//行业数据
+    $route->get('base-data/occupation','Api\BaseDataController@occupation');//职业数据
 
 
 });
