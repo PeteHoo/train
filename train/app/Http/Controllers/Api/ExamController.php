@@ -50,10 +50,8 @@ class ExamController extends ApiController
     public function examList()
     {
         $query = Exam::where('status', Constants::OPEN);
-        if ($occupation_id = Auth::user()->occupation_id) {
-            $query->where('occupation_id', $occupation_id);
-        }else{
-            $query->where('occupation_id', 0);
+        if ($occupation_id = json_decode(Auth::user()->occupation_id)) {
+            $query->whereIn('occupation_id', $occupation_id);
         }
        return self::success($query->get());
 

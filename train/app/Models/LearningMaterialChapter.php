@@ -3,6 +3,7 @@
 namespace App\Models;
 
 
+use App\Utils\Constants;
 use Illuminate\Database\Eloquent\Model;
 
 class LearningMaterialChapter extends Model
@@ -20,6 +21,8 @@ class LearningMaterialChapter extends Model
     }
 
     public function learningMaterialDetail(){
-        return $this->hasMany('App\Models\LearningMaterialDetail','chapter_id','id');
+        return $this->hasMany('App\Models\LearningMaterialDetail','chapter_id','id')
+            ->where('status',Constants::OPEN)
+            ->where('is_open',Constants::OPEN);
     }
 }

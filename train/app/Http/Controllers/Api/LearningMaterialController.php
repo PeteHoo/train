@@ -47,8 +47,16 @@ class LearningMaterialController extends ApiController
          $learningMaterial=LearningMaterial::where('id',$id)
              ->where('status',Constants::OPEN)->first();
          $data['data']=new LearningMaterialDetailResource($learningMaterial);
-         $data['recommend_data']=LearningMaterialService::getRecommendData($id,$learningMaterial->occupation_id);
+
          return self::success($data);
+     }
+
+    /** 推荐视频
+     * @param LearningMaterialRequest $request
+     * @return string|null
+     */
+     public function recommendMaterialList(LearningMaterialRequest $request){
+         return self::success(LearningMaterialService::getRecommendData($request->get('id'),$request->get('occupation_id')));
      }
 
     /** 搜索视频

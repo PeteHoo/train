@@ -21,6 +21,7 @@ class UserResource extends JsonResource
         $industryList=Industry::getIndustryData();
         $occupationList=Occupation::getOccupationData();
         return [
+            'id' => $this->id,
             'user_id' => $this->user_id,
             'name' => $this->name,
             'nick_name' => $this->nick_name,

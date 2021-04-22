@@ -18,7 +18,7 @@ Route::group([],function ($route){
     $route->post('user/code-login','Api\UserController@codeLogin');//短信登录
     $route->post('user/code-change-password','Api\UserController@codeChangePassword');//短信修改密码
     $route->post('user/password-login','Api\UserController@passwordLogin');//密码登录
-
+    $route->get('learning-material/recommend','Api\LearningMaterialController@recommendMaterialList');//资料详情
 
 });
 
@@ -34,6 +34,9 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
 
     $route->get('learning-material/list','Api\LearningMaterialController@materialList');//资料列表
     $route->get('learning-material/detail','Api\LearningMaterialController@materialDetail');//资料详情
+
+
+
     $route->get('learning-material/search','Api\LearningMaterialController@searchMaterial');//资料搜素
 
     $route->get('exam/list','Api\ExamController@examList');//考试列表

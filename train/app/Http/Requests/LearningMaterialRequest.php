@@ -30,6 +30,15 @@ class LearningMaterialRequest extends BaseRequest
                     'search_word'=>['required'],
                 ];
                 break;
+            case 'api/learning-material/recommend':
+                return [
+                    'id'=>['required'],
+                    'occupation_id'=>['required'],
+                    'perPage'=>['integer'],
+                    'page'=>['integer'],
+                ];
+                break;
+
             default;return [];
         }
     }
