@@ -10,7 +10,7 @@ trait ApiResponse
      * @param null $data
      * @return null|string
      */
-    public static function error($code, $message = '', $data = array())
+    public static function error($code, $message = '', $data = null)
     {
         $result = [
             'code' => $code==''?ErrorCode::FAILURE:$code,
