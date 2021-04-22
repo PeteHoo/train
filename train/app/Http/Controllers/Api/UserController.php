@@ -63,6 +63,7 @@ class UserController extends ApiController
         }else{
             $user=new AppUser();
             $user->user_id=getUserId();
+            $user->phone=$data['phone'];
             $user->api_token=generateToken(32,true);
             $user->save();
         }
