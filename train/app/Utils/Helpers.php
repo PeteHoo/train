@@ -50,13 +50,15 @@ function getItems($items, $key = null)
 
 function getMultipleItems($items, $keys = null)
 {
-    $keys=json_decode($keys);
+    $keys=json_decode($keys,true);
     if($keys){
         $result=array();
         foreach ($keys as $k=>$v){
             if($v!==null){
                 if (isset($items[$v])) {
-                    $result[]=$items[$v];
+                    $item['id']=$v;
+                    $item['name']=$items[$v];
+                    $result[]=$item;
                 }
             }
         }

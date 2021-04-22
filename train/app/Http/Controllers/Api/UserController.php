@@ -99,8 +99,10 @@ class UserController extends ApiController
     public function updateInfo(UserRequest $request){
         $user_id=Auth::user()->user_id;
         $data=$request->post();
-        if($path = $request->file('avatar')->store('images')){
-            $data['avatar']=$path;
+        if($request->file('avatar')){
+            if($path = $request->file('avatar')->store('images')){
+                $data['avatar']=$path;
+            }
         }
         if(!$user=AppUser::where('user_id',$user_id)->update($data)){
             return self::error(ErrorCode::FAILURE,'个人信息更新失败');

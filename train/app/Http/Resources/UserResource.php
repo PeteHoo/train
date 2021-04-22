@@ -9,6 +9,9 @@
 namespace App\Http\Resources;
 
 
+use App\Models\Industry;
+use App\Models\Mechanism;
+use App\Models\Occupation;
 use App\Utils\Constants;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -16,6 +19,8 @@ class UserResource extends JsonResource
 {
     public function toArray($request)
     {
+        $industryList=Industry::getIndustryData();
+        $occupationList=Occupation::getOccupationData();
         return [
             'user_id' => $this->user_id,
             'name' => $this->name,
@@ -25,8 +30,8 @@ class UserResource extends JsonResource
             'attribute' =>  $this->attribute,
             'avatar' => getImageUrl($this->avatar),
             'mechanism' => $this->mechanism->name??'',
-            'industry' => $this->industry->name??'',
-            'occupation' => $this->occupation->name??'',
+            'industry' => getMultipleItems($industryList,$this->industry_id),
+            'occupation' => getMultipleItems($occupationList,$this->occupation_id),
             'api_token' => $this->api_token,
             'status' => $this->status,
             'has_password'=>$this->password?1:0,
