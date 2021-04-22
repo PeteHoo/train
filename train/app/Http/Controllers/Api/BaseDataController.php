@@ -39,9 +39,7 @@ class BaseDataController extends ApiController
     }
 
     public function banner(){
-       return self::success(
-           new ExhibitionResource(
-           Exhibition::where('occupation_id',Auth::user()->occupation_id)
+       return self::success(ExhibitionResource::collection(Exhibition::whereIn('occupation_id',json_decode(Auth::user()->occupation_id))
            ->where('status',Constants::OPEN)
            ->orderBy('sort','DESC')
            ->get()));

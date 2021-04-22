@@ -10,6 +10,8 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Requests\LearningMaterialRequest;
+use App\Http\Resources\LearningMaterialCollectionPaginate;
+use App\Http\Resources\LearningMaterialDetailResource;
 use App\Http\Resources\LearningMaterialResource;
 use App\Models\LearningMaterial;
 use App\Service\LearningMaterialService;
@@ -32,8 +34,8 @@ class LearningMaterialController extends ApiController
              //如果没有绑定职业查询公共视频
              $query->where('occupation_id',0);
          }
-         return self::success(
-             $query->paginate($request->get('perPage')));
+         return self::success(new LearningMaterialCollectionPaginate($query->paginate($request->get('perPage'))
+             ));
      }
 
     /** 视频详情
@@ -44,7 +46,7 @@ class LearningMaterialController extends ApiController
          $id=$request->input('id');
          $learningMaterial=LearningMaterial::where('id',$id)
              ->where('status',Constants::OPEN)->first();
-         $data['data']=new LearningMaterialResource($learningMaterial);
+         $data['data']=new LearningMaterialDetailResource($learningMaterial);
          $data['recommend_data']=LearningMaterialService::getRecommendData($id,$learningMaterial->occupation_id);
          return self::success($data);
      }
@@ -84,7 +86,7 @@ class LearningMaterialController extends ApiController
              if($occupation_id=json_decode(Auth::user()->occupation_id)){
                   $query->whereIn('occupation_id',$occupation_id);
              }
-             return self::success($query->get());
+             return self::success(new LearningMaterialCollectionPaginate($query->paginate($request->get('perPage'))));
      }
 
 }

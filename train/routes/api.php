@@ -40,6 +40,7 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
 
     $route->get('base-data/industry','Api\BaseDataController@industry');//行业数据
     $route->get('base-data/occupation','Api\BaseDataController@occupation');//职业数据
+    $route->get('base-data/banner','Api\BaseDataController@banner');//banner数据
 
 
 });

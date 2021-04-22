@@ -30,12 +30,13 @@ class LearningMaterialChapterController extends AdminController
                 return LearningMaterial::getLearningMaterialDataDetail($learning_material_id);
             });
             $grid->column('sort');
+            $grid->column('status')->switch();
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
-        
+
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-        
+
             });
         });
     }
@@ -56,6 +57,7 @@ class LearningMaterialChapterController extends AdminController
                 return LearningMaterial::getLearningMaterialDataDetail($learning_material_id);
             });
             $show->field('sort');
+            $show->field('status');
             $show->field('created_at');
             $show->field('updated_at');
         });
@@ -77,6 +79,7 @@ class LearningMaterialChapterController extends AdminController
                 $form->select('learning_material_id')->options(LearningMaterial::getLearningMaterialData(Admin::user()->id));
             }
             $form->number('sort');
+            $form->switch('status');
             $form->display('created_at');
             $form->display('updated_at');
         });

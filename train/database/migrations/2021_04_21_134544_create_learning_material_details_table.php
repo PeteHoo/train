@@ -22,8 +22,8 @@ class CreateLearningMaterialDetailsTable extends Migration
             $table->string('video')->nullable()->comment('视频');
             $table->integer('sort')->default('0')->nullable()->comment('排序');
             $table->time('duration')->default('0')->nullable()->comment('时长');
-            $table->tinyInteger('status')->default('0')->nullable()->comment('状态');
-
+            $table->tinyInteger('is_open')->default('0')->comment('是否开放');
+            $table->tinyInteger('status')->default('0')->comment('状态');
             $table->timestamps();
         });
     }

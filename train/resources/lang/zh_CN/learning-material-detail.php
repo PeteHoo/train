@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
     'labels' => [
         'LearningMaterialDetail' => '视频详情',
@@ -12,6 +12,8 @@ return [
         'duration' => '时长',
         'video' => '视频文件',
         'sort' => '排序',
+        'is_open'=>'是否开放',
+        'status'=>'状态'
     ],
     'options' => [
     ],

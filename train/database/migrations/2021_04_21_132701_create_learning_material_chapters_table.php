@@ -18,6 +18,7 @@ class CreateLearningMaterialChaptersTable extends Migration
             $table->string('title')->default('')->comment('标题');
             $table->integer('learning_material_id')->comment('课程');
             $table->string('sort')->default('0')->nullable()->comment('排序');
+            $table->tinyInteger('status')->default('0')->comment('状态');
             $table->timestamps();
         });
     }

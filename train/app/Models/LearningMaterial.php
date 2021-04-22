@@ -45,4 +45,8 @@ class LearningMaterial extends Model
     public function occupation(){
         return $this->hasOne('App\Models\Occupation','id','occupation_id');
     }
+
+    public function chapter(){
+        return $this->hasMany('App\Models\LearningMaterialChapter','learning_material_id','id')->where('status',Constants::OPEN)->with('learningMaterialDetail');
+    }
 }

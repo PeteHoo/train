@@ -40,12 +40,14 @@ class LearningMaterialDetailController extends AdminController
             });
             $grid->column('sort');
             $grid->column('duration');
+            $grid->column('is_open')->switch();
+            $grid->column('status')->switch();
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
-        
+
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-        
+
             });
         });
     }
@@ -68,6 +70,8 @@ class LearningMaterialDetailController extends AdminController
             $show->field('description');
             $show->field('video')->file();
             $show->field('sort');
+            $show->field('status');
+            $show->field('is_open');
             $show->field('duration');
             $show->field('created_at');
             $show->field('updated_at');
@@ -93,8 +97,10 @@ class LearningMaterialDetailController extends AdminController
             $form->text('description');
             $form->file('video');
             $form->number('sort');
+            $form->switch('is_open');
+            $form->switch('status');
             $form->time('duration')->default(0);
-        
+
             $form->display('created_at');
             $form->display('updated_at');
         });
