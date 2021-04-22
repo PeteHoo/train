@@ -51,23 +51,25 @@ class UserController extends ApiController
     public function codeLogin(UserRequest $request){
         $data = $request->post();
         $check_code = Redis::get(Constants::LOGIN.'_'.$data['phone']);
-        if (!$check_code) {
-            return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
-        }
-        if ($check_code != $data['code']) {
-            return self::error(ErrorCode::FAILURE, '验证码错误');
-        }
+//        if (!$check_code) {
+//            return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
+//        }
+//        if ($check_code != $data['code']) {
+//            return self::error(ErrorCode::FAILURE, '验证码错误');
+//        }
         if($user=AppUser::where('phone',$data['phone'])->first()){
             $user->api_token=generateToken(32,true);
             $user->save();
+            return self::success(new UserResource($user), ErrorCode::SUCCESS, '登录成功');
         }else{
             $user=new AppUser();
             $user->user_id=getUserId();
             $user->phone=$data['phone'];
             $user->api_token=generateToken(32,true);
             $user->save();
+            return self::success($user, ErrorCode::SUCCESS, '登录成功');
         }
-        return self::success(new UserResource($user), ErrorCode::SUCCESS, '登录成功');
+
     }
 
     /** 短信验证修改密码
