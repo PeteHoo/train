@@ -35,7 +35,6 @@ class UserRequest extends BaseRequest
                 break;
             case 'api/user/code-change-password':
                 return [
-                    'new_password' => ['required'],
                     'phone' => ['required'],
                     'code' => ['required'],
                 ];

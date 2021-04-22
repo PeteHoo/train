@@ -85,9 +85,9 @@ class UserController extends ApiController
         if(!$user=AppUser::where('phone',$data['phone'])->first()){
            return self::error(ErrorCode::FAILURE,'用户不存在');
         }
-        $user->password=$data['new_password'];
+        $user->password='';
         $user->save();
-        return self::success(new UserResource($user), ErrorCode::SUCCESS, '修改密码成功');
+        return self::success(new UserResource($user), ErrorCode::SUCCESS, '重置密码');
     }
 
 
