@@ -78,13 +78,13 @@ class UserController extends ApiController
      */
     public function codeChangePassword(UserRequest $request){
         $data = $request->post();
-        $check_code = Redis::get(Constants::CHANGE_PASSWORD.'_'.$data['phone']);
-        if (!$check_code) {
-            return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
-        }
-        if ($check_code != $data['code']) {
-            return self::error(ErrorCode::FAILURE, '验证码错误');
-        }
+//        $check_code = Redis::get(Constants::CHANGE_PASSWORD.'_'.$data['phone']);
+//        if (!$check_code) {
+//            return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
+//        }
+//        if ($check_code != $data['code']) {
+//            return self::error(ErrorCode::FAILURE, '验证码错误');
+//        }
         if(!$user=AppUser::where('phone',$data['phone'])->first()){
            return self::error(ErrorCode::FAILURE,'用户不存在');
         }
