@@ -17,6 +17,8 @@ class Industry extends Model
             ->orderBy('sort','DESC');
         if($mechanism_id){
             $query->where('mechanism_id',$mechanism_id);
+        }else{
+            $query->where('mechanism_id',0);
         }
         return $query
             ->pluck('name','id');
