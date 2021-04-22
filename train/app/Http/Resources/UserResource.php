@@ -10,7 +10,6 @@ namespace App\Http\Resources;
 
 
 use App\Models\Industry;
-use App\Models\Mechanism;
 use App\Models\Occupation;
 use App\Utils\Constants;
 use Illuminate\Http\Resources\Json\JsonResource;

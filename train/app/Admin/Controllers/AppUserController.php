@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+
 use App\Admin\Repositories\AppUser;
 use App\Models\Industry;
 use App\Models\Mechanism;
@@ -126,19 +127,18 @@ class AppUserController extends AdminController
             }
             $form->hidden('user_id');
             $form->text('name');
-            $form->select('industry_id')->options(Industry::getIndustryData())->load('occupation_id', 'api-occupation');
-            $form->select('occupation_id')->options(Occupation::getOccupationData());
-            $form->text('phone');
+            $form->multipleSelect('industry_id')->options(Industry::getIndustryData())->savingArray()->load('occupation_id', 'api-occupation');
+            $form->multipleSelect('occupation_id')->options(Occupation::getOccupationData())->savingArray();
+            $form->text('phone')->required();
             $form->password('password');
             $form->switch('status');
             $form->display('created_at');
             $form->display('updated_at');
-
             $form->saving(function ($form) {
                 if ($form->isCreating()) {
-                    $form->user_id = getOrderId();
+                    $form->user_id = getUserId();
                 }
-                $form->password = md5($form->password);
+                $form->password=md5($form->password);
             });
         });
     }

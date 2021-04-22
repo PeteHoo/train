@@ -32,11 +32,11 @@ class AppUser extends User
         return $this->hasOne('App\Models\Mechanism','id','mechanism_id');
     }
 
-    public function industry(){
-        return $this->hasOne('App\Models\Industry','id','industry_id');
-    }
-
-    public function occupation_id(){
-        return $this->hasOne('App\Models\Occupation','id','occupation_id');
-    }
+//    public function industry(){
+//        return $this->hasMany('App\Models\Industry','id','industry_id');
+//    }
+//
+//    public function occupation_id(){
+//        return $this->hasMany('App\Models\Occupation','id','occupation_id');
+//    }
 }

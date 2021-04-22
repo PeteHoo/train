@@ -77,6 +77,21 @@ class UserController extends ApiController
 
     }
 
+
+    public function passwordLogin(UserRequest $request){
+        $data = $request->post();
+        if (!$user = AppUser::where('phone', $data['phone'])->first()) {
+            return self::error(ErrorCode::FAILURE, '用户不存在');
+        }
+        if($user->password!=md5($data['password'])){
+            return self::error(ErrorCode::FAILURE, '密码不正确');
+        }
+        $user->api_token = generateToken(32, true);
+        $user->save();
+        return self::success(new UserResource($user), ErrorCode::SUCCESS, '登录成功');
+    }
+
+
     /** 短信验证修改密码
      * @param UserRequest $request
      * @return null|string

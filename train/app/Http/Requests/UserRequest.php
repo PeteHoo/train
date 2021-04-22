@@ -39,9 +39,13 @@ class UserRequest extends BaseRequest
                     'code' => ['required'],
                 ];
                 break;
-
-            default;
-                return [];
+            case 'api/user/password-login':
+                return [
+                    'phone' => ['required'],
+                    'password' => ['required'],
+                ];
+                break;
+            default:return [];
         }
     }
 
@@ -67,8 +71,14 @@ class UserRequest extends BaseRequest
                     'code.required' => '验证码不能为空'
                 ];
                 break;
-            default;
-                return [];
+            case 'api/user/password-login':
+                return [
+                    'phone.required' => '手机号不能为空',
+                    'password.required' => '密码不能为空',
+                ];
+                break;
+            default:return [];
+
         }
     }
 }
