@@ -67,6 +67,23 @@ function getMultipleItems($items, $keys = null)
     return array();
 }
 
+function getBackendMultipleItems($items, $keys = null)
+{
+    $keys=json_decode($keys,true);
+    if($keys){
+        $result=array();
+        foreach ($keys as $k=>$v){
+            if($v!==null){
+                if (isset($items[$v])) {
+                    $result[$v]=$items[$v];
+                }
+            }
+        }
+        return $result;
+    }
+    return array();
+}
+
 function getKey($items, $content = null)
 {
     if ($content !== null) {

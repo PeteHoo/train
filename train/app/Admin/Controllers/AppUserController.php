@@ -42,10 +42,24 @@ class AppUserController extends AdminController
                 return Mechanism::getMechanismDataDetail($mechanism_id);
             });
             $grid->column('industry_id')->display(function ($industry_id) {
-                return Industry::getIndustryDataDetail($industry_id);
+                $industry_id=json_decode($industry_id);
+                $industry_id_result='';
+                if($industry_id){
+                    foreach ($industry_id as $v){
+                        $industry_id_result.=Industry::getIndustryDataDetail($v).'/';
+                    }
+                }
+                return $industry_id_result;
             });
             $grid->column('occupation_id')->display(function ($occupation_id) {
-                return Occupation::getOccupationDataDetail($occupation_id);
+                $occupation_id=json_decode($occupation_id);
+                $occupation_id_result='';
+                if($occupation_id){
+                    foreach ($occupation_id as $v){
+                        $occupation_id_result.=Occupation::getOccupationDataDetail($v).'/';
+                    }
+                }
+                return $occupation_id_result;
             });
             $grid->column('status')->switch();
             $grid->column('created_at');
