@@ -46,9 +46,7 @@ class LearningMaterialController extends ApiController
          $id=$request->input('id');
          $learningMaterial=LearningMaterial::where('id',$id)
              ->where('status',Constants::OPEN)->first();
-         $data['data']=new LearningMaterialDetailResource($learningMaterial);
-
-         return self::success($data);
+         return self::success(new LearningMaterialDetailResource($learningMaterial));
      }
 
     /** 推荐视频
