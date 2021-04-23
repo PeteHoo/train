@@ -26,6 +26,7 @@ class UserResource extends JsonResource
             'name' => $this->name,
             'nick_name' => $this->nick_name,
             'phone' => $this->phone,
+            'birthday' => $this->birthday,
             'sex' => Constants::getSexType($this->sex),
             'attribute' =>  $this->attribute,
             'avatar' => getImageUrl($this->avatar),

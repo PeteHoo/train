@@ -14,9 +14,12 @@ use App\Http\Resources\LearningMaterialCollectionPaginate;
 use App\Http\Resources\LearningMaterialDetailResource;
 use App\Http\Resources\LearningMaterialResource;
 use App\Models\LearningMaterial;
+use App\Models\LearningMaterialRecord;
 use App\Service\LearningMaterialService;
 use App\Utils\Constants;
+use App\Utils\ErrorCode;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Error;
 
 class LearningMaterialController extends ApiController
 {
@@ -93,6 +96,16 @@ class LearningMaterialController extends ApiController
                   $query->whereIn('occupation_id',$occupation_id);
              }
              return self::success(new LearningMaterialCollectionPaginate($query->paginate($request->get('perPage'))));
+     }
+
+    /** 上传学习记录
+     * @param LearningMaterialRequest $request
+     * @return string|null
+     */
+     public function learningMaterialRecord(LearningMaterialRequest $request){
+         $data['learning_material_detail_id']=$request->post('learning_material_detail_id');
+         $data['user_id']=Auth::user()->user_id;
+         return LearningMaterialRecord::firstOrCreate($data)?self::success():self::error(ErrorCode::FAILURE);
      }
 
 }

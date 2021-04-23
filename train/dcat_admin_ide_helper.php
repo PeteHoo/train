@@ -84,8 +84,11 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection failed_at
      * @property Grid\Column|Collection learning_material_id
      * @property Grid\Column|Collection chapter_id
+     * @property Grid\Column|Collection is_open
      * @property Grid\Column|Collection video
      * @property Grid\Column|Collection duration
+     * @property Grid\Column|Collection learning_material_detail_id
+     * @property Grid\Column|Collection picture
      * @property Grid\Column|Collection social_credit_code
      * @property Grid\Column|Collection deposit_bank
      * @property Grid\Column|Collection bank_card_number
@@ -188,8 +191,11 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection failed_at(string $label = null)
      * @method Grid\Column|Collection learning_material_id(string $label = null)
      * @method Grid\Column|Collection chapter_id(string $label = null)
+     * @method Grid\Column|Collection is_open(string $label = null)
      * @method Grid\Column|Collection video(string $label = null)
      * @method Grid\Column|Collection duration(string $label = null)
+     * @method Grid\Column|Collection learning_material_detail_id(string $label = null)
+     * @method Grid\Column|Collection picture(string $label = null)
      * @method Grid\Column|Collection social_credit_code(string $label = null)
      * @method Grid\Column|Collection deposit_bank(string $label = null)
      * @method Grid\Column|Collection bank_card_number(string $label = null)
@@ -297,8 +303,11 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection failed_at
      * @property Show\Field|Collection learning_material_id
      * @property Show\Field|Collection chapter_id
+     * @property Show\Field|Collection is_open
      * @property Show\Field|Collection video
      * @property Show\Field|Collection duration
+     * @property Show\Field|Collection learning_material_detail_id
+     * @property Show\Field|Collection picture
      * @property Show\Field|Collection social_credit_code
      * @property Show\Field|Collection deposit_bank
      * @property Show\Field|Collection bank_card_number
@@ -401,8 +410,11 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection failed_at(string $label = null)
      * @method Show\Field|Collection learning_material_id(string $label = null)
      * @method Show\Field|Collection chapter_id(string $label = null)
+     * @method Show\Field|Collection is_open(string $label = null)
      * @method Show\Field|Collection video(string $label = null)
      * @method Show\Field|Collection duration(string $label = null)
+     * @method Show\Field|Collection learning_material_detail_id(string $label = null)
+     * @method Show\Field|Collection picture(string $label = null)
      * @method Show\Field|Collection social_credit_code(string $label = null)
      * @method Show\Field|Collection deposit_bank(string $label = null)
      * @method Show\Field|Collection bank_card_number(string $label = null)

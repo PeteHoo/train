@@ -38,8 +38,12 @@ class LearningMaterialRequest extends BaseRequest
                     'page'=>['integer'],
                 ];
                 break;
-
-            default;return [];
+            case 'api/learning-material/record':
+                return [
+                    'learning_material_detail_id'=>['required'],
+                ];
+                break;
+            default:return [];
         }
     }
 
