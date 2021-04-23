@@ -11,7 +11,7 @@ class Exam extends Model
     protected $table = 'exam';
 
     public function examDetail(){
-        return $this->hasMany('App\Models\ExamDetail','exam_id','id')->with('question');
+        return $this->hasMany('App\Models\ExamDetail','exam_id','id')->select('question_id')->with('question');
     }
     public function mechanism(){
         return $this->hasOne('App\Models\Mechanism','id','mechanism_id');
