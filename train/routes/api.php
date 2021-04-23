@@ -40,6 +40,8 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
     $route->get('learning-material/search','Api\LearningMaterialController@searchMaterial');//资料搜素
 
     $route->get('exam/list','Api\ExamController@examList');//考试列表
+    $route->get('exam/detail','Api\ExamController@examDetail');//考试详情
+
 
     $route->get('base-data/industry','Api\BaseDataController@industry');//行业数据
     $route->get('base-data/occupation','Api\BaseDataController@occupation');//职业数据

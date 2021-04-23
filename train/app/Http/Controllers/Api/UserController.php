@@ -133,7 +133,7 @@ class UserController extends ApiController
         if (!$user = AppUser::where('user_id', $user_id)->update($data)) {
             return self::error(ErrorCode::FAILURE, '个人信息更新失败');
         }
-        return self::success(new UserResource(Auth::user()));
+        return self::success(new UserResource(AppUser::where('user_id',$user_id)->first()));
     }
 
     /** 用户信息
