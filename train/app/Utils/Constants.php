@@ -212,6 +212,27 @@ class Constants
     }
 
     /**
+     * 用户属性
+     */
+    const PERSONAL_ATTRIBUTE = 1;
+    const ENTERPRISE_ATTRIBUTE = 2;
+    const MECHANISM_ATTRIBUTE = 3;
+
+    public static function getAttributeItems()
+    {
+        return [
+            self::PERSONAL_ATTRIBUTE => '个人',
+            self::ENTERPRISE_ATTRIBUTE => '企业',
+            self::MECHANISM_ATTRIBUTE => '机构',
+        ];
+    }
+
+    public static function getAttributeType($attribute)
+    {
+        return getItems(self::getAttributeItems(), $attribute);
+    }
+
+    /**
      * 短信类型
      */
     const LOGIN=1;

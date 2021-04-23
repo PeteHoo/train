@@ -28,7 +28,7 @@ class UserResource extends JsonResource
             'phone' => $this->phone,
             'birthday' => $this->birthday,
             'sex' => Constants::getSexType($this->sex),
-            'attribute' =>  $this->attribute,
+            'attribute' =>  Constants::getAttributeType($this->attribute),
             'avatar' => getImageUrl($this->avatar),
             'mechanism' => $this->mechanism->name??'',
             'industry' => getMultipleItems($industryList,$this->industry_id),
