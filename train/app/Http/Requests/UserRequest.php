@@ -48,11 +48,20 @@ class UserRequest extends BaseRequest
             case 'api/user/update-info':
                 return [
                     'sex' => ['integer'],
+                    'birthday' => ['date'],
                     'mechanism_id' => ['integer'],
                     'industry_id' => ['integer'],
                     'occupation_id' => ['integer'],
                 ];
                 break;
+            case 'api/user/feedback':
+                return [
+                    'title' => ['required'],
+                    'description' => ['required'],
+                    'phone' => ['required',new Mobile()],
+                ];
+                break;
+
             default:return [];
         }
     }

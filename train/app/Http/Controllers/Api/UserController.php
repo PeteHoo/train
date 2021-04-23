@@ -161,12 +161,13 @@ class UserController extends ApiController
         return self::success();
     }
 
-
+    /** 提交用户反馈
+     * @param UserRequest $request
+     */
     public function feedback(UserRequest $request){
-
         $data=$request->post();
         $data['user_id']=Auth::user()->user_id;
-        Feedback::create($data);
+        return Feedback::create($data)?self::success():self::error(ErrorCode::FAILURE);
     }
 
 }
