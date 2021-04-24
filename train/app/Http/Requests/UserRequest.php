@@ -49,9 +49,6 @@ class UserRequest extends BaseRequest
                 return [
                     'sex' => ['integer'],
                     'birthday' => ['date'],
-                    'mechanism_id' => ['integer'],
-                    'industry_id' => ['integer'],
-                    'occupation_id' => ['integer'],
                 ];
                 break;
             case 'api/user/feedback':
