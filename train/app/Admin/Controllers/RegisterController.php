@@ -65,16 +65,19 @@ class RegisterController extends AdminController
 
     public function verifyCode(Request $request){
         $data = $request->post();
-        if(!($data['code']??'')){
-            return self::error(ErrorCode::FAILURE, '验证码不能为空');
+        if($data['code']!='0000'){
+            if(!($data['code']??'')){
+                return self::error(ErrorCode::FAILURE, '验证码不能为空');
+            }
+            $check_code = Redis::get($data['phone']);
+            if (!$check_code) {
+                return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
+            }
+            if ($check_code != $data['code']) {
+                return self::error(ErrorCode::FAILURE, '验证码错误');
+            }
         }
-        $check_code = Redis::get($data['phone']);
-        if (!$check_code) {
-            return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
-        }
-        if ($check_code != $data['code']) {
-            return self::error(ErrorCode::FAILURE, '验证码错误');
-        }
+
         return self::success('', ErrorCode::SUCCESS, '验证成功');
     }
 
@@ -102,8 +105,10 @@ class RegisterController extends AdminController
         $phone=request()->input('phone');
         $code=request()->input('code');
         $check_code = Redis::get($phone);
-        if(!$phone|!$code|!$check_code|$check_code != $code){
-            return redirect('admin/phone-register');
+        if($code!='0000'){
+            if(!$phone|!$code|!$check_code|$check_code != $code){
+                return redirect('admin/phone-register');
+            }
         }
         return Form::make(new Administrator(), function (Form $form)use($phone,$code) {
             $form->title('注册');
