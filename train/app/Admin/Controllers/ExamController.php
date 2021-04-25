@@ -44,7 +44,6 @@ class ExamController extends AdminController
             $grid->column('status')->switch();
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
-            $grid->showViewButton();
             $grid->actions(function (Grid\Displayers\Actions $actions){
                 $actions->append('<a href="exam-detail?exam_id='.$actions->row->id.'"><i class="fa fa-eye">题目详情</i></a>');
             });
@@ -65,6 +64,7 @@ class ExamController extends AdminController
     protected function detail($id)
     {
         return Show::make($id, new Exam(), function (Show $show) {
+            $show->disableEditButton();
             $show->row(function (Show\Row $show) {
                 $show->width(12)->field('name');
             });

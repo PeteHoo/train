@@ -18,6 +18,7 @@ class LearningMaterialRequest extends BaseRequest
                 return [
                     'perPage'=>['integer'],
                     'page'=>['integer'],
+                    'occupation_id'=>['integer']
                 ];
                 break;
             case 'api/learning-material/detail':

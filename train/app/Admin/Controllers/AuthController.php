@@ -66,5 +66,4 @@ class AuthController extends BaseAuthController
             $this->username() => $this->getFailedLoginMessage(),
         ]);
     }
-
 }
