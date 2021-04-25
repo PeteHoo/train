@@ -11,6 +11,7 @@ namespace Dcat\Admin {
     use Illuminate\Support\Collection;
 
     /**
+     * @property Grid\Column|Collection detail
      * @property Grid\Column|Collection width
      * @property Grid\Column|Collection judgment
      * @property Grid\Column|Collection single
@@ -18,7 +19,6 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection name
      * @property Grid\Column|Collection type
      * @property Grid\Column|Collection version
-     * @property Grid\Column|Collection detail
      * @property Grid\Column|Collection created_at
      * @property Grid\Column|Collection updated_at
      * @property Grid\Column|Collection is_enabled
@@ -82,6 +82,8 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection payload
      * @property Grid\Column|Collection exception
      * @property Grid\Column|Collection failed_at
+     * @property Grid\Column|Collection words
+     * @property Grid\Column|Collection count
      * @property Grid\Column|Collection learning_material_id
      * @property Grid\Column|Collection chapter_id
      * @property Grid\Column|Collection is_open
@@ -118,6 +120,7 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection os
      * @property Grid\Column|Collection version_code
      *
+     * @method Grid\Column|Collection detail(string $label = null)
      * @method Grid\Column|Collection width(string $label = null)
      * @method Grid\Column|Collection judgment(string $label = null)
      * @method Grid\Column|Collection single(string $label = null)
@@ -125,7 +128,6 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection name(string $label = null)
      * @method Grid\Column|Collection type(string $label = null)
      * @method Grid\Column|Collection version(string $label = null)
-     * @method Grid\Column|Collection detail(string $label = null)
      * @method Grid\Column|Collection created_at(string $label = null)
      * @method Grid\Column|Collection updated_at(string $label = null)
      * @method Grid\Column|Collection is_enabled(string $label = null)
@@ -189,6 +191,8 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection payload(string $label = null)
      * @method Grid\Column|Collection exception(string $label = null)
      * @method Grid\Column|Collection failed_at(string $label = null)
+     * @method Grid\Column|Collection words(string $label = null)
+     * @method Grid\Column|Collection count(string $label = null)
      * @method Grid\Column|Collection learning_material_id(string $label = null)
      * @method Grid\Column|Collection chapter_id(string $label = null)
      * @method Grid\Column|Collection is_open(string $label = null)
@@ -230,6 +234,7 @@ namespace Dcat\Admin {
     class MiniGrid extends Grid {}
 
     /**
+     * @property Show\Field|Collection detail
      * @property Show\Field|Collection width
      * @property Show\Field|Collection judgment
      * @property Show\Field|Collection single
@@ -237,7 +242,6 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection name
      * @property Show\Field|Collection type
      * @property Show\Field|Collection version
-     * @property Show\Field|Collection detail
      * @property Show\Field|Collection created_at
      * @property Show\Field|Collection updated_at
      * @property Show\Field|Collection is_enabled
@@ -301,6 +305,8 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection payload
      * @property Show\Field|Collection exception
      * @property Show\Field|Collection failed_at
+     * @property Show\Field|Collection words
+     * @property Show\Field|Collection count
      * @property Show\Field|Collection learning_material_id
      * @property Show\Field|Collection chapter_id
      * @property Show\Field|Collection is_open
@@ -337,6 +343,7 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection os
      * @property Show\Field|Collection version_code
      *
+     * @method Show\Field|Collection detail(string $label = null)
      * @method Show\Field|Collection width(string $label = null)
      * @method Show\Field|Collection judgment(string $label = null)
      * @method Show\Field|Collection single(string $label = null)
@@ -344,7 +351,6 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection name(string $label = null)
      * @method Show\Field|Collection type(string $label = null)
      * @method Show\Field|Collection version(string $label = null)
-     * @method Show\Field|Collection detail(string $label = null)
      * @method Show\Field|Collection created_at(string $label = null)
      * @method Show\Field|Collection updated_at(string $label = null)
      * @method Show\Field|Collection is_enabled(string $label = null)
@@ -408,6 +414,8 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection payload(string $label = null)
      * @method Show\Field|Collection exception(string $label = null)
      * @method Show\Field|Collection failed_at(string $label = null)
+     * @method Show\Field|Collection words(string $label = null)
+     * @method Show\Field|Collection count(string $label = null)
      * @method Show\Field|Collection learning_material_id(string $label = null)
      * @method Show\Field|Collection chapter_id(string $label = null)
      * @method Show\Field|Collection is_open(string $label = null)

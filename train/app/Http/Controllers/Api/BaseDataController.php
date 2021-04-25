@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Resources\ExhibitionResource;
+use App\Http\Resources\SpecialResource;
 use App\Models\Exhibition;
+use App\Models\HotSearch;
 use App\Models\Industry;
 use App\Models\Occupation;
+use App\Models\Special;
 use App\Utils\Constants;
 use App\Utils\ErrorCode;
 use Illuminate\Http\Request;
@@ -38,6 +41,9 @@ class BaseDataController extends ApiController
         return self::success(Occupation::getOccupationDataByIndustry_id($industry));
     }
 
+    /** banner接口
+     * @return null|string
+     */
     public function banner(){
        return self::success(ExhibitionResource::collection(Exhibition::whereIn('occupation_id',json_decode(Auth::user()->occupation_id))
            ->where('status',Constants::OPEN)
@@ -45,4 +51,23 @@ class BaseDataController extends ApiController
            ->get()));
     }
 
+    /**
+     * @return null|string
+     */
+    public function special(){
+        return self::success(SpecialResource::collection(Special::whereIn('occupation_id',json_decode(Auth::user()->occupation_id))
+            ->where('status',Constants::OPEN)
+            ->orderBy('sort','DESC')
+            ->get()));
+    }
+
+    /**
+     * @return null|string
+     */
+    public function searchWordsList(){
+        return self::success(HotSearch::where('status',Constants::OPEN)
+            ->orderBy('sort','DESC')
+            ->orderBy('count','DESC')
+            ->get());
+    }
 }

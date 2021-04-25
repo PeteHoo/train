@@ -13,8 +13,10 @@ use App\Http\Requests\LearningMaterialRequest;
 use App\Http\Resources\LearningMaterialCollectionPaginate;
 use App\Http\Resources\LearningMaterialDetailResource;
 use App\Http\Resources\LearningMaterialResource;
+use App\Models\HotSearch;
 use App\Models\LearningMaterial;
 use App\Models\LearningMaterialRecord;
+use App\Service\HotSearchService;
 use App\Service\LearningMaterialService;
 use App\Utils\Constants;
 use App\Utils\ErrorCode;
@@ -74,6 +76,8 @@ class LearningMaterialController extends ApiController
     public function searchMaterial(LearningMaterialRequest $request)
     {
         $search_word = $request->get('search_word');
+        //搜索增加次数
+        HotSearchService::addHotSearch($search_word);
         $query = LearningMaterial::where('status', Constants::OPEN)
             ->where(function ($where) use ($search_word) {
                 return $where->where('description', 'like', $search_word)
