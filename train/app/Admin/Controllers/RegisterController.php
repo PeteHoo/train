@@ -145,8 +145,8 @@ class RegisterController extends AdminController
                     $step->text('address', '地址')->rules('required',['required'=>'地址必填']);
                     $step->text('legal_person', '法人')->rules('required',['required'=>'法人必填']);
                     $step->text('legal_person_id_card', '法人身份证')->rules(['required',new IDCard()],['required'=>'法人身份证必填']);
-                    $step->tel('contact_name', '联系人姓名')->rules('required',['required'=>'联系人姓名必填']);
-                    $step->text('contact_phone', '联系人手机号')->rules(['required',new Mobile()],['required'=>'联系人手机号必填']);
+                    $step->text('contact_name', '联系人姓名')->rules('required',['required'=>'联系人姓名必填']);
+                    $step->tel('contact_phone', '联系人手机号')->rules(['required',new Mobile()],['required'=>'联系人手机号必填']);
                 })
                 ->add('财务信息', function ($step)use($phone,$code) {
                     $step->text('payee', '收款方')->readonly()->rules('required',['required'=>'收款方必填']);
