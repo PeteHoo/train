@@ -44,16 +44,17 @@ class ExamController extends ApiController
         return self::success($data);
     }
 
-    /**
-     * 试卷列表
+    /** 试卷列表
+     * @param Request $request
+     * @return null|string
      */
-    public function examList()
+    public function examList(Request $request)
     {
         $query = Exam::where('status', Constants::OPEN);
         if ($occupation_id = json_decode(Auth::user()->occupation_id)) {
             $query->whereIn('occupation_id', $occupation_id);
         }
-       return self::success($query->get());
+       return self::success($query->paginate($request->get('perPage')));
 
     }
 
