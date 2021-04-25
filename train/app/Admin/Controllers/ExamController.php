@@ -64,6 +64,7 @@ class ExamController extends AdminController
     protected function detail($id)
     {
         return Show::make($id, new Exam(), function (Show $show) {
+            $show->disableEditButton();
             $show->row(function (Show\Row $show) {
                 $show->width(12)->field('name');
             });

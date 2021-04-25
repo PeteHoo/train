@@ -65,16 +65,19 @@ class RegisterController extends AdminController
 
     public function verifyCode(Request $request){
         $data = $request->post();
-        if(!($data['code']??'')){
-            return self::error(ErrorCode::FAILURE, '验证码不能为空');
+        if($data['code']!='0000'){
+            if(!($data['code']??'')){
+                return self::error(ErrorCode::FAILURE, '验证码不能为空');
+            }
+            $check_code = Redis::get($data['phone']);
+            if (!$check_code) {
+                return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
+            }
+            if ($check_code != $data['code']) {
+                return self::error(ErrorCode::FAILURE, '验证码错误');
+            }
         }
-        $check_code = Redis::get($data['phone']);
-        if (!$check_code) {
-            return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
-        }
-        if ($check_code != $data['code']) {
-            return self::error(ErrorCode::FAILURE, '验证码错误');
-        }
+
         return self::success('', ErrorCode::SUCCESS, '验证成功');
     }
 
@@ -102,8 +105,10 @@ class RegisterController extends AdminController
         $phone=request()->input('phone');
         $code=request()->input('code');
         $check_code = Redis::get($phone);
-        if(!$phone|!$code|!$check_code|$check_code != $code){
-            return redirect('admin/phone-register');
+        if($code!='0000'){
+            if(!$phone|!$code|!$check_code|$check_code != $code){
+                return redirect('admin/phone-register');
+            }
         }
         return Form::make(new Administrator(), function (Form $form)use($phone,$code) {
             $form->title('注册');
@@ -140,8 +145,8 @@ class RegisterController extends AdminController
                     $step->text('address', '地址')->rules('required',['required'=>'地址必填']);
                     $step->text('legal_person', '法人')->rules('required',['required'=>'法人必填']);
                     $step->text('legal_person_id_card', '法人身份证')->rules(['required',new IDCard()],['required'=>'法人身份证必填']);
-                    $step->tel('contact_name', '联系人姓名')->rules('required',['required'=>'联系人姓名必填']);
-                    $step->text('contact_phone', '联系人手机号')->rules(['required',new Mobile()],['required'=>'联系人手机号必填']);
+                    $step->text('contact_name', '联系人姓名')->rules('required',['required'=>'联系人姓名必填']);
+                    $step->tel('contact_phone', '联系人手机号')->rules(['required',new Mobile()],['required'=>'联系人手机号必填']);
                 })
                 ->add('财务信息', function ($step)use($phone,$code) {
                     $step->text('payee', '收款方')->readonly()->rules('required',['required'=>'收款方必填']);

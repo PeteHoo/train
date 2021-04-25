@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Models\Mechanism;
 use App\Models\Region;
 use App\Utils\Constants;
 use Dcat\Admin\Admin;
@@ -52,9 +53,7 @@ class MechanismController extends AdminController
             $grid->column('is_permit')->display(function ($is_permit){
                 return Constants::getStatusType($is_permit);
             });
-            $grid->column('status')->display(function ($is_permit){
-                return Constants::getStatusType($is_permit);
-            });
+            $grid->column('status')->switch();
             $grid->column('updated_at')->sortable();
             $grid->disableCreateButton();
             $grid->filter(function (Grid\Filter $filter) {
@@ -112,7 +111,18 @@ class MechanismController extends AdminController
             });
             $show->field('status')->as(function ($status){
                 return Constants::getStatusType($status);
-            });;
+            });
+//            $show->detail(function($model)use($show){
+//                $grid = new Grid(new Mechanism());
+//                $grid->model()->where('id', $model->id);
+//                $grid->column('status')->switch();
+//                $grid->disableActions();
+//                $grid->disableToolbar();
+//                $grid->disablePagination();
+//                $grid->disableRowSelector();
+//                $grid->disablePerPages();
+//                return $grid;
+//            });
         });
     }
 

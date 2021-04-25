@@ -6,7 +6,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ExamResource extends JsonResource
+class ExamAllDetailResource extends JsonResource
 {
     public function toArray($request)
     {
@@ -30,6 +30,7 @@ class ExamResource extends JsonResource
             'status' =>  $this->status,
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),
+            'examDetail'=>$this->examDetail
         ];
     }
 }

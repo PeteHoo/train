@@ -38,9 +38,9 @@ class ExamDetailController extends AdminController
             $grid->column('updated_at');
             $grid->column('sort')->editable();
             $grid->disableEditButton();
+            $grid->disableCreateButton();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-
             });
         });
     }

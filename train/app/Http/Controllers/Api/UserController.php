@@ -12,6 +12,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\AppUser;
+use App\Models\Feedback;
 use App\Utils\AliTask;
 use App\Utils\Constants;
 use App\Utils\ErrorCode;
@@ -133,7 +134,7 @@ class UserController extends ApiController
         if (!$user = AppUser::where('user_id', $user_id)->update($data)) {
             return self::error(ErrorCode::FAILURE, '个人信息更新失败');
         }
-        return self::success(new UserResource(Auth::user()));
+        return self::success(new UserResource(AppUser::where('user_id',$user_id)->first()));
     }
 
     /** 用户信息
@@ -158,6 +159,15 @@ class UserController extends ApiController
             return self::error(ErrorCode::FAILURE, '密码更新失败');
         }
         return self::success();
+    }
+
+    /** 提交用户反馈
+     * @param UserRequest $request
+     */
+    public function feedback(UserRequest $request){
+        $data=$request->post();
+        $data['user_id']=Auth::user()->user_id;
+        return Feedback::create($data)?self::success():self::error(ErrorCode::FAILURE);
     }
 
 }

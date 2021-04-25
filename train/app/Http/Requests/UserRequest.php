@@ -45,6 +45,20 @@ class UserRequest extends BaseRequest
                     'password' => ['required'],
                 ];
                 break;
+            case 'api/user/update-info':
+                return [
+                    'sex' => ['integer'],
+                    'birthday' => ['date'],
+                ];
+                break;
+            case 'api/user/feedback':
+                return [
+                    'title' => ['required'],
+                    'description' => ['required'],
+                    'phone' => ['required',new Mobile()],
+                ];
+                break;
+
             default:return [];
         }
     }

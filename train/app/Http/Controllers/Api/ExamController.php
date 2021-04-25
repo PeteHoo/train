@@ -9,20 +9,22 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Http\Requests\ExamRequest;
+use App\Http\Resources\ExamAllDetailResource;
+use App\Http\Resources\ExamCollectionPaginate;
 use App\Models\Exam;
 use App\Models\ExamScoreRecord;
 use App\Utils\Constants;
 use App\Utils\ErrorCode;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class ExamController extends ApiController
 {
     /** 上传成绩
-     * @param Request $request
+     * @param ExamRequest $request
      * @return null|string
      */
-    public function addRecord(Request $request)
+    public function addRecord(ExamRequest $request)
     {
         $data = $request->post();
         $data['user_id'] = Auth::user()->user_id;
@@ -45,17 +47,21 @@ class ExamController extends ApiController
     }
 
     /** 试卷列表
-     * @param Request $request
-     * @return null|string
+     * @param ExamRequest $request
+     * @return string|null
      */
-    public function examList(Request $request)
+    public function examList(ExamRequest $request)
     {
-        $query = Exam::where('status', Constants::OPEN);
-        if ($occupation_id = json_decode(Auth::user()->occupation_id)) {
-            $query->whereIn('occupation_id', $occupation_id);
+        if (!$occupation_id = json_decode(Auth::user()->occupation_id)) {
+            return self::error(ErrorCode::FAILURE,'您还没有职业');
         }
-       return self::success($query->paginate($request->get('perPage')));
+        $query=Exam::where('status', Constants::OPEN)->whereIn('occupation_id', $occupation_id);
+        return self::success(new ExamCollectionPaginate($query->paginate($request->get('perPage'))));
+    }
 
+    public function examDetail(ExamRequest $request){
+       $exam=Exam::where('status', Constants::OPEN)->where('id',$request->get('id'))->first();
+       return self::success(new ExamAllDetailResource($exam));
     }
 
 }
