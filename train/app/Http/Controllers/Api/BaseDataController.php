@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api;
 
 
+use App\Http\Requests\BaseDataRequest;
 use App\Http\Resources\ExhibitionResource;
 use App\Http\Resources\SpecialResource;
 use App\Models\Agreement;
@@ -99,7 +100,7 @@ class BaseDataController extends ApiController
      * @param Request $request
      * @return string|null
      */
-    public function getAgreement(Request $request){
+    public function getAgreement(BaseDataRequest $request){
         $position=$request->get('position',1);
         $agreement=Agreement::where('position',$position)->where('status',Constants::OPEN)->orderBy('created_at','DESC')->first();
         return self::success($agreement);
