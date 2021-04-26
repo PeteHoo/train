@@ -12,8 +12,12 @@ class Mechanism extends Model
 
     protected $table = 'admin_users';
 
-    public static function getMechanismData(){
-        return self::where('status',Constants::OPEN)
+    public static function getMechanismData($search_words=''){
+        $query=self::where('status',Constants::OPEN);
+        if($search_words){
+            $query->where('name','like','%'.$search_words.'%');
+        }
+        return $query
             ->pluck('name','id')->toArray();
     }
 

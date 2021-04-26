@@ -10,6 +10,7 @@ use App\Models\Agreement;
 use App\Models\Exhibition;
 use App\Models\HotSearch;
 use App\Models\Industry;
+use App\Models\Mechanism;
 use App\Models\Occupation;
 use App\Models\Special;
 use App\Models\Version;
@@ -21,6 +22,16 @@ use Illuminate\Support\Facades\Auth;
 
 class BaseDataController extends ApiController
 {
+    /** 机构列表
+     * @param Request $request
+     * @return string|null
+     */
+    public function mechanism(Request $request){
+        $search_words=$request->get('search_words');
+        return self::success(Mechanism::getMechanismData($search_words));
+    }
+
+
     /** 行业数据
      * @return string|null
      */
