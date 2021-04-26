@@ -170,4 +170,13 @@ class UserController extends ApiController
         return Feedback::create($data)?self::success():self::error(ErrorCode::FAILURE);
     }
 
+    /** 提交用户反馈
+     * @param UserRequest $request
+     */
+    public function feedbackList(UserRequest $request){
+        return self::success(
+            Feedback::where('user_id',Auth::user()->user_id)
+            ->paginate($request->get('perPage')));
+    }
+
 }

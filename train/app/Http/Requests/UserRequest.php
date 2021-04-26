@@ -58,6 +58,13 @@ class UserRequest extends BaseRequest
                     'phone' => ['required',new Mobile()],
                 ];
                 break;
+            case 'api/ user/feedback-list':
+                return [
+                    'perPage'=>['integer'],
+                    'page'=>['integer'],
+                ];
+                break;
+
 
             default:return [];
         }

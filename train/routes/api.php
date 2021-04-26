@@ -32,10 +32,12 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
     $route->get('exam/records','Api\ExamController@records');//考试概况
 
     //更新个人信息
-    $route->post('user/update-info','Api\UserController@updateInfo');//考试概况
-    $route->get('user/info','Api\UserController@info');//考试概况
-    $route->post('user/change-password','Api\UserController@changePassword');//考试概况
-    $route->post('user/feedback','Api\UserController@feedback');//考试概况
+    $route->post('user/update-info','Api\UserController@updateInfo');//修改用户信息
+    $route->get('user/info','Api\UserController@info');//用户信息
+    $route->post('user/change-password','Api\UserController@changePassword');//修改密码
+    $route->post('user/feedback','Api\UserController@feedback');//提交反馈
+    $route->get('user/feedback-list','Api\UserController@feedbackList');//反馈列表
+
 
     $route->get('learning-material/list','Api\LearningMaterialController@materialList');//资料列表
     $route->get('learning-material/detail','Api\LearningMaterialController@materialDetail');//资料详情
