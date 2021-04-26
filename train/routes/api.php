@@ -19,6 +19,8 @@ Route::group([],function ($route){
     $route->post('user/code-change-password','Api\UserController@codeChangePassword');//短信修改密码
     $route->post('user/password-login','Api\UserController@passwordLogin');//密码登录
     $route->get('learning-material/recommend','Api\LearningMaterialController@recommendMaterialList');//资料详情
+    $route->get('base-data/check-version','Api\BaseDataController@checkVersion');//检查版本
+    $route->get('base-data/get-agreement','Api\BaseDataController@getAgreement');//检查版本
 
 });
 
@@ -47,6 +49,8 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
     $route->get('base-data/banner','Api\BaseDataController@banner');//banner数据
     $route->get('base-data/special','Api\BaseDataController@special');//专题数据
     $route->get('base-data/search-words-list','Api\BaseDataController@searchWordsList');//专题数据
+
+
 
 });
 

@@ -6,11 +6,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Resources\ExhibitionResource;
 use App\Http\Resources\SpecialResource;
+use App\Models\Agreement;
 use App\Models\Exhibition;
 use App\Models\HotSearch;
 use App\Models\Industry;
 use App\Models\Occupation;
 use App\Models\Special;
+use App\Models\Version;
 use App\Utils\Constants;
 use App\Utils\ErrorCode;
 use Illuminate\Http\Request;
@@ -61,7 +63,7 @@ class BaseDataController extends ApiController
             ->get()));
     }
 
-    /**
+    /** 热词列表
      * @return null|string
      */
     public function searchWordsList(){
@@ -70,4 +72,25 @@ class BaseDataController extends ApiController
             ->orderBy('count','DESC')
             ->get());
     }
+
+    /** 检查版本
+     * @param Request $request
+     * @return string|null
+     */
+    public function checkVersion(Request $request){
+         $os=$request->get('os',1);
+         $version=Version::where('os',$os)->where('status',Constants::OPEN)->orderBy('created_at','DESC')->first();
+         return self::success($version);
+    }
+
+    /** 获取协议
+     * @param Request $request
+     * @return string|null
+     */
+    public function getAgreement(Request $request){
+        $position=$request->get('position',1);
+        $agreement=Agreement::where('position',$position)->where('status',Constants::OPEN)->orderBy('created_at','DESC')->first();
+        return self::success($agreement);
+    }
+
 }
