@@ -39,10 +39,10 @@ class ExamController extends ApiController
      */
     public function records()
     {
-        $all_score = ExamScoreRecord::where('user_id', Auth::user()->user_id)->sum('score');
-        $count = ExamScoreRecord::where('user_id', Auth::user()->user_id)->count();
+        $all_score = ExamScoreRecord::where('user_id', Auth::user()->user_id)->sum('score')??0;
+        $count = ExamScoreRecord::where('user_id', Auth::user()->user_id)->count()??1;
         $data['all_question_count'] = (int)(ExamScoreRecord::where('user_id', Auth::user()->user_id)->sum('question_count'));
-        $data['average_score'] = ($all_score / $count??1) ?? '0';
+        $data['average_score'] = $all_score / $count;
         return self::success($data);
     }
 

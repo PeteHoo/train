@@ -42,6 +42,9 @@ class AppUserController extends AdminController
             $grid->column('mechanism_id')->display(function ($mechanism_id) {
                 return Mechanism::getMechanismDataDetail($mechanism_id);
             });
+            $grid->column('temp_mechanism_id')->display(function ($temp_mechanism_id) {
+                return Mechanism::getMechanismDataDetail($temp_mechanism_id);
+            });
             $grid->column('industry_id')->display(function ($industry_id) {
                 $industry_id=json_decode($industry_id);
                 $industry_id_result='';
@@ -125,6 +128,7 @@ class AppUserController extends AdminController
             } elseif (Admin::user()->isRole('mechanism')) {
                 $form->select('mechanism_id')->options(Mechanism::getMechanismData())->default(Admin::user()->id)->readOnly()->load('industry_id', 'api-industry');
             }
+            $form->hidden('temp_mechanism_id');
             $form->hidden('user_id');
             $form->text('name');
             $form->multipleSelect('industry_id')->options(Industry::getIndustryData())->savingArray()->load('occupation_id', 'api-occupation');
@@ -138,7 +142,17 @@ class AppUserController extends AdminController
                 if ($form->isCreating()) {
                     $form->user_id = getUserId();
                 }
-                $form->password=md5($form->password);
+                if ($form->password && $form->model()->password != $form->password) {
+                    $form->password = md5($form->password);
+                }
+                if (!$form->password) {
+                    $form->deleteInput('password');
+                }
+                if($form->status==Constants::OPEN){
+                    if ($form->temp_mechanism_id && $form->model()->mechanism_id != $form->temp_mechanism_id) {
+                        $form->mechanism_id = $form->temp_mechanism_id;
+                    }
+                }
             });
         });
     }

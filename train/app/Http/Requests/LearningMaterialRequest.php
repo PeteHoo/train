@@ -44,6 +44,11 @@ class LearningMaterialRequest extends BaseRequest
                     'learning_material_detail_id'=>['required'],
                 ];
                 break;
+            case 'api/learning-material/add-view-count':
+                return [
+                    'detail_id'=>['required'],
+                ];
+                break;
             default:return [];
         }
     }

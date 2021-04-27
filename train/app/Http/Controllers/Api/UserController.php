@@ -131,9 +131,15 @@ class UserController extends ApiController
                 $data['avatar'] = $path;
             }
         }
+        if($data['mechanism_id']??''&&$data['mechanism_id']!=Auth::user()->mechanism_id){
+            $data['status']=Constants::CLOSE;
+            $data['temp_mechanism_id']=$data['mechanism_id'];
+            unset($data['mechanism_id']);
+        }
         if (!$user = AppUser::where('user_id', $user_id)->update($data)) {
             return self::error(ErrorCode::FAILURE, '个人信息更新失败');
         }
+
         return self::success(new UserResource(AppUser::where('user_id',$user_id)->first()));
     }
 
@@ -163,6 +169,7 @@ class UserController extends ApiController
 
     /** 提交用户反馈
      * @param UserRequest $request
+     * @return string|null
      */
     public function feedback(UserRequest $request){
         $data=$request->post();
@@ -170,8 +177,9 @@ class UserController extends ApiController
         return Feedback::create($data)?self::success():self::error(ErrorCode::FAILURE);
     }
 
-    /** 提交用户反馈
+    /** 用户反馈列表
      * @param UserRequest $request
+     * @return string|null
      */
     public function feedbackList(UserRequest $request){
         return self::success(

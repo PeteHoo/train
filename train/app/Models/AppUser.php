@@ -32,4 +32,7 @@ class AppUser extends User
         return $this->hasOne('App\Models\Mechanism','id','mechanism_id');
     }
 
+    public function tempMechanism(){
+        return $this->hasOne('App\Models\Mechanism','id','temp_mechanism_id');
+    }
 }

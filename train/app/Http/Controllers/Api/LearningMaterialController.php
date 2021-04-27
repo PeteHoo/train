@@ -15,6 +15,7 @@ use App\Http\Resources\LearningMaterialDetailResource;
 use App\Http\Resources\LearningMaterialResource;
 use App\Models\HotSearch;
 use App\Models\LearningMaterial;
+use App\Models\LearningMaterialDetail;
 use App\Models\LearningMaterialRecord;
 use App\Service\HotSearchService;
 use App\Service\LearningMaterialService;
@@ -119,6 +120,20 @@ class LearningMaterialController extends ApiController
         $data['learning_material_detail_id'] = $request->post('learning_material_detail_id');
         $data['user_id'] = Auth::user()->user_id;
         return LearningMaterialRecord::firstOrCreate($data) ? self::success() : self::error(ErrorCode::FAILURE);
+    }
+
+    public function addViewsCount(LearningMaterialRequest $request){
+        $detail_id=$request->post('detail_id');
+        $learningMaterialDetail=LearningMaterialDetail::find($detail_id);
+        if(!$learningMaterialDetail){
+            return self::error(ErrorCode::FAILURE,'不存在该学校资料');
+        }
+        $learningMaterialDetail->increment('view_count');
+        $learningMaterial=LearningMaterial::find($learningMaterialDetail->learning_material_id);
+        if($learningMaterial){
+            $learningMaterial->increment('view_count');
+        }
+        return self::success();
     }
 
 }

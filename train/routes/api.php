@@ -42,8 +42,9 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
     $route->get('learning-material/list','Api\LearningMaterialController@materialList');//资料列表
     $route->get('learning-material/detail','Api\LearningMaterialController@materialDetail');//资料详情
     $route->post('learning-material/record','Api\LearningMaterialController@learningMaterialRecord');//上传学习记录
-
     $route->get('learning-material/search','Api\LearningMaterialController@searchMaterial');//资料搜素
+    $route->post('learning-material/add-view-count','Api\LearningMaterialController@addViewsCount');//添加浏览次数
+
 
     $route->get('exam/list','Api\ExamController@examList');//考试列表
     $route->get('exam/detail','Api\ExamController@examDetail');//考试详情
@@ -53,6 +54,7 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
     $route->get('base-data/banner','Api\BaseDataController@banner');//banner数据
     $route->get('base-data/special','Api\BaseDataController@special');//专题数据
     $route->get('base-data/search-words-list','Api\BaseDataController@searchWordsList');//专题数据
+
 
 
 

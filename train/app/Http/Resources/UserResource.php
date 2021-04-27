@@ -31,6 +31,7 @@ class UserResource extends JsonResource
             'attribute' =>  Constants::getAttributeType($this->attribute),
             'avatar' => getImageUrl($this->avatar),
             'mechanism' => $this->mechanism->name??'',
+            'temp_mechanism'=>$this->tempMechanism->name??'',
             'industry' => getMultipleItems($industryList,$this->industry_id),
             'occupation' => getMultipleItems($occupationList,$this->occupation_id),
             'api_token' => $this->api_token,
