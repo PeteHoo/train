@@ -21,6 +21,7 @@ class LearningMaterialDetailResource extends JsonResource
             'status' => $this->status,
             'sort' => $this->sort,
             'chapter'=>$this->chapter,
+            'view_count'=>$this->view_count,
         ];
     }
 }

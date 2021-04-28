@@ -27,6 +27,7 @@ class LearningMaterialResource extends JsonResource
             'picture' =>  getImageUrl($this->picture),
             'status' => $this->status,
             'sort' => $this->sort,
+            'view_count'=>$this->view_count,
         ];
     }
 }
