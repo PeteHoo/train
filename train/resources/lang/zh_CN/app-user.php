@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
     'labels' => [
         'AppUser' => 'app用户',
@@ -17,6 +17,7 @@ return [
         'mechanism_id' => '机构',
         'industry_id' => '行业',
         'occupation_id' => '职业',
+        'temp_mechanism_id' => '更改的机构',
         'token' => 'token',
         'status' => '状态',
     ],

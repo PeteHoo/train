@@ -55,7 +55,7 @@ class UserRequest extends BaseRequest
                 return [
                     'title' => ['required'],
                     'description' => ['required'],
-                    'phone' => ['required',new Mobile()],
+                    'phone' => [new Mobile()],
                 ];
                 break;
             case 'api/ user/feedback-list':

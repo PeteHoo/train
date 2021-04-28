@@ -21,6 +21,15 @@ class Mechanism extends Model
             ->pluck('name','id')->toArray();
     }
 
+    public static function getMechanismAppData($search_words=''){
+        $query=self::where('status',Constants::OPEN);
+        if($search_words){
+            $query->where('name','like','%'.$search_words.'%');
+        }
+        return $query
+            ->select('id','name')->get();
+    }
+
     public static function getMechanismDataDetail($id){
         return self::find($id)->name??'平台';
     }

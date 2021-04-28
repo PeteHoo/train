@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 
+use App\Admin\Actions\ChangeMechanismRowAction;
 use App\Admin\Repositories\AppUser;
 use App\Models\Industry;
 use App\Models\Mechanism;
@@ -46,29 +47,32 @@ class AppUserController extends AdminController
                 return Mechanism::getMechanismDataDetail($temp_mechanism_id);
             });
             $grid->column('industry_id')->display(function ($industry_id) {
-                $industry_id=json_decode($industry_id);
-                $industry_id_result='';
-                if($industry_id){
-                    foreach ($industry_id as $v){
-                        $industry_id_result.=Industry::getIndustryDataDetail($v).'/';
+                $industry_id = json_decode($industry_id);
+                $industry_id_result = '';
+                if ($industry_id) {
+                    foreach ($industry_id as $v) {
+                        $industry_id_result .= Industry::getIndustryDataDetail($v) . '/';
                     }
                 }
                 return $industry_id_result;
             });
             $grid->column('occupation_id')->display(function ($occupation_id) {
-                $occupation_id=json_decode($occupation_id);
-                $occupation_id_result='';
-                if($occupation_id){
-                    foreach ($occupation_id as $v){
-                        $occupation_id_result.=Occupation::getOccupationDataDetail($v).'/';
+                $occupation_id = json_decode($occupation_id);
+                $occupation_id_result = '';
+                if ($occupation_id) {
+                    foreach ($occupation_id as $v) {
+                        $occupation_id_result .= Occupation::getOccupationDataDetail($v) . '/';
                     }
                 }
                 return $occupation_id_result;
             });
-            $grid->column('status')->switch();
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
-
+            $grid->actions(function ($actions) {
+                if($actions->row->status==0){
+                    $actions->append(new ChangeMechanismRowAction());
+                }
+            });
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
 
@@ -128,7 +132,6 @@ class AppUserController extends AdminController
             } elseif (Admin::user()->isRole('mechanism')) {
                 $form->select('mechanism_id')->options(Mechanism::getMechanismData())->default(Admin::user()->id)->readOnly()->load('industry_id', 'api-industry');
             }
-            $form->hidden('temp_mechanism_id');
             $form->hidden('user_id');
             $form->text('name');
             $form->multipleSelect('industry_id')->options(Industry::getIndustryData())->savingArray()->load('occupation_id', 'api-occupation');
@@ -148,7 +151,7 @@ class AppUserController extends AdminController
                 if (!$form->password) {
                     $form->deleteInput('password');
                 }
-                if($form->status==Constants::OPEN){
+                if ($form->status == Constants::OPEN) {
                     if ($form->temp_mechanism_id && $form->model()->mechanism_id != $form->temp_mechanism_id) {
                         $form->mechanism_id = $form->temp_mechanism_id;
                     }

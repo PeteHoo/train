@@ -29,7 +29,7 @@ class BaseDataController extends ApiController
      */
     public function mechanism(Request $request){
         $search_words=$request->get('search_words');
-        return self::success(Mechanism::getMechanismData($search_words));
+        return self::success(Mechanism::getMechanismAppData($search_words));
     }
 
 
