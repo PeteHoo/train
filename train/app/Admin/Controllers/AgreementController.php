@@ -25,7 +25,7 @@ class AgreementController extends AdminController
                 return Constants::getAgreementType($position);
             });
             //$grid->column('content');
-            $grid->column('status');
+            $grid->column('status')->switch();
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
 
