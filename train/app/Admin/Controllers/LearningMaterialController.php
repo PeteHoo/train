@@ -50,6 +50,7 @@ class LearningMaterialController extends AdminController
             });
 
             $grid->column('picture')->image();
+            $grid->column('is_open')->switch();
             $grid->column('status')->switch();
             $grid->column('sort')->editable();
             $grid->column('created_at');
@@ -85,6 +86,7 @@ class LearningMaterialController extends AdminController
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
             $show->field('picture')->image();
+            $show->field('is_open');
             $show->field('status');
             $show->field('sort');
             $show->field('created_at');
@@ -111,6 +113,7 @@ class LearningMaterialController extends AdminController
             $form->select('industry_id')->options(Industry::getIndustryData())->load('occupation_id', 'api-occupation')->required();
             $form->select('occupation_id')->required();
             $form->image('picture');  //可删除
+            $form->switch('is_open');
             $form->switch('status');
             $form->number('sort');
 

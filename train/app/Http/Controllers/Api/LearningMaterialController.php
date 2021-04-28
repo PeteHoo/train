@@ -45,6 +45,13 @@ class LearningMaterialController extends ApiController
                 $query->where('occupation_id', 0);
             }
         }
+        $query->where(function ($where) {
+            return $where->where('is_open', Constants::OPEN)
+                ->orWhere(function ($where) {
+                    $where->where('is_open', Constants::CLOSE)
+                        ->where('mechanism_id', Auth::user()->mechanism_id);
+                });
+        });
         return self::success(new LearningMaterialCollectionPaginate($query->paginate($request->get('perPage'))
         ));
     }
@@ -57,20 +64,26 @@ class LearningMaterialController extends ApiController
     {
         $id = $request->input('id');
         $learningMaterial = LearningMaterial::where('id', $id)
-            ->where('status', Constants::OPEN)->first();
-        $data=new LearningMaterialDetailResource($learningMaterial);
-        $learningMaterialRecord=LearningMaterialRecord::where('user_id',Auth::user()->user_id)->pluck('learning_material_detail_id')->toArray();
-        $learningMaterialRecord=array_unique($learningMaterialRecord);
-        $learningMaterialRecord=array_values($learningMaterialRecord);
+            ->where('status', Constants::OPEN)->where(function ($where) {
+                return $where->where('is_open', Constants::OPEN)
+                    ->orWhere(function ($where) {
+                        $where->where('is_open', Constants::CLOSE)
+                            ->where('mechanism_id', Auth::user()->mechanism_id);
+                    });
+            })
+            ->first();
+        $data = new LearningMaterialDetailResource($learningMaterial);
+        $learningMaterialRecord = LearningMaterialRecord::where('user_id', Auth::user()->user_id)->pluck('learning_material_detail_id')->toArray();
+        $learningMaterialRecord = array_unique($learningMaterialRecord);
+        $learningMaterialRecord = array_values($learningMaterialRecord);
         //用户学过的课程
-        if($data&&$learningMaterialRecord){
-dd($data->toArray());
-            foreach ($data['chapter'] as $k=>&$v){
-                foreach ($v['learning_material_detail'] as $kk=>&$vv){
-                    if(in_array($vv['id'],$learningMaterialRecord)){
-                        $vv['is_study']=1;
-                    }else{
-                        $vv['is_study']=0;
+        if ($data && $learningMaterialRecord) {
+            foreach ($data->chapter as $k => &$v) {
+                foreach ($v->learningMaterialDetail as $kk => &$vv) {
+                    if (in_array($vv->id, $learningMaterialRecord)) {
+                        $vv->is_study = 1;
+                    } else {
+                        $vv->is_study = 0;
                     }
                 }
             }
@@ -115,11 +128,13 @@ dd($data->toArray());
                             $query->where('name', 'like', '%' . $search_word . '%');
                         });
                     });
-            });
-
-        if ($mechanism_id = Auth::user()->mechanism_id) {
-            $query->where('mechanism_id', $mechanism_id);
-        }
+            })->where(function ($where) {
+            return $where->where('is_open', Constants::OPEN)
+                ->orWhere(function ($where) {
+                    $where->where('is_open', Constants::CLOSE)
+                        ->where('mechanism_id', Auth::user()->mechanism_id);
+                });
+        });
         if ($industry_id = json_decode(Auth::user()->industry_id)) {
             $query->whereIn('industry_id', $industry_id);
         }
@@ -140,15 +155,16 @@ dd($data->toArray());
         return LearningMaterialRecord::firstOrCreate($data) ? self::success() : self::error(ErrorCode::FAILURE);
     }
 
-    public function addViewsCount(LearningMaterialRequest $request){
-        $detail_id=$request->post('detail_id');
-        $learningMaterialDetail=LearningMaterialDetail::find($detail_id);
-        if(!$learningMaterialDetail){
-            return self::error(ErrorCode::FAILURE,'不存在该学校资料');
+    public function addViewsCount(LearningMaterialRequest $request)
+    {
+        $detail_id = $request->post('detail_id');
+        $learningMaterialDetail = LearningMaterialDetail::find($detail_id);
+        if (!$learningMaterialDetail) {
+            return self::error(ErrorCode::FAILURE, '不存在该学校资料');
         }
         $learningMaterialDetail->increment('view_count');
-        $learningMaterial=LearningMaterial::find($learningMaterialDetail->learning_material_id);
-        if($learningMaterial){
+        $learningMaterial = LearningMaterial::find($learningMaterialDetail->learning_material_id);
+        if ($learningMaterial) {
             $learningMaterial->increment('view_count');
         }
         return self::success();
