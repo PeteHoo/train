@@ -18,6 +18,7 @@ class BaseDataRequest extends BaseRequest
             case 'api/base-data/get-agreement':
                 return [
                     'position'=>['integer'],
+                    'title'=>['required']
                 ];
                 break;
             default:return [];

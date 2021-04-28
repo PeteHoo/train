@@ -102,7 +102,8 @@ class BaseDataController extends ApiController
      */
     public function getAgreement(BaseDataRequest $request){
         $position=$request->get('position',1);
-        $agreement=Agreement::where('position',$position)->where('status',Constants::OPEN)->orderBy('created_at','DESC')->first();
+        $title=$request->get('title');
+        $agreement=Agreement::where('position',$position)->where('title',$title)->where('status',Constants::OPEN)->orderBy('created_at','DESC')->first();
         return self::success($agreement);
     }
 

@@ -28,6 +28,8 @@ class AppUserController extends AdminController
 
             if (Admin::user()->isRole('mechanism')) {
                 $grid->model()->where('mechanism_id', Admin::user()->id);
+                $grid->disableDeleteButton();
+                $grid->disableBatchDelete();
             }
             $grid->column('id')->sortable();
             $grid->column('user_id');
