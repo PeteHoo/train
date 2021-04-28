@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 
+use App\Admin\Actions\CancelMechanismRowAction;
 use App\Admin\Actions\ChangeMechanismRowAction;
 use App\Admin\Repositories\AppUser;
 use App\Models\Industry;
@@ -30,6 +31,10 @@ class AppUserController extends AdminController
                 $grid->model()->where('mechanism_id', Admin::user()->id);
                 $grid->disableDeleteButton();
                 $grid->disableBatchDelete();
+                $grid->actions(function ($actions) {
+                        $actions->append(new CancelMechanismRowAction());
+                });
+
             }
             $grid->column('id')->sortable();
             $grid->column('user_id');
