@@ -38,7 +38,7 @@ class BaseDataController extends ApiController
      */
     public function industry()
     {
-       return self::success(Industry::getIndustryData(Auth::user()->mechanism_id));
+       return self::success(Industry::getIndustryData());
     }
 
     /** 职业数据

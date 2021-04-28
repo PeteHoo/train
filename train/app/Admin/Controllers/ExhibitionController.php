@@ -23,11 +23,6 @@ class ExhibitionController extends AdminController
     protected function grid()
     {
         return Grid::make(new Exhibition(), function (Grid $grid) {
-            if(Admin::user()->isRole('mechanism')){
-                $industry=Industry::where('mechanism_id',Admin::user()->id)->pluck('id');
-                $occupation=Occupation::whereIn('industry_id',$industry)->pluck('id');
-                $grid->model()->whereIn('occupation_id',$occupation);
-            }
             $grid->column('id')->sortable();
             $grid->column('title');
             $grid->column('occupation_id')->display(function ($occupation_id){
@@ -95,11 +90,7 @@ class ExhibitionController extends AdminController
         return Form::make(new Exhibition(), function (Form $form) {
             $form->display('id');
             $form->text('title');
-            if(Admin::user()->isRole('administrator')){
-                $form->select('occupation_id')->options(Occupation::getOccupationData())->required();
-            }elseif(Admin::user()->isRole('mechanism')){
-                $form->select('occupation_id')->options(Occupation::getOccupationDataByMechanism(Admin::user()->id))->required();
-            }
+            $form->select('occupation_id')->options(Occupation::getOccupationData())->required();
             $form->select('href_way')->options(Constants::getHrefWayItems())->when(Constants::H5,function ($form){
                 $form->url('link');
             })->when(Constants::IN,function ($form){

@@ -13,12 +13,9 @@ class Industry extends Model
 
     protected $table = 'industry';
 
-    public static function getIndustryData($mechanism_id=0){
+    public static function getIndustryData(){
         $query=self::where('status',Constants::OPEN)
             ->orderBy('sort','DESC');
-        if($mechanism_id){
-            $query->where('mechanism_id',$mechanism_id);
-        }
         return $query
             ->pluck('name','id');
     }

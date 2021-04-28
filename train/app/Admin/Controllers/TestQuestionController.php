@@ -137,7 +137,7 @@ class TestQuestionController extends AdminController
                 });
 
             if (Admin::user()->isRole('administrator')) {
-                $form->select('mechanism_id')->options([0 => '平台'] + Mechanism::getMechanismData());
+                $form->select('mechanism_id')->options(Mechanism::getMechanismData());
             } elseif (Admin::user()->isRole('mechanism')) {
                 $form->hidden('mechanism_id')->default(Admin::user()->id);
             }

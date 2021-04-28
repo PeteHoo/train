@@ -38,7 +38,7 @@ class ApiController extends AdminController
     {
         $mechanism_id = $request->get('q');
         return Industry::where('status', Constants::OPEN)
-            ->orderBy('sort', 'DESC')->where('mechanism_id', $mechanism_id)->get(['id', DB::raw('name as text')]);
+            ->orderBy('sort', 'DESC')->get(['id', DB::raw('name as text')]);
 
     }
 

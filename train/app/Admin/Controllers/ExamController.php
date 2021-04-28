@@ -88,7 +88,11 @@ class ExamController extends AdminController
             });
             $show->judgment(function ($model)use($show) {
                 $grid = new Grid(new TestQuestion());
-                $grid->model()->where('mechanism_id', $model->mechanism_id)->where('type',Constants::JUDGMENT);
+                if (Admin::user()->isRole('administrator')) {
+                    $grid->model()->where('type',Constants::JUDGMENT);
+                } elseif (Admin::user()->isRole('mechanism')) {
+                    $grid->model()->where('mechanism_id', $model->mechanism_id)->where('type',Constants::JUDGMENT);
+                }
                 $grid->setResource('test-question');
                 $grid->column('type')->display(function ($type){
                     return Constants::getQuestionType($type);
@@ -131,7 +135,12 @@ class ExamController extends AdminController
             });
             $show->single(function ($model)use($show) {
                 $grid = new Grid(new TestQuestion());
-                $grid->model()->where('mechanism_id', $model->mechanism_id)->where('type',Constants::SINGLE_CHOICE);
+                if (Admin::user()->isRole('administrator')) {
+                    $grid->model()->where('type',Constants::SINGLE_CHOICE);
+                } elseif (Admin::user()->isRole('mechanism')) {
+                    $grid->model()->where('mechanism_id', $model->mechanism_id)->where('type',Constants::SINGLE_CHOICE);
+                }
+
                 $grid->setResource('test-question');
                 $grid->column('type')->display(function ($type){
                     return Constants::getQuestionType($type);
@@ -184,18 +193,13 @@ class ExamController extends AdminController
         return Form::make(new Exam(), function (Form $form) {
             $form->display('id');
             $form->text('name');
-
-
             if (Admin::user()->isRole('administrator')) {
-                $form->select('mechanism_id')->options(Mechanism::getMechanismData())->load('industry_id', 'api-industry');
-                $form->select('industry_id')->load('occupation_id', 'api-occupation');
-                $form->select('occupation_id');
+                $form->select('mechanism_id')->options(Mechanism::getMechanismData());
             } elseif (Admin::user()->isRole('mechanism')) {
-                $form->select('mechanism_id')->options(Mechanism::getMechanismData())->default(Admin::user()->id)->load('industry_id', 'api-industry');
-                $form->select('industry_id')->load('occupation_id', 'api-occupation');
-                $form->select('occupation_id');
+                $form->hidden('mechanism_id')->default(Admin::user()->id);
             }
-
+            $form->select('industry_id')->options(Industry::getIndustryData())->load('occupation_id', 'api-occupation');
+            $form->select('occupation_id');
             $form->switch('status');
             $form->display('created_at');
             $form->display('updated_at');

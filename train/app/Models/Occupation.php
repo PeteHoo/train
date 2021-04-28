@@ -15,11 +15,6 @@ class Occupation extends Model
         return self::pluck('name','id');
     }
 
-    public static function getOccupationDataByMechanism($mechanism_id){
-        $industry=Industry::where('mechanism_id',$mechanism_id)->pluck('id');
-        return self::whereIn('industry_id',$industry)->pluck('name','id');
-    }
-
     public static function getOccupationDataByIndustry_id($industry_id){
         return self::whereIn('industry_id',$industry_id)->pluck('name','id');
     }
