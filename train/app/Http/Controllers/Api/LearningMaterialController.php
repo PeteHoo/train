@@ -58,7 +58,25 @@ class LearningMaterialController extends ApiController
         $id = $request->input('id');
         $learningMaterial = LearningMaterial::where('id', $id)
             ->where('status', Constants::OPEN)->first();
-        return self::success(new LearningMaterialDetailResource($learningMaterial));
+        $data=new LearningMaterialDetailResource($learningMaterial);
+        $learningMaterialRecord=LearningMaterialRecord::where('user_id',Auth::user()->user_id)->pluck('learning_material_detail_id')->toArray();
+        $learningMaterialRecord=array_unique($learningMaterialRecord);
+        $learningMaterialRecord=array_values($learningMaterialRecord);
+        //用户学过的课程
+        if($data&&$learningMaterialRecord){
+dd($data->toArray());
+            foreach ($data['chapter'] as $k=>&$v){
+                foreach ($v['learning_material_detail'] as $kk=>&$vv){
+                    if(in_array($vv['id'],$learningMaterialRecord)){
+                        $vv['is_study']=1;
+                    }else{
+                        $vv['is_study']=0;
+                    }
+                }
+            }
+        }
+
+        return self::success($data);
     }
 
     /** 推荐视频

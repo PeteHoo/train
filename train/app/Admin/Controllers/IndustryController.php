@@ -20,6 +20,10 @@ class IndustryController extends AdminController
     protected function grid()
     {
         return Grid::make(new Industry(), function (Grid $grid) {
+            if(Admin::user()->isRole('mechanism')){
+                $grid->model()->where('mechanism_id',Admin::user()->id);
+            }
+
             $grid->column('id')->sortable();
             $grid->column('name');
             $grid->column('mechanism_id')->display(function ($mechanism_id){
