@@ -93,7 +93,7 @@ class LearningMaterialDetailController extends AdminController
             }
             $form->select('chapter_id');
             $form->text('description');
-            $form->file('video');
+            $form->file('video')->url('file-material');
             $form->number('sort');
             $form->switch('status');
             $form->time('duration')->default(0);

@@ -47,6 +47,7 @@ Route::group([
     $router->resource('register','RegisterController');
     $router->get('register/{phone}/{code}','RegisterController@create');
     $router->any('file-register','FileController@registerFiles');
+    $router->any('file-material','FileController@materialFiles');
     $router->get('api-region','RegionController@backend');
 });
 

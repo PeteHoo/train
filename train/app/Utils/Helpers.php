@@ -276,3 +276,11 @@ function getImageUrl($url)
     return $url?config('app.file_url') . $url:'';
 }
 
+
+function get_duration_params($url) {
+
+    $regx = '/.*[&|\?]'. 'duration' .'=([^&]*)(.*)/';
+    preg_match($regx, $url, $match);
+
+    return (int)$match[1]??0;
+}

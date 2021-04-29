@@ -17,6 +17,9 @@ use App\Models\Special;
 use App\Models\Version;
 use App\Utils\Constants;
 use App\Utils\ErrorCode;
+use FFMpeg\Coordinate\TimeCode;
+use FFMpeg\FFMpeg;
+use FFMpeg\FFProbe;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
