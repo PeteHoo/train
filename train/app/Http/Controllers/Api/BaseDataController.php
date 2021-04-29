@@ -14,6 +14,7 @@ use App\Models\Industry;
 use App\Models\Mechanism;
 use App\Models\Occupation;
 use App\Models\Special;
+use App\Models\UpdatePlan;
 use App\Models\Version;
 use App\Utils\Constants;
 use App\Utils\ErrorCode;
@@ -97,6 +98,18 @@ class BaseDataController extends ApiController
          $name=$request->get('name');
          $version=Version::where('os',$os)->where('name',$name)->where('status',Constants::OPEN)->orderBy('created_at','DESC')->first();
          return self::success($version);
+    }
+
+    /** 获取新版本
+     * @param BaseDataRequest $request
+     * @return null|string
+     */
+    public function getVersion(BaseDataRequest $request){
+        return self::success(UpdatePlan::where('name',$request->post('name'))
+            ->where('before_version',$request->post('before_version'))
+            ->where('status',Constants::OPEN)
+            ->orderBy('after_version','DESC')
+            ->first());
     }
 
     /** 获取协议
