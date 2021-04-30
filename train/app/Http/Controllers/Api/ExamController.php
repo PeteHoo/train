@@ -14,6 +14,7 @@ use App\Http\Resources\ExamAllDetailResource;
 use App\Http\Resources\ExamCollectionPaginate;
 use App\Models\Exam;
 use App\Models\ExamScoreRecord;
+use App\Models\LearningMaterialRecord;
 use App\Utils\Constants;
 use App\Utils\ErrorCode;
 use Illuminate\Support\Facades\Auth;
@@ -41,11 +42,13 @@ class ExamController extends ApiController
     {
         $all_score = ExamScoreRecord::where('user_id', Auth::user()->user_id)->sum('score')??0;
         $count = ExamScoreRecord::where('user_id', Auth::user()->user_id)->count();
+        $duration = LearningMaterialRecord::where('user_id', Auth::user()->user_id)->sum('duration');
         if($count==0){
             $count=1;
         }
         $data['all_question_count'] = (int)(ExamScoreRecord::where('user_id', Auth::user()->user_id)->sum('question_count'));
         $data['average_score'] = $all_score / $count;
+        $data['duration']=changeTimeType($duration);
         return self::success($data);
     }
 

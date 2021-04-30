@@ -284,3 +284,18 @@ function get_duration_params($url) {
 
     return (int)$match[1]??0;
 }
+
+/** 将秒数转换成时分秒
+ * @param $seconds
+ * @return string
+ */
+function changeTimeType($seconds)
+{
+    if ($seconds > 3600) {
+        $hours = intval($seconds / 3600);
+        return $hours . ":" . gmstrftime('%M:%S', $seconds);
+    } else {
+        return gmstrftime('%H:%M:%S', $seconds);
+    }
+
+}

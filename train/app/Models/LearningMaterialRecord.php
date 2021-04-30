@@ -12,6 +12,7 @@ class LearningMaterialRecord extends Model
     protected $fillable=[
         'learning_material_detail_id',
         'user_id',
+        'duration'
     ];
 
     public function learningMaterialDetail(){

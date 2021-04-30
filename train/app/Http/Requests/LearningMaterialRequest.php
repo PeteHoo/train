@@ -42,6 +42,7 @@ class LearningMaterialRequest extends BaseRequest
             case 'api/learning-material/record':
                 return [
                     'learning_material_detail_id'=>['required'],
+                    'duration'=>['required']
                 ];
                 break;
             case 'api/learning-material/add-view-count':
