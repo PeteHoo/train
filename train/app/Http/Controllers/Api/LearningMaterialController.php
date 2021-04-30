@@ -158,6 +158,18 @@ class LearningMaterialController extends ApiController
         return LearningMaterialRecord::firstOrCreate($data) ? self::success() : self::error(ErrorCode::FAILURE);
     }
 
+    /** 上传学习记录
+     * @param LearningMaterialRequest $request
+     * @return string|null
+     */
+    public function learningMaterialDelete(LearningMaterialRequest $request)
+    {
+        if(!$ids=json_decode($request->post('ids'))){
+           return self::error(ErrorCode::PARAMETER_ERROR,'ids格式错误');
+        }
+        return LearningMaterialRecord::whereIn('id',$ids)->where('user_id',Auth::user()->user_id)->delete()?self::success():self::error(ErrorCode::FAILURE,'删除失败');
+    }
+
     /** 学习记录
      * @param LearningMaterialRequest $request
      * @return null|string

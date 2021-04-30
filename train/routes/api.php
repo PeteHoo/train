@@ -43,7 +43,9 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
     $route->get('learning-material/list','Api\LearningMaterialController@materialList');//资料列表
     $route->get('learning-material/detail','Api\LearningMaterialController@materialDetail');//资料详情
     $route->post('learning-material/record','Api\LearningMaterialController@learningMaterialRecord');//上传学习记录
-    $route->post('learning-material/record-list','Api\LearningMaterialController@learningMaterialRecordList');//上传学习记录
+    $route->post('learning-material/record-list','Api\LearningMaterialController@learningMaterialRecordList');//学习记录
+    $route->post('learning-material/record-delete','Api\LearningMaterialController@learningMaterialDelete');//删除学习记录
+
     $route->get('learning-material/search','Api\LearningMaterialController@searchMaterial');//资料搜素
     $route->post('learning-material/add-view-count','Api\LearningMaterialController@addViewsCount');//添加浏览次数
 

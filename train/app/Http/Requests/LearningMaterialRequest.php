@@ -56,6 +56,12 @@ class LearningMaterialRequest extends BaseRequest
                     'page'=>['integer'],
                 ];
                 break;
+            case 'api/learning-material/record-delete':
+                return [
+                    'ids'=>['required'],
+                ];
+                break;
+
             default:return [];
         }
     }
