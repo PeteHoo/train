@@ -12,6 +12,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\LearningMaterialRequest;
 use App\Http\Resources\LearningMaterialCollectionPaginate;
 use App\Http\Resources\LearningMaterialDetailResource;
+use App\Http\Resources\LearningMaterialRecordCollectionPaginate;
+use App\Http\Resources\LearningMaterialRecordResource;
 use App\Http\Resources\LearningMaterialResource;
 use App\Models\HotSearch;
 use App\Models\LearningMaterial;
@@ -156,6 +158,21 @@ class LearningMaterialController extends ApiController
         return LearningMaterialRecord::firstOrCreate($data) ? self::success() : self::error(ErrorCode::FAILURE);
     }
 
+    /** 学习记录
+     * @param LearningMaterialRequest $request
+     * @return null|string
+     */
+    public function learningMaterialRecordList(LearningMaterialRequest $request)
+    {
+        $data=LearningMaterialRecord::where('user_id', Auth::user()->user_id)->with('learningMaterialDetail')->paginate($request->get('perPage'));
+        return self::success(new LearningMaterialRecordCollectionPaginate($data));
+    }
+
+
+    /** 添加浏览次数
+     * @param LearningMaterialRequest $request
+     * @return null|string
+     */
     public function addViewsCount(LearningMaterialRequest $request)
     {
         $detail_id = $request->post('detail_id');
