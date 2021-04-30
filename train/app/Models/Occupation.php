@@ -16,18 +16,11 @@ class Occupation extends Model
     }
 
     public static function getOccupationDataByIndustry_id($industry_id){
-        return self::whereIn('industry_id',$industry_id)->with(['industry'=>function ($query){
-            $query->select('id','name');
-        }])->get();
+        return self::whereIn('industry_id',$industry_id)->pluck('name','id');
     }
 
     public static function getOccupationDataDetail($id){
         return self::where('id',$id)
                 ->first()->name??'';
     }
-
-    public function industry(){
-        return $this->hasOne('App\Models\Industry','id','industry_id');
-    }
-
 }
