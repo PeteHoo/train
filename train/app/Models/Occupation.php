@@ -15,12 +15,16 @@ class Occupation extends Model
         return self::pluck('name','id');
     }
 
-    public static function getOccupationIndustry(){
+    public static function getOccupationIndustry($json_occupation){
         $industryData=Industry::pluck('name','id');
         $belongData=self::pluck('industry_id','id');
-        $occupationData=self::pluck('name','id');
-        foreach ($occupationData as $k=>&$v){
-            $occupationData[$k]=$industryData[$belongData[$k]].'-'.$v;
+        $query=self::select('id','name','industry_id');
+        if($json_occupation=json_decode($json_occupation,true)){
+            $query->whereIn('id',$json_occupation);
+        }
+        $occupationData=$query->get()->toArray();
+        foreach ($occupationData as $k=>$v){
+            $occupationData[$k]['industry']=$industryData[$belongData[$v['id']]];
         }
         return $occupationData;
     }

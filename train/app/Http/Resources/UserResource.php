@@ -19,7 +19,7 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         $industryList=Industry::getIndustryData();
-        $occupationList=Occupation::getOccupationIndustry();
+//        $occupationList=Occupation::getOccupationIndustry();
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
@@ -33,7 +33,7 @@ class UserResource extends JsonResource
             'mechanism' => $this->mechanism->name??'',
             'temp_mechanism'=>$this->tempMechanism->name??'',
             'industry' => getMultipleItems($industryList,$this->industry_id),
-            'occupation' => getMultipleItems($occupationList,$this->occupation_id),
+            'occupation' => Occupation::getOccupationIndustry($this->occupation_id),
             'api_token' => $this->api_token,
             'status' => $this->status,
             'has_password'=>$this->password?1:0,
