@@ -59,6 +59,9 @@ class ExamController extends ApiController
             return self::error(ErrorCode::FAILURE,'您还没有职业');
         }
         $query=Exam::where('status', Constants::OPEN)->whereIn('occupation_id', $occupation_id);
+        if($post_occupation_id=$request->post('occupation_id')){
+            $query->where('occupation_id',$post_occupation_id);
+        }
         return self::success(new ExamCollectionPaginate($query->paginate($request->get('perPage'))));
     }
 

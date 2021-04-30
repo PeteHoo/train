@@ -25,6 +25,7 @@ class ExamRequest extends BaseRequest
                 return [
                     'perPage'=>['integer'],
                     'page'=>['integer'],
+                    'occupation_id'=>['integer']
                 ];
                 break;
             case 'api/exam/detail':
