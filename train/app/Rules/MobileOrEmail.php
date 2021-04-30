@@ -9,9 +9,9 @@
 namespace App\Rules;
 
 
-use Illuminate\Validation\Rule;
+use Illuminate\Contracts\Validation\Rule;
 
-class MobileOrEmail extends Rule
+class MobileOrEmail implements Rule
 {
 
     /**
@@ -26,7 +26,7 @@ class MobileOrEmail extends Rule
         // TODO: Implement passes() method.
         $money_reg= '/^[1][0-9][0-9]{9}$/';
         $email_reg= '/^[_a-z0-9-]+(\.[_a-z0-9-]+)*@[a-z0-9-]+(\.[a-z0-9-]+)*(\.[a-z]{2,})$/';
-        return preg_match($money_reg, $value)||preg_match($email_reg, $value)||(!$value);
+        return preg_match($money_reg, $value)||preg_match($email_reg, $value)||(!isset($value));
     }
 
     /**
