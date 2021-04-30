@@ -16,7 +16,7 @@ class Occupation extends Model
     }
 
     public static function getOccupationDataByIndustry_id($industry_id){
-        return self::whereIn('industry_id',$industry_id)->pluck('name','id');
+        return self::whereIn('industry_id',$industry_id)->select('id','name','industry_id')->get();
     }
 
     public static function getOccupationDataDetail($id){
