@@ -10,6 +10,7 @@ namespace App\Http\Requests;
 
 
 use App\Rules\Mobile;
+use App\Rules\MobileOrEmail;
 
 class UserRequest extends BaseRequest
 {
@@ -55,7 +56,7 @@ class UserRequest extends BaseRequest
                 return [
                     'title' => ['required'],
                     'description' => ['required'],
-                    'phone' => [new Mobile()],
+                    'phone' => [new MobileOrEmail()],
                 ];
                 break;
             case 'api/ user/feedback-list':
