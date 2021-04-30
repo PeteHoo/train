@@ -19,7 +19,7 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         $industryList=Industry::getIndustryData();
-        $occupationList=Occupation::getOccupationData();
+        $occupationList=Occupation::getOccupationIndustry();
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
