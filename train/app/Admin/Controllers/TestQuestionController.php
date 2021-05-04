@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Actions\ChooseQuestionBatch;
 use App\Admin\Repositories\TestQuestion;
 use App\Models\Mechanism;
+use App\Models\Occupation;
 use App\Utils\Constants;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
@@ -51,6 +52,9 @@ class TestQuestionController extends AdminController
             });
             $grid->column('mechanism_id')->display(function ($mechanism_id) {
                 return Mechanism::getMechanismDataDetail($mechanism_id);
+            });
+            $grid->column('occupation_id')->display(function ($occupation_id) {
+                return Occupation::getOccupationDataDetail($occupation_id);
             });
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
@@ -100,7 +104,10 @@ class TestQuestionController extends AdminController
             });
             $show->field('mechanism_id')->as(function ($mechanism_id) {
                 return Mechanism::getMechanismDataDetail($mechanism_id);
-            });;
+            });
+            $show->field('occupation_id')->as(function ($occupation_id) {
+                return Occupation::getOccupationDataDetail($occupation_id);
+            });
             $show->field('created_at');
             $show->field('updated_at');
         });
@@ -141,6 +148,7 @@ class TestQuestionController extends AdminController
             } elseif (Admin::user()->isRole('mechanism')) {
                 $form->hidden('mechanism_id')->default(Admin::user()->id);
             }
+            $form->select('occupation_id')->options(Occupation::getOccupationData());
             $form->display('created_at');
             $form->display('updated_at');
         });

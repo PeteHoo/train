@@ -16,6 +16,7 @@ return [
         'mechanism_id'=>'机构',
         'option_key'=>'选项',
         'option_value'=>'选项文本',
+        'occupation_id'=>'职业',
     ],
     'options' => [
     ],

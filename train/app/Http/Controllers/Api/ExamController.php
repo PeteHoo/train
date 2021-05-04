@@ -14,10 +14,15 @@ use App\Http\Resources\ExamAllDetailResource;
 use App\Http\Resources\ExamCollectionPaginate;
 use App\Models\Exam;
 use App\Models\ExamScoreRecord;
+use App\Models\Industry;
 use App\Models\LearningMaterialRecord;
+use App\Models\Mechanism;
+use App\Models\Occupation;
+use App\Models\TestQuestion;
 use App\Utils\Constants;
 use App\Utils\ErrorCode;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ExamController extends ApiController
 {
@@ -71,6 +76,66 @@ class ExamController extends ApiController
     public function examDetail(ExamRequest $request){
        $exam=Exam::where('status', Constants::OPEN)->where('id',$request->get('id'))->first();
        return self::success(new ExamAllDetailResource($exam));
+    }
+
+    public function randomExamDetail(ExamRequest $request){
+        $is_platform=$request->get('is_platform');
+        $occupation_id=$request->get('occupation_id');
+        $mechanism_id=$request->get('mechanism_id');
+        $occupation_ids=json_decode(Auth::user()->occupation_id);
+        if(!in_array($occupation_id,(array)$occupation_ids)){
+            return self::error(ErrorCode::FAILURE,'您没有该职业');
+        }
+        $occupation=Occupation::find($occupation_id);
+        if(!$occupation){
+            return self::error(ErrorCode::PARAMETER_ERROR,'该职业不存在');
+        }
+        $choice_question_num=$occupation->choice_question_num;
+        $choice_question_score=$occupation->choice_question_score;
+        $judgment_question_num=$occupation->judgment_question_num;
+        $judgment_question_score=$occupation->judgment_question_score;
+        $query_choice=TestQuestion::where('occupation_id',$occupation_id)
+            ->where('type',Constants::SINGLE_CHOICE)
+            ->orderBy(DB::raw('RAND()'))
+            ->limit($choice_question_num);
+        $query_judgment=TestQuestion::where('occupation_id',$occupation_id)
+            ->where('type',Constants::JUDGMENT)
+            ->orderBy(DB::raw('RAND()'))
+            ->limit($judgment_question_num);
+        if(!$is_platform){
+            $query_choice->where('mechanism_id',$mechanism_id);
+            $query_judgment->where('mechanism_id',$mechanism_id);
+        }
+        $choice_result=$query_choice->get()->toArray();
+        $query_judgment=$query_judgment->get()->toArray();
+        if(count($choice_result)<$choice_question_num){
+            return self::error(ErrorCode::FAILURE,'题库选择题数量不够无法生成');
+        }
+        if(count($query_judgment)<$judgment_question_num){
+            return self::error(ErrorCode::FAILURE,'题库判断题数量不够无法生成');
+        }
+        $examDetail=array_merge((array)$choice_result,(array)$query_judgment);
+
+        $data['name']=$occupation->name.'随机试题';
+        $data['mechanism_id']=$is_platform?1:$mechanism_id;
+        $data['industry_id']=$occupation->industry_id;
+        $data['occupation_id']=$occupation->id;
+        $data['mechanism']=Mechanism::getMechanismDataDetail($mechanism_id);
+        $data['industry']=Industry::getIndustryDataDetail($occupation->industry_id);
+        $data['occupation']=Occupation::getOccupationDataDetail($occupation->id);
+        $data['choice_question_num']=$choice_question_num;
+        $data['choice_question_score']=$choice_question_score;
+        $data['judgment_question_num']=$judgment_question_num;
+        $data['judgment_question_score']=$judgment_question_score;
+        $data['exam_time']=$occupation->exam_time;
+        $data['passing_grade']=$occupation->passing_grade;
+        $data['score']=$occupation->score;
+        $data['question_count']=$occupation->question_count;
+        $data['status']=Constants::OPEN;
+        $data['created_at']=dateNow();
+        $data['updated_at']=dateNow();
+        $data['examDetail']=$examDetail;
+        return self::success($data);
     }
 
 }

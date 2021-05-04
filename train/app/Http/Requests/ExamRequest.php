@@ -33,6 +33,13 @@ class ExamRequest extends BaseRequest
                     'id'=>['required','integer'],
                 ];
                 break;
+            case 'api/exam/random':
+                return [
+                    'is_platform'=>['required','integer'],
+                    'occupation_id'=>['required','integer'],
+                ];
+                break;
+
             default:return [];
         }
     }
