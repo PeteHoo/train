@@ -11,17 +11,23 @@ class TestQuestion extends Model
 
     protected $table = 'test_questions';
 
-    protected $appends = ['answer_option'];
+    protected $appends = ['answer_option','description-image-json'];
 
     public function getAnswerOptionAttribute(){
         if($this->attributes['type']==Constants::SINGLE_CHOICE){
-            return json_decode($this->attributes['answer_single_option']);
+            $answer_single=u2c($this->attributes['answer_single_option']);
+            $answer_single=str_replace('选项','key',$answer_single);
+            $answer_single=str_replace('答案','value',$answer_single);
+            return json_decode($answer_single);
         }elseif($this->attributes['type']==Constants::JUDGMENT){
-            return json_decode($this->attributes['answer_judgment_option']);
+            $answer_judgment=u2c($this->attributes['answer_judgment_option']);
+            $answer_judgment=str_replace('选项','key',$answer_judgment);
+            $answer_judgment=str_replace('答案','value',$answer_judgment);
+            return json_decode($answer_judgment);
         }
     }
 
-    public function getDescriptionImageAttribute(){
+    public function getDescriptionImageJsonAttribute(){
         $data=json_decode($this->attributes['description_image']);
         if($data){
             foreach ($data as $k=>$v){

@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\UpdatePlan;
+use App\Models\Version;
 use App\Utils\Constants;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -28,8 +29,12 @@ class UpdatePlanController extends AdminController
             $grid->column('md5');
             $grid->column('download_link');
             $grid->column('description');
-            $grid->column('after_version');
-            $grid->column('before_version');
+            $grid->column('after_version')->display(function ($after_version){
+               return Version::getVersionDetail($after_version);
+            });
+            $grid->column('before_version')->display(function ($before_version){
+                return Version::getVersionDetail($before_version);
+            });
             $grid->column('status');
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();

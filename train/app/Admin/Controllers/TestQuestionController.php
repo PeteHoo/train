@@ -35,9 +35,9 @@ class TestQuestionController extends AdminController
                 return Constants::getQuestionAttributeType($attributes);
             });
             $grid->column('description');
-            $grid->column('description_image')->display(function ($pictures) {
-                return json_decode($pictures, true);
-            })->image(config('app.file_url'), 100, 100);
+            $grid->column('description_image')->display(function ($description_image){
+                return json_decode($description_image,true);
+            })->image(config('app.file_url'), 50, 50);
             $grid->column('选项')->display(function () {
                 if ($this->type == Constants::SINGLE_CHOICE) {
                     return u2c($this->answer_single_option);
@@ -129,7 +129,7 @@ class TestQuestionController extends AdminController
             })->when(Constants::IMAGE, function ($form) {
                 $form->multipleImage('description_image')->savingArray();
             });
-            $form->select('type')->options(Constants::getQuestionTypeItems())
+            $form->select('type')->required()->options(Constants::getQuestionTypeItems())
                 ->when(Constants::SINGLE_CHOICE, function ($form) {
                     $form->table('answer_single_option', function (NestedForm $table) {
                         $table->select('选项')->options(Constants::getSingleChoiceOptionItems());
@@ -146,11 +146,11 @@ class TestQuestionController extends AdminController
                 });
 
             if (Admin::user()->isRole('administrator')) {
-                $form->select('mechanism_id')->options(Mechanism::getMechanismData());
+                $form->select('mechanism_id')->required()->options(Mechanism::getMechanismData());
             } elseif (Admin::user()->isRole('mechanism')) {
                 $form->hidden('mechanism_id')->default(Admin::user()->id);
             }
-            $form->select('occupation_id')->options(Occupation::getOccupationData());
+            $form->select('occupation_id')->required()->options(Occupation::getOccupationData());
             $form->display('created_at');
             $form->display('updated_at');
         });

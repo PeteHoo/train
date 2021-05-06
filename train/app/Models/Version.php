@@ -16,4 +16,10 @@ class Version extends Model
             ->orderBy('sort','DESC')
             ->pluck('version_code','id');
     }
+
+    public static function getVersionDetail($id){
+        return self::where('id',$id)
+                ->first()->version_code??'';
+    }
+
 }

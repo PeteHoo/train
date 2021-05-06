@@ -106,9 +106,8 @@ class BaseDataController extends ApiController
      */
     public function getVersion(BaseDataRequest $request){
         return self::success(UpdatePlan::where('name',$request->post('name'))
-            ->where('before_version',$request->post('before_version'))
+            ->where('id',$request->post('id'))
             ->where('status',Constants::OPEN)
-            ->orderBy('after_version','DESC')
             ->first());
     }
 
