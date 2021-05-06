@@ -112,6 +112,7 @@ class Constants
     const BACKEND_SETTLE = 1;
     const APP_ABOUT_US = 2;
     const APP_REGISTER = 3;
+    const APP_DISCLAIMER=4;
 
     public static function getAgreementItems()
     {
@@ -119,6 +120,7 @@ class Constants
             self::BACKEND_SETTLE => '后端-机构入驻',
             self::APP_ABOUT_US => 'APP端-关于我们',
             self::APP_REGISTER=>'APP端-用户注册',
+            self::APP_DISCLAIMER=>'APP端-免责声明',
         ];
     }
 

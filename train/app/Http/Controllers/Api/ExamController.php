@@ -66,7 +66,7 @@ class ExamController extends ApiController
         if (!$occupation_id = json_decode(Auth::user()->occupation_id)) {
             return self::error(ErrorCode::FAILURE,'您还没有职业');
         }
-        $query=Exam::where('status', Constants::OPEN)->whereIn('occupation_id', $occupation_id);
+        $query=Exam::where('status', Constants::OPEN)->whereIn('occupation_id', $occupation_id)->where('mechanism_id',$request->post('mechanism_id'));
         if($post_occupation_id=$request->post('occupation_id')){
             $query->where('occupation_id',$post_occupation_id);
         }

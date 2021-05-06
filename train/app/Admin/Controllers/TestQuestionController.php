@@ -35,7 +35,9 @@ class TestQuestionController extends AdminController
                 return Constants::getQuestionAttributeType($attributes);
             });
             $grid->column('description');
-            $grid->column('description_image')->image();
+            $grid->column('description_image')->display(function ($pictures) {
+                return json_decode($pictures, true);
+            })->image(config('app.file_url'), 100, 100);
             $grid->column('选项')->display(function () {
                 if ($this->type == Constants::SINGLE_CHOICE) {
                     return u2c($this->answer_single_option);
@@ -125,7 +127,7 @@ class TestQuestionController extends AdminController
             $form->select('attributes')->options(Constants::getQuestionAttributeItems())->when(Constants::TEXT, function ($form) {
                 $form->textarea('description');
             })->when(Constants::IMAGE, function ($form) {
-                $form->image('description_image');
+                $form->multipleImage('description_image')->savingArray();
             });
             $form->select('type')->options(Constants::getQuestionTypeItems())
                 ->when(Constants::SINGLE_CHOICE, function ($form) {

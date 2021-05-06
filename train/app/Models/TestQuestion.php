@@ -21,4 +21,14 @@ class TestQuestion extends Model
         }
     }
 
+    public function getDescriptionImageAttribute(){
+        $data=json_decode($this->attributes['description_image']);
+        if($data){
+            foreach ($data as $k=>$v){
+                $data[$k]=getImageUrl($v);
+            }
+        }
+        return $data;
+    }
+
 }
