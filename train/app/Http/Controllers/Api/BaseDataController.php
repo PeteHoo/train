@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Requests\BaseDataRequest;
 use App\Http\Resources\ExhibitionResource;
 use App\Http\Resources\SpecialResource;
+use App\Http\Resources\UpdatePlanResource;
 use App\Models\Agreement;
 use App\Models\Exhibition;
 use App\Models\HotSearch;
@@ -105,10 +106,17 @@ class BaseDataController extends ApiController
      * @return null|string
      */
     public function getVersion(BaseDataRequest $request){
-        return self::success(UpdatePlan::where('name',$request->post('name'))
+        $version=Version::where('name',$request->post('name'))->first();
+        if(!$version){
+            return self::error(ErrorCode::FAILURE,'不存在该App');
+        }
+        return self::success(new UpdatePlanResource(UpdatePlan::where('name',$version->id)
             ->where('id',$request->post('id'))
             ->where('status',Constants::OPEN)
-            ->first());
+            ->with('versionName')
+            ->with('afterVersion')
+            ->with('beforeVersion')
+            ->first()));
     }
 
     /** 获取协议
