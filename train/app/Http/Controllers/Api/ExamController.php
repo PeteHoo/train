@@ -82,9 +82,8 @@ class ExamController extends ApiController
     }
 
     public function randomExamDetail(ExamRequest $request){
-        $is_platform=$request->get('is_platform');
+        $only_mechanism=$request->get('only_mechanism');
         $occupation_id=$request->get('occupation_id');
-        $mechanism_id=$request->get('mechanism_id');
         $occupation_ids=json_decode(Auth::user()->occupation_id);
         if(!in_array($occupation_id,(array)$occupation_ids)){
             return self::error(ErrorCode::FAILURE,'您没有该职业');
@@ -105,7 +104,7 @@ class ExamController extends ApiController
             ->where('type',Constants::JUDGMENT)
             ->orderBy(DB::raw('RAND()'))
             ->limit($judgment_question_num);
-        if(!$is_platform){
+        if($only_mechanism&&$mechanism_id=Auth::user()->mechanism_id){
             $query_choice->where('mechanism_id',$mechanism_id);
             $query_judgment->where('mechanism_id',$mechanism_id);
         }
@@ -120,10 +119,10 @@ class ExamController extends ApiController
         $examDetail=array_merge((array)$choice_result,(array)$query_judgment);
 
         $data['name']=$occupation->name.'随机试题';
-        $data['mechanism_id']=$is_platform?1:$mechanism_id;
+        $data['mechanism_id']=$mechanism_id??1;
         $data['industry_id']=$occupation->industry_id;
         $data['occupation_id']=$occupation->id;
-        $data['mechanism']=Mechanism::getMechanismDataDetail($mechanism_id);
+        $data['mechanism']=Mechanism::getMechanismDataDetail($mechanism_id??1);
         $data['industry']=Industry::getIndustryDataDetail($occupation->industry_id);
         $data['occupation']=Occupation::getOccupationDataDetail($occupation->id);
         $data['choice_question_num']=$choice_question_num;
