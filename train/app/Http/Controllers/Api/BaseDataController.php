@@ -32,8 +32,9 @@ class BaseDataController extends ApiController
      * @param Request $request
      * @return string|null
      */
-    public function mechanism(Request $request){
-        $search_words=$request->get('search_words');
+    public function mechanism(Request $request)
+    {
+        $search_words = $request->get('search_words');
         return self::success(Mechanism::getMechanismAppData($search_words));
     }
 
@@ -43,7 +44,7 @@ class BaseDataController extends ApiController
      */
     public function industry()
     {
-       return self::success(Industry::getIndustryData());
+        return self::success(Industry::getIndustryData());
     }
 
     /** 职业数据
@@ -52,10 +53,10 @@ class BaseDataController extends ApiController
      */
     public function occupation(Request $request)
     {
-        $industry=$request->get('industry_id');
-        $industry=json_decode($industry);
-        if(!$industry){
-            return self::error(ErrorCode::PARAMETER_ERROR,'行业id必填');
+        $industry = $request->get('industry_id');
+        $industry = json_decode($industry);
+        if (!$industry) {
+            return self::error(ErrorCode::PARAMETER_ERROR, '行业id必填');
         }
         return self::success(Occupation::getOccupationDataByIndustry_id($industry));
     }
@@ -63,30 +64,36 @@ class BaseDataController extends ApiController
     /** banner接口
      * @return null|string
      */
-    public function banner(){
-       return self::success(ExhibitionResource::collection(Exhibition::whereIn('occupation_id',json_decode(Auth::user()->occupation_id))
-           ->where('status',Constants::OPEN)
-           ->orderBy('sort','DESC')
-           ->get()));
+    public function banner()
+    {
+        return self::success(ExhibitionResource::collection(Exhibition::whereIn('occupation_id', json_decode(Auth::user()->occupation_id))
+            ->where('status', Constants::OPEN)
+            ->orderBy('sort', 'DESC')
+            ->get()));
     }
 
     /**
      * @return null|string
      */
-    public function special(){
-        return self::success(SpecialResource::collection(Special::whereIn('occupation_id',json_decode(Auth::user()->occupation_id))
-            ->where('status',Constants::OPEN)
-            ->orderBy('sort','DESC')
-            ->get()));
+    public function special()
+    {
+        if (!$data = Special::whereIn('occupation_id', json_decode(Auth::user()->occupation_id))
+            ->where('status', Constants::OPEN)
+            ->orderBy('sort', 'DESC')
+            ->get()) {
+            return self::error(ErrorCode::FAILURE, '未查询到专题');
+        }
+        return self::success(SpecialResource::collection($data));
     }
 
     /** 热词列表
      * @return null|string
      */
-    public function searchWordsList(){
-        return self::success(HotSearch::where('status',Constants::OPEN)
-            ->orderBy('sort','DESC')
-            ->orderBy('count','DESC')
+    public function searchWordsList()
+    {
+        return self::success(HotSearch::where('status', Constants::OPEN)
+            ->orderBy('sort', 'DESC')
+            ->orderBy('count', 'DESC')
             ->get());
     }
 
@@ -94,30 +101,31 @@ class BaseDataController extends ApiController
      * @param Request $request
      * @return string|null
      */
-    public function checkVersion(BaseDataRequest $request){
-         $version_code=$request->get('version_code');
-         $os=$request->get('os');
-         $name=Constants::getAppKey($request->get('name'));
-         $version=Version::where('version_code',$version_code)
-             ->where('os',$os)
-             ->where('name',$name)
-             ->first();
-         if(!$version){
-             return self::error(ErrorCode::FAILURE,'未查询到版本信息');
-         }
+    public function checkVersion(BaseDataRequest $request)
+    {
+        $version_code = $request->get('version_code');
+        $os = $request->get('os');
+        $name = Constants::getAppKey($request->get('name'));
+        $version = Version::where('version_code', $version_code)
+            ->where('os', $os)
+            ->where('name', $name)
+            ->first();
+        if (!$version) {
+            return self::error(ErrorCode::FAILURE, '未查询到版本信息');
+        }
 
-         $version=UpdatePlan::where('status',Constants::OPEN)
-             ->where('before_version',$version->id)
-             ->where('name',$name)
-             ->orderBy('after_version','DESC')
-             ->with('versionName')
-             ->with('afterVersion')
-             ->with('beforeVersion')
-             ->first();
-         if(!$version){
-             return self::error(ErrorCode::FAILURE,'未查询到更新信息');
-         }
-         return self::success(new UpdatePlanResource($version));
+        $version = UpdatePlan::where('status', Constants::OPEN)
+            ->where('before_version', $version->id)
+            ->where('name', $name)
+            ->orderBy('after_version', 'DESC')
+            ->with('versionName')
+            ->with('afterVersion')
+            ->with('beforeVersion')
+            ->first();
+        if (!$version) {
+            return self::error(ErrorCode::FAILURE, '未查询到更新信息');
+        }
+        return self::success(new UpdatePlanResource($version));
     }
 
 
@@ -125,10 +133,11 @@ class BaseDataController extends ApiController
      * @param Request $request
      * @return string|null
      */
-    public function getAgreement(BaseDataRequest $request){
-        $position=$request->get('position',1);
-        $title=$request->get('title');
-        $agreement=Agreement::where('position',$position)->where('title',$title)->where('status',Constants::OPEN)->orderBy('created_at','DESC')->first();
+    public function getAgreement(BaseDataRequest $request)
+    {
+        $position = $request->get('position', 1);
+        $title = $request->get('title');
+        $agreement = Agreement::where('position', $position)->where('title', $title)->where('status', Constants::OPEN)->orderBy('created_at', 'DESC')->first();
         return self::success($agreement);
     }
 
