@@ -26,6 +26,15 @@ class RegisterController extends AdminController
     use ApiResponse;
     use LazyWidget;
 
+
+    public function home(Content $content){
+        return $content
+            ->header('首页')
+            ->full()
+            ->body(view('index'));
+    }
+
+
     public function register(Content $content){
         return $content
             ->header('注册')

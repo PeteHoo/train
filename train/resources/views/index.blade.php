@@ -1,13 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>食品培训</title>
 
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@200;600&display=swap" rel="stylesheet">
 
         <!-- Styles -->
         <style>
@@ -33,6 +30,17 @@
             .position-ref {
                 position: relative;
             }
+            .top-left {
+                position: absolute;
+                left: 50px;
+                top: 38px;
+            }
+
+            .large-left{
+                position: absolute;
+                left: 50px;
+                top: 238px;
+            }
 
             .top-right {
                 position: absolute;
@@ -44,8 +52,16 @@
                 text-align: center;
             }
 
+            .large-content{
+                padding-left: 800px;
+                text-align: center;
+            }
+
             .title {
-                font-size: 84px;
+                font-size: 42px;
+            }
+            .large-title {
+                font-size: 80px;
             }
 
             .links > a {
@@ -58,43 +74,52 @@
                 text-transform: uppercase;
             }
 
-            .m-b-md {
-                margin-bottom: 30px;
+            /*.m-b-md {*/
+                /*margin-bottom: 30px;*/
+            /*}*/
+            .logo{
+                height: 60px;
+                width: 60px;
+            }
+            .large-logo{
+                height: 460px;
+                width: 360px;
             }
         </style>
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
+
                 <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
+                    <a href="auth/login">登录</a>
+
+                    <a href="phone-register">注册</a>
+
                 </div>
-            @endif
 
-            <div class="content">
+            <div class="content top-left flex-center">
+                <div>
+                    <img class="logo" src="">
+                </div>
                 <div class="title m-b-md">
-                    Laravel
+                    食品培训
                 </div>
+            </div>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://vapor.laravel.com">Vapor</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
+            <div class="large-content">
+                <div class="large-title m-b-md large-left">
+                    食品培训Slogan
+                </div>
+                <div>
+                    <img class="large-logo" src="">
                 </div>
             </div>
         </div>
+
+
+
+
+
     </body>
 </html>

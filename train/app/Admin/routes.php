@@ -39,7 +39,7 @@ Route::group([
 
 
     });
-
+    $router->get('home','RegisterController@home');
     $router->get('phone-register','RegisterController@register');
     $router->post('send-code','RegisterController@sendCode');
     $router->post('verify-code','RegisterController@verifyCode');
