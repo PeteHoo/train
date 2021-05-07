@@ -11,7 +11,7 @@ class TestQuestion extends Model
 
     protected $table = 'test_questions';
 
-    protected $appends = ['answer_option','description-image-json'];
+    protected $appends = ['answer_option','description_image_json'];
 
     public function getAnswerOptionAttribute(){
         if($this->attributes['type']==Constants::SINGLE_CHOICE){
