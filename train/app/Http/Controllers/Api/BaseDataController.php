@@ -106,7 +106,8 @@ class BaseDataController extends ApiController
      * @return null|string
      */
     public function getVersion(BaseDataRequest $request){
-        $version=Version::where('name',$request->post('name'))->first();
+        $name=Constants::getAppKey($request->post('name'));
+        $version=Version::where('name',$name)->first();
         if(!$version){
             return self::error(ErrorCode::FAILURE,'不存在该App');
         }

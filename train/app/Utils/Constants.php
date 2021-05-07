@@ -106,6 +106,10 @@ class Constants
         return getItems(self::getAppItems(), $app);
     }
 
+    public static function getAppKey($name)
+    {
+        return getItems(array_flip(self::getAppItems()), $name);
+    }
     /**
      * 协议位置
      */
