@@ -96,7 +96,7 @@ class BaseDataController extends ApiController
      */
     public function checkVersion(BaseDataRequest $request){
          $os=$request->get('os');
-         $name=$request->get('name');
+         $name=Constants::getAppKey($request->get('name'));
          $version=Version::where('os',$os)->where('name',$name)->where('status',Constants::OPEN)->orderBy('created_at','DESC')->first();
          return self::success($version);
     }
