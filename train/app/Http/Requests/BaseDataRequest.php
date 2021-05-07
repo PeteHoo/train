@@ -21,12 +21,6 @@ class BaseDataRequest extends BaseRequest
                     'title'=>['required']
                 ];
                 break;
-            case 'api/ base-data/get-version':
-                return [
-                    'name'=>['required'],
-                    'before_version'=>['required']
-                ];
-                break;
             default:return [];
         }
     }

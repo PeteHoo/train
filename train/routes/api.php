@@ -20,7 +20,6 @@ Route::group([],function ($route){
     $route->post('user/password-login','Api\UserController@passwordLogin');//密码登录
     $route->get('learning-material/recommend','Api\LearningMaterialController@recommendMaterialList');//资料详情
     $route->get('base-data/check-version','Api\BaseDataController@checkVersion');//检查版本
-    $route->post('base-data/get-version','Api\BaseDataController@getVersion');//获取新版本
     $route->get('base-data/get-agreement','Api\BaseDataController@getAgreement');//获取协议
     $route->get('base-data/mechanism','Api\BaseDataController@mechanism');//获取机构
 

@@ -95,30 +95,31 @@ class BaseDataController extends ApiController
      * @return string|null
      */
     public function checkVersion(BaseDataRequest $request){
+         $version_code=$request->get('version_code');
          $os=$request->get('os');
          $name=Constants::getAppKey($request->get('name'));
-         $version=Version::where('os',$os)->where('name',$name)->where('status',Constants::OPEN)->orderBy('created_at','DESC')->first();
-         return self::success($version);
+         $version=Version::where('version_code',$version_code)
+             ->where('os',$os)
+             ->where('name',$name)
+             ->first();
+         if(!$version){
+             return self::error(ErrorCode::FAILURE,'未查询到版本信息');
+         }
+
+         $version=UpdatePlan::where('status',Constants::OPEN)
+             ->where('before_version',$version->id)
+             ->where('name',$name)
+             ->orderBy('after_version','DESC')
+             ->with('versionName')
+             ->with('afterVersion')
+             ->with('beforeVersion')
+             ->first();
+         if(!$version){
+             return self::error(ErrorCode::FAILURE,'未查询到更新信息');
+         }
+         return self::success(new UpdatePlanResource($version));
     }
 
-    /** 获取新版本
-     * @param BaseDataRequest $request
-     * @return null|string
-     */
-    public function getVersion(BaseDataRequest $request){
-        $name=Constants::getAppKey($request->post('name'));
-        $version=Version::where('name',$name)->first();
-        if(!$version){
-            return self::error(ErrorCode::FAILURE,'不存在该App');
-        }
-        return self::success(new UpdatePlanResource(UpdatePlan::where('name',$version->id)
-            ->where('id',$request->post('id'))
-            ->where('status',Constants::OPEN)
-            ->with('versionName')
-            ->with('afterVersion')
-            ->with('beforeVersion')
-            ->first()));
-    }
 
     /** 获取协议
      * @param Request $request
