@@ -14,6 +14,7 @@ class LearningMaterialDetailResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'description' => $this->description,
+            'mechanism_id'=>$this->mechanism_id,
             'mechanism' => $this->mechanism->name??'',
             'industry' => $this->industry->name??'',
             'occupation' => $this->occupation->name??'',

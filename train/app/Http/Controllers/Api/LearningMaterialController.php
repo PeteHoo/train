@@ -79,10 +79,10 @@ class LearningMaterialController extends ApiController
         $learningMaterialRecord = array_unique($learningMaterialRecord);
         $learningMaterialRecord = array_values($learningMaterialRecord);
         //用户学过的课程
-        if ($data && $learningMaterialRecord) {
+        if ($data) {
             foreach ($data->chapter as $k => &$v) {
                 foreach ($v->learningMaterialDetail as $kk => &$vv) {
-                    $vv->duration=get_duration_params($vv->video);
+                    $vv->duration=changeTimeType(get_duration_params($vv->video));
                     if (in_array($vv->id, $learningMaterialRecord)) {
                         $vv->is_study = 1;
                     } else {
