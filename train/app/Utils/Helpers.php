@@ -56,7 +56,7 @@ function getMultipleItems($items, $keys = null)
         foreach ($keys as $k=>$v){
             if($v!==null){
                 if (isset($items[$v])) {
-                    $item['id']=$v;
+                    $item['id']=(int)$v;
                     $item['name']=$items[$v];
                     $result[]=$item;
                 }

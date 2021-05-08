@@ -16,13 +16,13 @@ class TestQuestion extends Model
     public function getAnswerOptionAttribute(){
         if($this->attributes['type']==Constants::SINGLE_CHOICE){
             $answer_single=u2c($this->attributes['answer_single_option']);
-            $answer_single=str_replace('选项','answer',$answer_single);
-            $answer_single=str_replace('答案','option',$answer_single);
+            $answer_single=str_replace('选项','option',$answer_single);
+            $answer_single=str_replace('答案','answer',$answer_single);
             return json_decode($answer_single);
         }elseif($this->attributes['type']==Constants::JUDGMENT){
             $answer_judgment=u2c($this->attributes['answer_judgment_option']);
-            $answer_judgment=str_replace('选项','answer',$answer_judgment);
-            $answer_judgment=str_replace('答案','option',$answer_judgment);
+            $answer_judgment=str_replace('选项','option',$answer_judgment);
+            $answer_judgment=str_replace('答案','answer',$answer_judgment);
             return json_decode($answer_judgment);
         }
     }

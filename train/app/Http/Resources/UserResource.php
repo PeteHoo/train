@@ -23,10 +23,10 @@ class UserResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'name' => $this->name,
-            'nick_name' => $this->nick_name,
+            'name' => $this->name??'',
+            'nick_name' => $this->nick_name??'',
             'phone' => $this->phone,
-            'birthday' => $this->birthday,
+            'birthday' => $this->birthday??'',
             'sex' => Constants::getSexType($this->sex),
             'attribute' =>  Constants::getAttributeType($this->attribute),
             'avatar' => getImageUrl($this->avatar),
@@ -37,6 +37,8 @@ class UserResource extends JsonResource
             'api_token' => $this->api_token,
             'status' => $this->status,
             'has_password'=>$this->password?1:0,
+            'created_at'=>$this->created_at,
+            'updated_at'=>$this->updated_at,
         ];
     }
 }

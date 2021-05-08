@@ -170,7 +170,7 @@ class LearningMaterialController extends ApiController
         return LearningMaterialRecord::firstOrCreate($data) ? self::success() : self::error(ErrorCode::FAILURE);
     }
 
-    /** 上传学习记录
+    /** 删除学习记录
      * @param LearningMaterialRequest $request
      * @return string|null
      */
