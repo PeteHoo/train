@@ -74,6 +74,9 @@ class LearningMaterialController extends ApiController
                     });
             })
             ->first();
+        if(!$learningMaterial){
+            return self::error(ErrorCode::FAILURE,'不存在该视频详情');
+        }
         $data = new LearningMaterialDetailResource($learningMaterial);
         $learningMaterialRecord = LearningMaterialRecord::where('user_id', Auth::user()->user_id)->pluck('learning_material_detail_id')->toArray();
         $learningMaterialRecord = array_unique($learningMaterialRecord);
