@@ -25,7 +25,7 @@ class ApiToken
     public function handle($request, Closure $next)
     {
         if (Auth::guard('api')->guest()) {
-            return response()->json(['code' => ErrorCode::AUTH_ERROR,'msg' => '未设置token']);
+            return response()->json(['code' => ErrorCode::AUTH_ERROR,'message' => '未设置token']);
         }
         return $next($request);
     }
