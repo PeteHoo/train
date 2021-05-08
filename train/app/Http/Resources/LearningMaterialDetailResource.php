@@ -17,6 +17,7 @@ class LearningMaterialDetailResource extends JsonResource
             'mechanism_id'=>$this->mechanism_id,
             'mechanism' => $this->mechanism->name??'',
             'industry' => $this->industry->name??'',
+            'occupation_id' => $this->occupation_id,
             'occupation' => $this->occupation->name??'',
             'picture' =>  getImageUrl($this->picture),
             'status' => $this->status,
