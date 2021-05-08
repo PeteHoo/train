@@ -161,8 +161,12 @@ class LearningMaterialController extends ApiController
      */
     public function learningMaterialRecord(LearningMaterialRequest $request)
     {
-        $data['learning_material_detail_id'] = $request->post('learning_material_detail_id');
+        $learning_material_detail_id = $request->post('learning_material_detail_id');
+        if(!LearningMaterialDetail::where('id',$learning_material_detail_id)->first()){
+            return self::error(ErrorCode::FAILURE,'不存在该课件');
+        }
         $data['user_id'] = Auth::user()->user_id;
+        $data['learning_material_detail_id']=$learning_material_detail_id;
         return LearningMaterialRecord::firstOrCreate($data) ? self::success() : self::error(ErrorCode::FAILURE);
     }
 
