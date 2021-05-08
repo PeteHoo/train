@@ -100,7 +100,7 @@
 
             <div class="content top-left flex-center">
                 <div>
-                    <img class="logo" src="">
+                    <img class="logo" src="../image/logo.jpg">
                 </div>
                 <div class="title m-b-md">
                     食品培训
