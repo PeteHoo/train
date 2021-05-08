@@ -31,9 +31,6 @@ class TestQuestionController extends AdminController
             $grid->column('type')->display(function ($type) {
                 return Constants::getQuestionType($type);
             });
-            $grid->column('attributes')->display(function ($attributes) {
-                return Constants::getQuestionAttributeType($attributes);
-            });
             $grid->column('description');
             $grid->column('description_image')->display(function ($description_image){
                 return json_decode($description_image,true);
@@ -80,16 +77,13 @@ class TestQuestionController extends AdminController
             $show->field('id');
             $show->field('type')->as(function ($type) {
                 return Constants::getQuestionType($type);
-            });;
-            $show->field('attributes')->as(function ($attributes) {
-                return Constants::getQuestionAttributeType($attributes);
             });
             $show->field('description');
-            if ($show->model()->attributes == Constants::TEXT) {
-                $show->field('description');
-            } else {
-                $show->field('description_image')->image();
-            }
+
+            $show->field('description');
+
+            $show->field('description_image')->image();
+
             $show->field('选项')->as(function () use ($show) {
                 if ($show->model()->type == Constants::SINGLE_CHOICE) {
                     return u2c($show->model()->answer_single_option);
@@ -124,35 +118,39 @@ class TestQuestionController extends AdminController
     {
         return Form::make(new TestQuestion(), function (Form $form) {
             $form->display('id');
-            $form->select('attributes')->options(Constants::getQuestionAttributeItems())->when(Constants::TEXT, function ($form) {
-                $form->textarea('description');
-            })->when(Constants::IMAGE, function ($form) {
-                $form->multipleImage('description_image')->savingArray();
-            });
+            $form->textarea('description');
+            $form->multipleImage('description_image')->savingArray();
+            $form->hidden('answer_single_option');
+
             $form->select('type')->required()->options(Constants::getQuestionTypeItems())
                 ->when(Constants::SINGLE_CHOICE, function ($form) {
-                    $form->table('answer_single_option', function (NestedForm $table) {
-                        $table->select('选项')->options(Constants::getSingleChoiceOptionItems());
-                        $table->text('答案');
-                    })->savingArray();
+//                    $form->table('answer_single_option', function (NestedForm $table) {
+//                        //$table->select('选项')->options(Constants::getSingleChoiceOptionItems());
+//                        $table->text('option');
+//                    })->savingArray();
+
+                    //dd($form->answer_single_option);
+                    $answer_single_option=json_decode($form->model()->answer_single_option);
+                    $form->text('A')->placeholder('请输入答案')->value($answer_single_option[0]);
+                    $form->text('B')->placeholder('请输入答案')->value($answer_single_option[1]);
+                    $form->text('C')->placeholder('请输入答案')->value($answer_single_option[2]);
+                    $form->text('D')->placeholder('请输入答案')->value($answer_single_option[3]);
                     $form->select('true_single_answer')->options(Constants::getSingleChoiceOptionItems());
                 })
                 ->when(Constants::JUDGMENT, function ($form) {
-                    $form->table('answer_judgment_option', function (NestedForm $table1) {
-                        $table1->select('选项')->options(Constants::getJudgmentOptionItems());
-                        $table1->text('答案');
-                    })->savingArray();
                     $form->select('true_judgment_answer')->options(Constants::getJudgmentOptionItems());
                 });
-
-            if (Admin::user()->isRole('administrator')) {
-                $form->select('mechanism_id')->required()->options(Mechanism::getMechanismData());
-            } elseif (Admin::user()->isRole('mechanism')) {
-                $form->hidden('mechanism_id')->default(Admin::user()->id);
-            }
+            $form->hidden('mechanism_id')->default(Admin::user()->id);
             $form->select('occupation_id')->required()->options(Occupation::getOccupationData());
             $form->display('created_at');
             $form->display('updated_at');
+            $form->saving(function ($form){
+                $form->answer_single_option=json_encode([$form->input('A'),$form->input('B'),$form->input('C'),$form->input('D')]);
+                $form->deleteInput('A');
+                $form->deleteInput('B');
+                $form->deleteInput('C');
+                $form->deleteInput('D');
+            });
         });
     }
 }
