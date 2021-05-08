@@ -135,10 +135,15 @@ class LearningMaterialController extends ApiController
                         });
                     });
             })->where(function ($where) {
-            return $where->where('is_open', Constants::OPEN)
+            return $where->where('mechanism_id', 1)
                 ->orWhere(function ($where) {
-                    $where->where('is_open', Constants::CLOSE)
-                        ->where('mechanism_id', Auth::user()->mechanism_id);
+                    $where->where('mechanism_id','>',1)
+                        ->where(function ($where){
+                            $where->where('is_open', Constants::CLOSE)
+                                ->where('mechanism_id', Auth::user()->mechanism_id);
+                        })
+                        ->orWhere('is_open',Constants::OPEN);
+
                 });
         });
         if ($industry_id = json_decode(Auth::user()->industry_id)) {

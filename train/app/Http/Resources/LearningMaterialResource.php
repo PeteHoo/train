@@ -28,6 +28,7 @@ class LearningMaterialResource extends JsonResource
             'status' => $this->status,
             'sort' => $this->sort,
             'view_count'=>$this->view_count,
+            'is_open'=>$this->is_open
         ];
     }
 }
