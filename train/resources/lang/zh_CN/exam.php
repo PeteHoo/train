@@ -17,7 +17,9 @@ return [
         'description'=>'文本描述',
         'description_image'=>'图片描述',
         'judgment'=>'判断题',
-        'single'=>'单选题'
+        'single'=>'单选题',
+        'single_item'=>'单选题',
+        'judgment_item'=>'判断题',
     ],
     'options' => [
     ],

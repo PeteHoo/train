@@ -20,10 +20,14 @@ class TestQuestion extends Model
             $answer_single=str_replace('答案','answer',$answer_single);
             return json_decode($answer_single);
         }elseif($this->attributes['type']==Constants::JUDGMENT){
-            $answer_judgment=u2c($this->attributes['answer_judgment_option']);
-            $answer_judgment=str_replace('选项','option',$answer_judgment);
-            $answer_judgment=str_replace('答案','answer',$answer_judgment);
-            return json_decode($answer_judgment);
+//            $answer_judgment=u2c($this->attributes['answer_judgment_option']);
+//            $answer_judgment=str_replace('选项','option',$answer_judgment);
+//            $answer_judgment=str_replace('答案','answer',$answer_judgment);
+            $data[0]['option']='正确';
+            $data[0]['answer']='正确';
+            $data[1]['option']='错误';
+            $data[1]['answer']='错误';
+            return $data;
         }
     }
 
