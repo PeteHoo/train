@@ -12,6 +12,7 @@ class LearningMaterialCollectionPaginate extends ResourceCollection
     {
         $paginate = $this->resource->toArray();
         $paginate['data'] = LearningMaterialResource::collection($this->collection);
+        $paginate['per_page']=(int)$paginate['per_page'];
         return $paginate;
     }
 }
