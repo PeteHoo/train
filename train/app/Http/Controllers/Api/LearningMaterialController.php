@@ -104,7 +104,7 @@ class LearningMaterialController extends ApiController
      */
     public function recommendMaterialList(LearningMaterialRequest $request)
     {
-        return self::success(LearningMaterialService::getRecommendData($request->get('id'), $request->get('occupation_id')));
+        return self::success(LearningMaterialService::getRecommendData($request->get('id'), $request->get('occupation_id'),Auth::user()->mechanism_id));
     }
 
     /** 搜索视频

@@ -13,7 +13,7 @@ class LearningMaterialDetailResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'description' => $this->description,
+            'description' => $this->description??'',
             'mechanism_id'=>$this->mechanism_id,
             'mechanism' => $this->mechanism->name??'',
             'industry' => $this->industry->name??'',

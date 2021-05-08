@@ -18,7 +18,7 @@ Route::group([],function ($route){
     $route->post('user/code-login','Api\UserController@codeLogin');//短信登录
     $route->post('user/code-change-password','Api\UserController@codeChangePassword');//短信修改密码
     $route->post('user/password-login','Api\UserController@passwordLogin');//密码登录
-    $route->get('learning-material/recommend','Api\LearningMaterialController@recommendMaterialList');//资料详情
+
     $route->get('base-data/check-version','Api\BaseDataController@checkVersion');//检查版本
     $route->get('base-data/get-agreement','Api\BaseDataController@getAgreement');//获取协议
     $route->get('base-data/mechanism','Api\BaseDataController@mechanism');//获取机构
@@ -52,7 +52,7 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
     $route->get('exam/list','Api\ExamController@examList');//考试列表
     $route->get('exam/detail','Api\ExamController@examDetail');//考试详情
     $route->get('exam/random','Api\ExamController@randomExamDetail');//考试详情
-
+    $route->get('learning-material/recommend','Api\LearningMaterialController@recommendMaterialList');//资料搜索
     $route->get('base-data/industry','Api\BaseDataController@industry');//行业数据
     $route->get('base-data/occupation','Api\BaseDataController@occupation');//职业数据
     $route->get('base-data/banner','Api\BaseDataController@banner');//banner数据
