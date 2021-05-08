@@ -27,6 +27,6 @@ class LearningMaterialService
                         ->where('mechanism_id', $mechanism_id);
                 });
         });
-        return new LearningMaterialCollectionPaginate($query->paginate(request()->get('perPage')));
+        return new LearningMaterialCollectionPaginate($query->paginate(request()->get('per_page')));
     }
 }

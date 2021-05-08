@@ -54,7 +54,7 @@ class LearningMaterialController extends ApiController
                         ->where('mechanism_id', Auth::user()->mechanism_id);
                 });
         });
-        return self::success(new LearningMaterialCollectionPaginate($query->paginate($request->get('perPage'))
+        return self::success(new LearningMaterialCollectionPaginate($query->paginate($request->get('per_page'))
         ));
     }
 
