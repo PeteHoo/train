@@ -25,10 +25,10 @@ class HotSearchController extends AdminController
             $grid->column('status')->switch();
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
-        
+
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-        
+
             });
         });
     }
@@ -62,11 +62,11 @@ class HotSearchController extends AdminController
     {
         return Form::make(new HotSearch(), function (Form $form) {
             $form->display('id');
-            $form->text('words');
+            $form->text('words')->required();
             $form->number('count');
             $form->number('sort');
             $form->switch('status');
-        
+
             $form->display('created_at');
             $form->display('updated_at');
         });

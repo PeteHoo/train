@@ -281,8 +281,7 @@ function get_duration_params($url) {
 
     $regx = '/.*[&|\?]'. 'duration' .'=([^&]*)(.*)/';
     preg_match($regx, $url, $match);
-
-    return (int)$match[1]??0;
+    return $match[1]??0;
 }
 
 /** 将秒数转换成时分秒
