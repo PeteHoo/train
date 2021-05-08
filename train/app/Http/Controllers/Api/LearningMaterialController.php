@@ -147,7 +147,7 @@ class LearningMaterialController extends ApiController
         if ($occupation_id = json_decode(Auth::user()->occupation_id)) {
             $query->whereIn('occupation_id', $occupation_id);
         }
-        return self::success(new LearningMaterialCollectionPaginate($query->paginate($request->get('perPage'))));
+        return self::success(new LearningMaterialCollectionPaginate($query->paginate($request->get('per_page'))));
     }
 
     /** 上传学习记录
