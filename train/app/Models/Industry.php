@@ -20,9 +20,24 @@ class Industry extends Model
             ->pluck('name','id');
     }
 
+    public static function getIndustryObject(){
+        $query=self::where('status',Constants::OPEN)
+            ->select('id','name')
+            ->with(['occupation'=>function($q){
+                $q->select('industry_id','id','name');
+            }])
+            ->orderBy('sort','DESC');
+        return $query
+            ->get();
+    }
+
     public static function getIndustryDataDetail($id){
         return self::where('id',$id)
             ->first()->name??'';
+    }
+
+    public function occupation(){
+       return $this->hasMany('App\Models\Occupation','industry_id','id');
     }
 
 }

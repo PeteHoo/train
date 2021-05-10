@@ -22,7 +22,7 @@ Route::group([],function ($route){
     $route->get('base-data/check-version','Api\BaseDataController@checkVersion');//检查版本
     $route->get('base-data/get-agreement','Api\BaseDataController@getAgreement');//获取协议
     $route->get('base-data/mechanism','Api\BaseDataController@mechanism');//获取机构
-
+    $route->get('base-data/all-industry-occupation','Api\BaseDataController@allIndustryOccupation');//职业数据
 
 });
 
@@ -55,6 +55,7 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
     $route->get('learning-material/recommend','Api\LearningMaterialController@recommendMaterialList');//资料搜索
     $route->get('base-data/industry','Api\BaseDataController@industry');//行业数据
     $route->get('base-data/occupation','Api\BaseDataController@occupation');//职业数据
+
     $route->get('base-data/banner','Api\BaseDataController@banner');//banner数据
     $route->get('base-data/special','Api\BaseDataController@special');//专题数据
     $route->get('base-data/search-words-list','Api\BaseDataController@searchWordsList');//专题数据

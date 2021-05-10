@@ -61,6 +61,11 @@ class BaseDataController extends ApiController
         return self::success(Occupation::getOccupationDataByIndustry_id($industry));
     }
 
+    public function allIndustryOccupation(){
+        $data=Industry::getIndustryObject();
+        return self::success($data);
+    }
+
     /** banner接口
      * @return null|string
      */
