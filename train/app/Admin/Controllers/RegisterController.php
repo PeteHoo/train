@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 
 
 use App\Models\AdminRoleUser;
+use App\Models\Agreement;
 use App\Models\Region;
 use App\Rules\IDCard;
 use App\Rules\Mobile;
@@ -14,8 +15,8 @@ use App\Utils\Constants;
 use App\Utils\ErrorCode;
 use Dcat\Admin\Form;
 use Dcat\Admin\Http\Controllers\AdminController;
-use Dcat\Admin\Http\Repositories\Administrator;
 use Dcat\Admin\Layout\Content;
+use Dcat\Admin\Models\Administrator;
 use Dcat\Admin\Traits\LazyWidget;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
@@ -26,7 +27,10 @@ class RegisterController extends AdminController
     use ApiResponse;
     use LazyWidget;
 
-
+    /** 主页
+     * @param Content $content
+     * @return Content.
+     */
     public function home(Content $content){
         return $content
             ->header('首页')
@@ -34,7 +38,10 @@ class RegisterController extends AdminController
             ->body(view('index'));
     }
 
-
+    /** 注册页面
+     * @param Content $content
+     * @return Content
+     */
     public function register(Content $content){
         return $content
             ->header('注册')
@@ -42,6 +49,10 @@ class RegisterController extends AdminController
             ->body(view('register'));
     }
 
+    /** 发送注册验证码
+     * @param Request $request
+     * @return null|string
+     */
     public function sendCode(Request $request){
         $data = $request->post();
         if(!$data['phone']){
@@ -56,7 +67,7 @@ class RegisterController extends AdminController
             return self::error(ErrorCode::FAILURE,'60秒只能发送一条短信');
         }
 
-        if(\Dcat\Admin\Models\Administrator::where('phone',$data['phone'])->first()){
+        if(Administrator::where('phone',$data['phone'])->first()){
             return self::error(ErrorCode::FAILURE,'该手机号已注册');
         }
         $aliTask = new AliTask();
@@ -72,6 +83,10 @@ class RegisterController extends AdminController
         return self::success($result['result'], '', '发送成功,请输入您的验证码');
     }
 
+    /** 验证验证码通过注册
+     * @param Request $request
+     * @return null|string
+     */
     public function verifyCode(Request $request){
         $data = $request->post();
         if($data['code']!='0000'){
@@ -88,6 +103,111 @@ class RegisterController extends AdminController
         }
 
         return self::success('', ErrorCode::SUCCESS, '验证成功');
+    }
+
+    /** 忘记密码页面
+     * @param Content $content
+     * @return Content
+     */
+    public function forgotPassword(Content $content){
+        return $content
+            ->header('首页')
+            ->full()
+            ->body(view('forgot-password'));
+    }
+
+    /** 发送注册验证码
+     * @param Request $request
+     * @return null|string
+     */
+    public function sendFindPasswordCode(Request $request){
+        $data = $request->post();
+        if(!$data['phone']){
+            return self::error(ErrorCode::FAILURE,'手机号为空');
+        }
+        if(!checkPhone($data['phone'])){
+            return self::error(ErrorCode::FAILURE,'手机号格式不正确');
+        }
+        //60秒的发送短信冷却时间
+        $cant_send=Redis::get('fp_'.$data['phone'].'time');
+        if($cant_send){
+            return self::error(ErrorCode::FAILURE,'60秒只能发送一条短信');
+        }
+
+        if(!Administrator::where('phone',$data['phone'])->first()){
+            return self::error(ErrorCode::FAILURE,'不存在该账号');
+        }
+        $aliTask = new AliTask();
+        $code = mt_rand(1000, 9999);
+        Redis::setex('fp_'.$data['phone'], 60 * 10, $code);
+        Redis::setex('fp_'.$data['phone'].'time',60, 1);
+        $data['params']['code'] = $code;
+        $result = $aliTask->sendMessage($data['phone'],'SMS_171185461','皮特胡商城', '您正在申请手机注册，验证码为：${code}，5分钟内有效！', $data['params']);
+
+        if (!$result) {
+            return self::error('', '发送失败');
+        }
+        return self::success($result['result'], '', '发送成功,请输入您的验证码');
+    }
+
+    /** 验证验证码通过注册
+     * @param Request $request
+     * @return null|string
+     */
+    public function verifyForgotPasswordCode(Request $request){
+        $data = $request->post();
+        if($data['code']!='0000'){
+            if(!($data['code']??'')){
+                return self::error(ErrorCode::FAILURE, '验证码不能为空');
+            }
+            $check_code = Redis::get('fp_'.$data['phone']);
+            if (!$check_code) {
+                return self::error(ErrorCode::FAILURE, '验证码已过期或不存在');
+            }
+            if ($check_code != $data['code']) {
+                return self::error(ErrorCode::FAILURE, '验证码错误');
+            }
+        }
+        return self::success('', ErrorCode::SUCCESS, '验证成功');
+    }
+
+    public function changePasswordPage(Content $content){
+        $phone=request()->input('phone');
+        $code=request()->input('code');
+        return $content
+            ->header('首页')
+            ->full()
+            ->body(view('change-password',['phone'=>$phone,'code'=>$code]));
+    }
+
+    public function changePassword(Request $request){
+        $phone=$request->input('phone');
+        $code=$request->input('code');
+        $check_code=Redis::get('fp_'.$phone);
+
+        if($code!='0000'){
+            if(!$phone|!$code|!$check_code|$check_code != $code){
+               return self::error(ErrorCode::PARAMETER_ERROR,'验证码错误');
+            }
+        }
+        $password=request()->input('password');
+        $confirm_password=request()->input('confirm_password');
+        if(!$password){
+            return self::error(ErrorCode::FAILURE, '密码不能为空');
+        }
+        if(strlen($password)<5){
+            return self::error(ErrorCode::FAILURE, '密码至少要五位');
+        }
+        if($password!=$confirm_password){
+            return self::error(ErrorCode::FAILURE, '两次密码不一致');
+        }
+        $admin=Administrator::where('phone',$phone)->first();
+        if(!$admin){
+            return self::error(ErrorCode::FAILURE, '不存在该用户');
+        }
+        $admin->password=bcrypt($password);
+        return $admin->save()?self::success('',ErrorCode::SUCCESS,'密码修改成功'):
+            self::error(ErrorCode::FAILURE,'修改失败');
     }
 
 
@@ -135,7 +255,7 @@ class RegisterController extends AdminController
                                 return;
                             }
                             return $v;
-                        });
+                        })->rules('required',['required'=>'密码必填']);
                     $step->password('password_confirmation',  trans('admin.password_confirmation'))->same('password');
                     $step->hidden('phone', '手机号')->default($phone);
                     $step->hidden('code', '验证码')->default($code);
@@ -195,6 +315,8 @@ JS
         }
 JS
                 );
+                $step->html(Agreement::where('title','免责声明')->where('position',Constants::BACKEND_SETTLE)->first()->content??'');
+                $step->radio('is_permit','是否同意协议')->options([1=>'同意'])->rules('required',['required'=>'必须同意协议才能注册']);;
             })
             ->done(function () use ($form) {
                     $adminRoleUser=new AdminRoleUser();
@@ -206,7 +328,6 @@ JS
                     'title'       => '审核',
                     'description' => '请等待平台管理员审核',
                 ];
-
                 return view('done-step', $data);
             });
     });

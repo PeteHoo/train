@@ -2,6 +2,14 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\AdminAuthenticate;
+use Dcat\Admin\Http\Middleware\Application;
+use Dcat\Admin\Http\Middleware\Authenticate;
+use Dcat\Admin\Http\Middleware\Bootstrap;
+use Dcat\Admin\Http\Middleware\Permission;
+use Dcat\Admin\Http\Middleware\Pjax;
+use Dcat\Admin\Http\Middleware\Session;
+use Dcat\Admin\Http\Middleware\WebUploader;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -41,6 +49,17 @@ class Kernel extends HttpKernel
             'throttle:60,1',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'adminPete'=>[
+            'auth'       => AdminAuthenticate::class,
+            'pjax'       => Pjax::class,
+            'permission' => Permission::class,
+            'bootstrap'  => Bootstrap::class,
+            'session'    => Session::class,
+            'upload'     => WebUploader::class,
+            'app'        => Application::class,
+
+        ]
     ];
 
     /**

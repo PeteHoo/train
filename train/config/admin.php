@@ -11,7 +11,7 @@ return [
     | login page.
     |
     */
-    'name' => '培训',
+    'name' => '食品培训',
 
     /*
     |--------------------------------------------------------------------------
@@ -63,7 +63,7 @@ return [
 
         'namespace' => 'App\\Admin\\Controllers',
 
-        'middleware' => ['web', 'admin'],
+        'middleware' => ['web', 'adminPete'],
 
         'enable_session_middleware' => false,
     ],

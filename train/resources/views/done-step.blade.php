@@ -53,6 +53,10 @@
 </div>
 
 <script>
+    $(function() {
+        window.location.href='/admin/auth/login';
+        //任何需要执行的js特效
+    });
     function backLogin() {
         window.location.href='/admin/auth/login';
     }

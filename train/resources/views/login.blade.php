@@ -24,7 +24,7 @@
 <div class="login-page bg-40">
     <div class="login-box">
         <div class="login-logo mb-2">
-            {{ config('admin.name') }}
+            {{ config('admin.name').'登录' }}
         </div>
         <div class="card">
             <div class="card-body login-card-body shadow-100">
@@ -88,8 +88,9 @@
                                 @endforeach
                                             </span>
                         @endif
-
+                        <div class="text-right"><span id="eyes" class="feather icon-eye" onclick="hideShowPassword()"></span></div>
                     </fieldset>
+
                     <div class="form-group d-flex justify-content-between align-items-center">
                         <div class="text-left">
                             @if(config('admin.auth.remember'))
@@ -103,10 +104,14 @@
                                                     </span>
                                         <span> {{ trans('admin.remember_me') }}</span>
                                     </div>
+
                                 </fieldset>
+
                             @endif
                         </div>
+                        <div class="text-right"><span onclick="forgotPassword()">{{ __('admin.forgot_password') }}</span></div>
                     </div>
+
 {{--                    <span onclick="gotoRegister()" class="btn btn-primary float-left login-btn">--}}
 
 {{--                        {{ __('admin.register') }}--}}
@@ -134,7 +139,22 @@
         });
     });
 
-    function gotoRegister() {
-        window.location.href='/admin/phone-register';
+    function forgotPassword() {
+        window.location.href='/admin/forgot-password';
     }
+
+    //添加登录密码明文、密文切换功能20210216
+    var eyes = $("#eyes");
+    var password = $("#password");
+
+    function hideShowPassword() {
+        if (password.attr("type") == "password") {
+            password.attr("type","text");
+            eyes.attr("class","feather icon-eye-off"); //闭眼图片
+        } else {
+            password.attr("type","password");
+            eyes.attr("class","feather icon-eye"); // 睁眼图片
+        }
+    }
+
 </script>

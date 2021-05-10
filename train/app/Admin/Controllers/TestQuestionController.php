@@ -24,6 +24,7 @@ class TestQuestionController extends AdminController
     protected function grid()
     {
         return Grid::make(new TestQuestion(), function (Grid $grid) {
+            $grid->setResource('test-question');
             if (Admin::user()->isRole('mechanism')) {
                 $grid->model()->where('mechanism_id', Admin::user()->id);
             }

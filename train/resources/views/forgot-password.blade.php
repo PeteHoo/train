@@ -24,13 +24,13 @@
 <div class="login-page bg-40">
     <div class="login-box">
         <div class="login-logo mb-2">
-            {{ config('admin.name').'注册' }}
+            {{ config('admin.name').__('admin.find_password') }}
         </div>
         <div class="card">
 
             <div class="card-body login-card-body shadow-100">
-                <a href="/admin/home"><i class="feather icon-chevron-left"></i></a>
-                <p class="login-box-msg mt-1 mb-1">{{ __('admin.register') }}</p>
+                <a href="auth/login"><i class="feather icon-chevron-left"></i></a>
+                <p class="login-box-msg mt-1 mb-1">{{ __('admin.find_password') }}</p>
 
                 <form id="login-form" method="POST">
 
@@ -105,7 +105,7 @@
 
                     <span onclick="verifyCode()" class="btn btn-primary float-right">
 
-                        {{ __('admin.register') }}
+                        {{ __('admin.next') }}
                         &nbsp;
                         <i class="feather icon-arrow-right"></i>
                     </span>
@@ -119,7 +119,7 @@
 <script>
     function sendCode() {
         $.ajax({
-            url:"send-code",
+            url:"send-forgot-password-code",
             async:false,
             method:'post',
             data:{
@@ -133,7 +133,7 @@
         var phone=$( "input[name='phone']").val();
         var code=$( "input[name='code']").val();
         $.ajax({
-            url:"verify-code",
+            url:"verify-forgot-password-code",
             async:false,
             method:'post',
             data:{
@@ -141,11 +141,9 @@
                 code:code
             },
             success:function(res){
-                console.log(res);
                 if(res.code==200){
-                    window.location.href='/admin/register/create?phone='+phone+'&code='+code;
-                }
-                else{
+                    window.location.href='/admin/change-password-page?phone='+phone+'&code='+code;
+                }else{
                     Dcat.info(res.message);
                 }
             }});

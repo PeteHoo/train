@@ -39,7 +39,12 @@ Route::group([
 
 
     });
-    $router->get('home','RegisterController@home');
+    $router->get('home','RegisterController@home');//新版首页
+    $router->get('forgot-password','RegisterController@forgotPassword');//找回密码
+    $router->post('send-forgot-password-code','RegisterController@sendFindPasswordCode');//找回密码
+    $router->post('verify-forgot-password-code','RegisterController@verifyForgotPasswordCode');//找回密码
+    $router->get('change-password-page','RegisterController@changePasswordPage');//找回密码
+    $router->post('change-password','RegisterController@changePassword');//找回密码
     $router->get('phone-register','RegisterController@register');
     $router->post('send-code','RegisterController@sendCode');
     $router->post('verify-code','RegisterController@verifyCode');

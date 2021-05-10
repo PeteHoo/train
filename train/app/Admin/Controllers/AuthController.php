@@ -19,7 +19,6 @@ class AuthController extends BaseAuthController
         if ($this->guard()->check()) {
             return redirect($this->getRedirectPath());
         }
-
         return $content->full()->body(view($this->view));
     }
 
@@ -65,5 +64,19 @@ class AuthController extends BaseAuthController
         return $this->validationErrorsResponse([
             $this->username() => $this->getFailedLoginMessage(),
         ]);
+    }
+
+    public function getLogout(Request $request)
+    {
+        $this->guard()->logout();
+
+        $request->session()->invalidate();
+
+        $path = admin_url('home');
+        if ($request->pjax()) {
+            return "<script>location.href = '$path';</script>";
+        }
+
+        return redirect($path);
     }
 }

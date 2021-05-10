@@ -94,7 +94,7 @@
 
                     <a href="auth/login">登录</a>
 
-                    <a href="phone-register">注册</a>
+                    <a href="/admin/phone-register">注册</a>
 
                 </div>
 
