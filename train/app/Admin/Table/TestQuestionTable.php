@@ -29,7 +29,6 @@ class TestQuestionTable extends LazyRenderable
         $mechanism_id = $this->mechanism_id;
         $type=$this->type;
         $occupation_id=$this->occupation_id;
-        dd($occupation_id);
         if($type==Constants::SINGLE_CHOICE){
             $count=Occupation::find($occupation_id)->choice_question_num??0;
         }
