@@ -13,9 +13,8 @@ class ExhibitionResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'occupation_id' => $this->occupation->name??'',
-            'href_way' => $this->href_way,
-            'material_id' => $this->material->name??'',
+            'href_way' => (int)$this->href_way,
+            'material_id' => (int)$this->material_id,
             'link' => $this->link,
             'status' =>  $this->status,
             'sort' => $this->sort,
