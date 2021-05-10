@@ -28,6 +28,7 @@
         </div>
         <div class="card">
             <div class="card-body login-card-body shadow-100">
+                <a href="/admin/home"><i class="feather icon-chevron-left"></i></a>
                 <p class="login-box-msg mt-1 mb-1">{{ __('admin.welcome_back') }}</p>
 
                 <form id="login-form" method="POST" action="{{ admin_url('auth/login') }}">
@@ -106,12 +107,12 @@
                             @endif
                         </div>
                     </div>
-                    <span onclick="gotoRegister()" class="btn btn-primary float-left login-btn">
+{{--                    <span onclick="gotoRegister()" class="btn btn-primary float-left login-btn">--}}
 
-                        {{ __('admin.register') }}
-                        &nbsp;
-                        <i class="feather icon-arrow-right"></i>
-                    </span>
+{{--                        {{ __('admin.register') }}--}}
+{{--                        &nbsp;--}}
+{{--                        <i class="feather icon-arrow-right"></i>--}}
+{{--                    </span>--}}
                     <button type="submit" class="btn btn-primary float-right login-btn">
 
                         {{ __('admin.login') }}

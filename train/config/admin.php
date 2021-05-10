@@ -146,6 +146,7 @@ return [
         // All method to path like: auth/users/*/edit
         // or specific method to path like: get:auth/users.
         'except' => [
+            'home',
             'auth/login',
             'auth/logout',
         ],
@@ -195,6 +196,7 @@ return [
         // or specific method to path like: get:auth/users.
         'except' => [
             '/',
+            'home',
             'auth/login',
             'auth/logout',
             'auth/setting',

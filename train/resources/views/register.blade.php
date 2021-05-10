@@ -29,7 +29,7 @@
         <div class="card">
 
             <div class="card-body login-card-body shadow-100">
-                <a href="auth/login"><i class="feather icon-chevron-left"></i></a>
+                <a href="/admin/home"><i class="feather icon-chevron-left"></i></a>
                 <p class="login-box-msg mt-1 mb-1">{{ __('admin.register') }}</p>
 
                 <form id="login-form" method="POST">
