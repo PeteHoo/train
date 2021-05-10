@@ -25,6 +25,7 @@ class ExhibitionController extends AdminController
         return Grid::make(new Exhibition(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('title');
+            $grid->column('picture')->image();
             $grid->column('href_way')->display(function ($href_way){
                 return Constants::getHrefWayType($href_way);
             });
@@ -58,6 +59,7 @@ class ExhibitionController extends AdminController
         return Show::make($id, new Exhibition(), function (Show $show) {
             $show->field('id');
             $show->field('title');
+            $show->field('picture')->image();
             $show->field('href_way')->as(function ($href_way){
                 return Constants::getHrefWayType($href_way);
             });;
@@ -84,6 +86,7 @@ class ExhibitionController extends AdminController
         return Form::make(new Exhibition(), function (Form $form) {
             $form->display('id');
             $form->text('title');
+            $form->image('picture');
             $form->select('href_way')->options(Constants::getHrefWayItems())->when(Constants::H5,function ($form){
                 $form->url('link');
             })->when(Constants::IN,function ($form){
