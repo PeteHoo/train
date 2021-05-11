@@ -13,6 +13,7 @@ return [
         'picture' => '预览图',
         'status' => '状态',
         'sort' => '排序',
+        'is_open'=>'是否开放'
     ],
     'options' => [
     ],

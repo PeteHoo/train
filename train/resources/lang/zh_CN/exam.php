@@ -20,6 +20,7 @@ return [
         'single'=>'单选题',
         'single_item'=>'单选题',
         'judgment_item'=>'判断题',
+        'is_open'=>'是否开放',
     ],
     'options' => [
     ],

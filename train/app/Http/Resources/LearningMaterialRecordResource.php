@@ -20,6 +20,7 @@ class LearningMaterialRecordResource extends JsonResource
             'title' => $this->learningMaterialDetail->title??'',
             'learning_material' => $this->learningMaterialDetail->learningMaterial->title??'',
             'learning_material_id' => $this->learningMaterialDetail->learningMaterial->id??'',
+            'learning_material_picture'=>getImageUrl($this->learningMaterialDetail->learningMaterial->picture??''),
             'chapter_id' => $this->learningMaterialDetail->chapter_id??'',
             'chapter' => $this->learningMaterialDetail->learningMaterialChapter->title??'',
             'description' => $this->learningMaterialDetail->description??'',

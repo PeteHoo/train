@@ -37,6 +37,9 @@ class TestQuestionController extends AdminController
 //                return json_decode($description_image,true);
 //            })->image(config('app.file_url'), 50, 50);
             $grid->column('选项')->display(function () {
+                if($this->type==Constants::JUDGMENT){
+                    return '';
+                }
                 $answer_single_option=json_decode($this->answer_single_option);
                 $result=array();
                 if($answer_single_option){
@@ -44,7 +47,7 @@ class TestQuestionController extends AdminController
                         $result[]=$v->选项.':'.$v->答案;
                     }
                 }
-                return $result;
+                return json_encode($result);
             });
             $grid->column('答案')->display(function () {
                 if ($this->type == Constants::SINGLE_CHOICE) {
@@ -62,7 +65,9 @@ class TestQuestionController extends AdminController
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
+                $filter->equal('type')->select(Constants::getQuestionTypeItems());
+                $filter->equal('mechanism_id')->select(Mechanism::getMechanismData());
+                $filter->equal('occupation_id')->select(Occupation::getOccupationData());
 
             });
         });
@@ -92,7 +97,7 @@ class TestQuestionController extends AdminController
                 if ($show->model()->type == Constants::SINGLE_CHOICE) {
                     return u2c($show->model()->answer_single_option);
                 } else {
-                    return u2c($show->model()->answer_judgment_option);
+                    return '';
                 }
             });
             $show->field('答案')->as(function () use ($show) {

@@ -33,31 +33,52 @@ class LearningMaterialController extends AdminController
     protected function grid()
     {
         return Grid::make(new LearningMaterial(), function (Grid $grid) {
-            if(Admin::user()->isRole('mechanism')){
-                $grid->model()->where('mechanism_id',Admin::user()->id);
+            if (Admin::user()->isRole('mechanism')) {
+                $grid->model()->where('mechanism_id', Admin::user()->id);
             }
             $grid->column('id')->sortable();
             $grid->column('title');
             $grid->column('description');
-            $grid->column('mechanism_id')->display(function ($mechanism_id){
+            $grid->column('mechanism_id')->display(function ($mechanism_id) {
                 return Mechanism::getMechanismDataDetail($mechanism_id);
             });
-            $grid->column('industry_id')->display(function ($industry_id){
+            $grid->column('industry_id')->display(function ($industry_id) {
                 return Industry::getIndustryDataDetail($industry_id);
             });
-            $grid->column('occupation_id')->display(function ($occupation_id){
+            $grid->column('occupation_id')->display(function ($occupation_id) {
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
 
             $grid->column('picture')->image();
-            $grid->column('is_open')->switch();
-            $grid->column('status')->switch();
-            $grid->column('sort')->editable();
-            $grid->column('created_at');
-            $grid->column('updated_at')->sortable();
+            $grid->column('is_open')->if(function ($column) {
+                if ($this->mechanism_id != Admin::user()->id) {
+                    $column->display(function ($status) {
+                        return Constants::getStatusType($status);
+                    });
+                } else {
+                    $column->switch();
+                }
+            });
 
+            if (Admin::user()->isRole('mechanism')) {
+                $grid->column('status')->help('需要平台审核')->display(function ($status) {
+                    return Constants::getStatusType($status);
+                });
+            } elseif (Admin::user()->isRole('administrator')) {
+                $grid->column('status')->switch();
+            }
+            $grid->column('sort')->editable();
+//            $grid->column('created_at');
+//            $grid->column('updated_at')->sortable();
+            $grid->actions(function ($actions){
+                if (Admin::user()->isRole('administrator')) {
+                    if($actions->row->mechanism_id!=1){
+                        $actions->disableEdit();
+                    }
+                }
+            });
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
+                $filter->equal('mechanism_id')->select(Mechanism::getMechanismData());
 
             });
         });
@@ -76,18 +97,22 @@ class LearningMaterialController extends AdminController
             $show->field('id');
             $show->field('title');
             $show->field('description');
-            $show->field('mechanism_id')->as(function ($mechanism_id){
+            $show->field('mechanism_id')->as(function ($mechanism_id) {
                 return Mechanism::getMechanismDataDetail($mechanism_id);
             });
-            $show->field('industry_id')->as(function ($industry_id){
+            $show->field('industry_id')->as(function ($industry_id) {
                 return Industry::getIndustryDataDetail($industry_id);
             });
-            $show->field('occupation_id')->as(function ($occupation_id){
+            $show->field('occupation_id')->as(function ($occupation_id) {
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
             $show->field('picture')->image();
-            $show->field('is_open');
-            $show->field('status');
+            $show->field('is_open')->as(function ($status) {
+                return Constants::getStatusType($status);
+            });
+            $show->field('status')->as(function ($status) {
+                return Constants::getStatusType($status);
+            });
             $show->field('sort');
             $show->field('created_at');
             $show->field('updated_at');
@@ -105,16 +130,16 @@ class LearningMaterialController extends AdminController
             $form->display('id');
             $form->text('title');
             $form->textarea('description');
-            if(Admin::user()->isRole('administrator')){
+            if (Admin::user()->isRole('administrator')) {
                 $form->select('mechanism_id')->options(Mechanism::getMechanismData())->required();
-            }elseif(Admin::user()->isRole('mechanism')){
+            } elseif (Admin::user()->isRole('mechanism')) {
                 $form->hidden('mechanism_id')->default(Admin::user()->id);
             }
             $form->select('industry_id')->options(Industry::getIndustryData())->load('occupation_id', 'api-occupation')->required();
             $form->select('occupation_id')->required();
             $form->image('picture');  //可删除
             $form->switch('is_open');
-            $form->switch('status');
+            $form->hidden('status')->default(Constants::CLOSE);
             $form->number('sort');
 
             $form->display('created_at');

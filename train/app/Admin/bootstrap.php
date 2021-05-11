@@ -24,6 +24,10 @@ use Dcat\Admin\Show;
  * Admin::js('/packages/prettydocs/js/main.js');
  *
  */
+Form::resolving(function (Form $form) {
+    $form->disableEditingCheck();
+    $form->disableViewCheck();
+});
 
 Form\Field::macro('savingArray', function () {
     return $this->saving(function ($v) {

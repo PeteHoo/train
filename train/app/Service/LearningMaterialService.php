@@ -15,6 +15,7 @@ class LearningMaterialService
     public static function getRecommendData($id, $occupation_id,$mechanism_id)
     {
         $query=LearningMaterial::where('id', '<>', $id)
+            ->where('status', Constants::OPEN)
             ->orderBy('sort', 'DESC')
             ->orderBy('created_at', 'DESC');
         if($occupation_id){

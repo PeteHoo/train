@@ -28,6 +28,7 @@ class ExamController extends AdminController
     protected function grid()
     {
         return Grid::make(new Exam(), function (Grid $grid) {
+            $grid->model()->orderBy('created_at', 'DESC');
             if (Admin::user()->isRole('mechanism')) {
                 $grid->model()->where('mechanism_id', Admin::user()->id);
             }
@@ -44,7 +45,29 @@ class ExamController extends AdminController
             });
             $grid->column('score');
             $grid->column('question_count');
-            $grid->column('status')->switch();
+            $grid->column('is_open')->if(function ($column) {
+                if ($this->mechanism_id != Admin::user()->id) {
+                    $column->display(function ($status) {
+                        return Constants::getStatusType($status);
+                    });
+                } else {
+                    $column->switch();
+                }
+            });
+            $grid->actions(function ($actions){
+                if (Admin::user()->isRole('administrator')) {
+                    if($actions->row->mechanism_id!=1){
+                        $actions->disableEdit();
+                    }
+                }
+            });
+            if (Admin::user()->isRole('mechanism')) {
+                $grid->column('status')->help('需要平台审核')->display(function ($status) {
+                    return Constants::getStatusType($status);
+                });
+            } elseif (Admin::user()->isRole('administrator')) {
+                $grid->column('status')->switch();
+            }
             $grid->actions(function (Grid\Displayers\Actions $actions) {
                 $actions->append('<a href="exam-detail?exam_id=' . $actions->row->id . '"><i class="fa fa-eye">题目详情</i></a>');
             });
@@ -195,7 +218,21 @@ class ExamController extends AdminController
             <<<JS
 $( "select[name='occupation_id']").on('change', function () {
     console.log('文件发生变动', this.value);
-    $( "input[name='hidden_occupation_id']").val(this.value);
+    var single=$('template.content')[0].innerHTML;
+    var single_start=single.indexOf("data-url=");
+    var single_end=single.indexOf("style=");
+    var single_str=single.substring(single_start+10,single_end-2);
+    var single_change=single_str+"&amp;occupation_id="+this.value;
+    var single_result=single.replace(single_str,single_change);
+    $('template.content')[0].innerHTML=single_result;
+    
+     var jugement=$('template.content')[1].innerHTML;
+     var jugement_start=jugement.indexOf("data-url=");
+     var jugement_end=jugement.indexOf("style=");
+     var jugement_str=jugement.substring(jugement_start+10,jugement_end-2);
+     var jugement_change=jugement_str+"&amp;occupation_id="+this.value;
+     var jugement_result=jugement.replace(jugement_str,jugement_change);
+     $('template.content')[1].innerHTML=jugement_result;
 });
 JS
         );
@@ -205,8 +242,8 @@ JS
             $form->hidden('mechanism_id')->value(Admin::user()->id);
             $form->select('industry_id')->options(Industry::getIndustryData())->load('occupation_id', 'api-occupation');
             $form->select('occupation_id');
-            $form->hidden('hidden_occupation_id')->default($form->occupation_id);
-            $form->switch('status');
+            $form->switch('is_open');
+            $form->hidden('status')->default(Constants::CLOSE);
             $form->display('created_at');
             $form->display('updated_at');
             $form->hidden('score');
@@ -230,9 +267,11 @@ JS
                     $form->score = 0;
                     $form->question_count = 0;
                 }
-                $form->deleteInput('hidden_occupation_id');
             });
             $form->saved(function ($form, $result) {
+                if($form->isEditing()){
+                    $result=$form->getKey();
+                }
                 if ($single_item = $form->single_item) {
                     $single_item = explode(',', $single_item);
                     $single_question_num = Occupation::find($form->occupation_id)->choice_question_num;

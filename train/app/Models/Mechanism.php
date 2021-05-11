@@ -31,6 +31,6 @@ class Mechanism extends Model
     }
 
     public static function getMechanismDataDetail($id){
-        return self::find($id)->company_name??'';
+        return self::find($id)->company_name??'平台';
     }
 }

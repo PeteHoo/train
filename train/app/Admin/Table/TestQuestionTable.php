@@ -29,11 +29,12 @@ class TestQuestionTable extends LazyRenderable
         $mechanism_id = $this->mechanism_id;
         $type=$this->type;
         $occupation_id=$this->occupation_id;
+        $occupation=Occupation::find($occupation_id);
         if($type==Constants::SINGLE_CHOICE){
-            $count=Occupation::find($occupation_id)->choice_question_num??0;
+            $count=$occupation->choice_question_num??0;
         }
         if($type==Constants::JUDGMENT){
-            $count=Occupation::find($occupation_id)->judgment_question_num??0;
+            $count=$occupation->judgment_question_num??0;
         }
 
         return Grid::make(new TestQuestion(), function (Grid $grid)use($type,$mechanism_id,$count) {
@@ -50,10 +51,7 @@ class TestQuestionTable extends LazyRenderable
 
             $grid->paginate(10);
             $grid->disableActions();
-            $grid->tools('<span class="d-none d-sm-inline">题目数量'.$count.'</span>');
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->like('description','题目');
-            });
+            $grid->tools('<span class="d-none d-sm-inline">可选'.$count.'题</span>');
         });
     }
 }
