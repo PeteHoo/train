@@ -85,6 +85,7 @@ class LearningMaterialController extends ApiController
         if ($data) {
             foreach ($data->chapter as $k => &$v) {
                 foreach ($v->learningMaterialDetail as $kk => &$vv) {
+                    $vv->video=getImageUrl($vv->video);
                     $vv->duration=changeTimeType(get_duration_params($vv->video));
                     if (in_array($vv->id, $learningMaterialRecord)) {
                         $vv->is_study = 1;
