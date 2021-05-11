@@ -131,8 +131,8 @@ class ExamController extends ApiController
         $data['judgment_question_score']=$judgment_question_score;
         $data['exam_time']=$occupation->exam_time;
         $data['passing_grade']=$occupation->passing_grade;
-        $data['score']=$occupation->score;
-        $data['question_count']=$occupation->question_count;
+        $data['score']=$choice_question_num*$choice_question_score+$judgment_question_num*$judgment_question_score;
+        $data['question_count']=$choice_question_num+$judgment_question_num;
         $data['status']=Constants::OPEN;
         $data['created_at']=dateNow();
         $data['updated_at']=dateNow();
