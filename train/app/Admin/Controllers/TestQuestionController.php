@@ -33,9 +33,9 @@ class TestQuestionController extends AdminController
                 return Constants::getQuestionType($type);
             });
             $grid->column('description');
-            $grid->column('description_image')->display(function ($description_image){
-                return json_decode($description_image,true);
-            })->image(config('app.file_url'), 50, 50);
+//            $grid->column('description_image')->display(function ($description_image){
+//                return json_decode($description_image,true);
+//            })->image(config('app.file_url'), 50, 50);
             $grid->column('选项')->display(function () {
                 $answer_single_option=json_decode($this->answer_single_option);
                 $result=array();

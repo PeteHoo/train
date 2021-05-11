@@ -45,8 +45,6 @@ class ExamController extends AdminController
             $grid->column('score');
             $grid->column('question_count');
             $grid->column('status')->switch();
-            $grid->column('created_at');
-            $grid->column('updated_at')->sortable();
             $grid->actions(function (Grid\Displayers\Actions $actions) {
                 $actions->append('<a href="exam-detail?exam_id=' . $actions->row->id . '"><i class="fa fa-eye">题目详情</i></a>');
             });

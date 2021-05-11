@@ -161,7 +161,7 @@ return [
         | The global Grid action display class.
         |--------------------------------------------------------------------------
         */
-        'grid_action_class' => Dcat\Admin\Grid\Displayers\DropdownActions::class,
+        'grid_action_class' => Dcat\Admin\Grid\Displayers\Actions::class,
 
         'column_selector' => [
             'store' => Dcat\Admin\Grid\ColumnSelector\SessionStore::class,
