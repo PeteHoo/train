@@ -32,7 +32,9 @@ class TestQuestionController extends AdminController
             $grid->column('type')->display(function ($type) {
                 return Constants::getQuestionType($type);
             });
-            $grid->column('description');
+            $grid->column('description')->display(function ($description){
+               return mb_substr($description,0,10,'utf-8');
+            });
 //            $grid->column('description_image')->display(function ($description_image){
 //                return json_decode($description_image,true);
 //            })->image(config('app.file_url'), 50, 50);
@@ -47,7 +49,7 @@ class TestQuestionController extends AdminController
                         $result[]=$v->选项.':'.$v->答案;
                     }
                 }
-                return json_encode($result);
+                return $result;
             });
             $grid->column('答案')->display(function () {
                 if ($this->type == Constants::SINGLE_CHOICE) {
@@ -62,8 +64,6 @@ class TestQuestionController extends AdminController
             $grid->column('occupation_id')->display(function ($occupation_id) {
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
-            $grid->column('created_at');
-            $grid->column('updated_at')->sortable();
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('type')->select(Constants::getQuestionTypeItems());
                 $filter->equal('mechanism_id')->select(Mechanism::getMechanismData());

@@ -225,7 +225,7 @@ $( "select[name='occupation_id']").on('change', function () {
     var single_change=single_str+"&amp;occupation_id="+this.value;
     var single_result=single.replace(single_str,single_change);
     $('template.content')[0].innerHTML=single_result;
-    
+
      var jugement=$('template.content')[1].innerHTML;
      var jugement_start=jugement.indexOf("data-url=");
      var jugement_end=jugement.indexOf("style=");
