@@ -20,7 +20,8 @@ class ApiController extends AdminController
     public function version(Request $request)
     {
         $appId = $request->get('q');
-        return Version::where('name', $appId)->get(['id', DB::raw('version_code as text')]);
+        $query=Version::where('name', $appId)->get(['id', DB::raw('version_code as text')]);
+        return $query;
     }
 
 

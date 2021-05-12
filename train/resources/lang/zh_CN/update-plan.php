@@ -6,7 +6,7 @@ return [
     ],
     'fields' => [
         'name' => 'app名称',
-        'md5' => '加密',
+        'md5' => '加密（MD5值）',
         'download_link' => '下载链接',
         'description' => '描述',
         'after_version' => '更新后版本',

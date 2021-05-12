@@ -38,7 +38,9 @@ class LearningMaterialController extends AdminController
             }
             $grid->column('id')->sortable();
             $grid->column('title');
-            $grid->column('description');
+            $grid->column('description')->display(function ($description){
+                return mb_chunk_split($description,15,"<br>");
+            });
             $grid->column('mechanism_id')->display(function ($mechanism_id) {
                 return Mechanism::getMechanismDataDetail($mechanism_id);
             });
@@ -64,10 +66,12 @@ class LearningMaterialController extends AdminController
                 $grid->column('status')->help('需要平台审核')->display(function ($status) {
                     return Constants::getStatusType($status);
                 });
+                $grid->column('sort');
             } elseif (Admin::user()->isRole('administrator')) {
                 $grid->column('status')->switch();
+                $grid->column('sort')->editable();
             }
-            $grid->column('sort')->editable();
+
 //            $grid->column('created_at');
 //            $grid->column('updated_at')->sortable();
             $grid->actions(function ($actions){
@@ -79,7 +83,9 @@ class LearningMaterialController extends AdminController
             });
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('mechanism_id')->select(Mechanism::getMechanismData());
-
+                $filter->equal('industry_id')->select(Industry::getIndustryData())->load('occupation_id', 'api-occupation');
+                $filter->equal('occupation_id')->select(Occupation::getOccupationData());
+                $filter->equal('is_open')->select(Constants::getStatusItems());
             });
         });
     }
@@ -130,17 +136,18 @@ class LearningMaterialController extends AdminController
             $form->display('id');
             $form->text('title');
             $form->textarea('description');
-            if (Admin::user()->isRole('administrator')) {
-                $form->select('mechanism_id')->options(Mechanism::getMechanismData())->required();
-            } elseif (Admin::user()->isRole('mechanism')) {
-                $form->hidden('mechanism_id')->default(Admin::user()->id);
-            }
+            $form->hidden('mechanism_id')->default(Admin::user()->id);
             $form->select('industry_id')->options(Industry::getIndustryData())->load('occupation_id', 'api-occupation')->required();
             $form->select('occupation_id')->required();
             $form->image('picture');  //可删除
-            $form->switch('is_open');
+
+            if (Admin::user()->isRole('mechanism')) {
+                $form->switch('is_open');
+            } elseif (Admin::user()->isRole('administrator')) {
+                $form->hidden('is_open')->default(Constants::OPEN);
+            }
             $form->hidden('status')->default(Constants::CLOSE);
-            $form->number('sort');
+            $form->hidden('sort')->default(0);
 
             $form->display('created_at');
             $form->display('updated_at');

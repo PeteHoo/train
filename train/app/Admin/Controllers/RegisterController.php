@@ -261,7 +261,7 @@ class RegisterController extends AdminController
                     $step->hidden('code', '验证码')->default($code);
                 })
                 ->add('基本信息', function ($step) use($phone,$code){
-                    $step->hidden('name', '名称')->default($phone);
+
                     $step->hidden('phone', '手机号')->default($phone);
                     $step->hidden('code', '验证码')->default($code);
                     $step->select('member_type', '会员类型')->options(Constants::getMemberItems())->rules('required',['required'=>'会员类型必填']);
@@ -278,6 +278,7 @@ class RegisterController extends AdminController
                     $step->tel('contact_phone', '联系人手机号')->rules(['required',new Mobile()],['required'=>'联系人手机号必填']);
                 })
                 ->add('财务信息', function ($step)use($phone,$code) {
+                    $step->hidden('name', '名称');
                     $step->text('payee', '收款方')->readonly()->rules('required',['required'=>'收款方必填']);
                     $step->text('bank', '开户行')->rules('required',['required'=>'开户行必填']);
                     $step->text('bank_address', '开户行所在地')->rules('required',['required'=>'开户行所在地必填']);
@@ -292,8 +293,10 @@ class RegisterController extends AdminController
     Dcat.info('财务信息');
     console.log('财务信息', args);
     var firstFormArray = args.getFormArray(1);
-    console.log(firstFormArray);
+    var secondFormArray = args.getFormArray(1);
+    console.log(secondFormArray);
     $( "input[name='payee']").val(firstFormArray[5]['value']);
+    $( "input[name='name']").val(secondFormArray[4]['value']);
     JS;
                 });
 

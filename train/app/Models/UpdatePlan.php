@@ -13,10 +13,10 @@ class UpdatePlan extends Model
     public function versionName(){
         return $this->hasOne('App\Models\Version','id','name');
     }
-    public function afterVersion(){
+    public function afterVersionApi(){
         return $this->hasOne('App\Models\Version','id','after_version');
     }
-    public function beforeVersion(){
+    public function beforeVersionApi(){
         return $this->hasOne('App\Models\Version','id','before_version');
     }
 }

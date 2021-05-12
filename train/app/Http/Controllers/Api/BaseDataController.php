@@ -120,12 +120,12 @@ class BaseDataController extends ApiController
         }
 
         $version = UpdatePlan::where('status', Constants::OPEN)
-            ->where('before_version', $version->id)
+            ->whereRaw('FIND_IN_SET("'.$version->id.'",before_version)',true)
             ->where('name', $name)
             ->orderBy('after_version', 'DESC')
             ->with('versionName')
-            ->with('afterVersion')
-            ->with('beforeVersion')
+            ->with('afterVersionApi')
+            ->with('beforeVersionApi')
             ->first();
         if (!$version) {
             return self::error(ErrorCode::FAILURE, '未查询到更新信息');

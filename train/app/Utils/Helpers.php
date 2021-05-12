@@ -48,6 +48,24 @@ function getItems($items, $key = null)
     return '';
 }
 
+function getMultipleStringItems($items, $keys = null)
+{
+    if($keys){
+        $result=array();
+        foreach ($keys as $k=>$v){
+            if($v!==null){
+                if (isset($items[$v])) {
+                    $item['id']=(int)$v;
+                    $item['name']=$items[$v];
+                    $result[]=$item;
+                }
+            }
+        }
+        return $result;
+    }
+    return array();
+}
+
 function getMultipleItems($items, $keys = null)
 {
     $keys=json_decode($keys,true);
@@ -297,4 +315,10 @@ function changeTimeType($seconds)
         return gmstrftime('%H:%M:%S', $seconds);
     }
 
+}
+
+
+function mb_chunk_split($string, $length, $end){
+    $array=mb_str_split($string,$length);
+    return implode($end, $array);
 }
