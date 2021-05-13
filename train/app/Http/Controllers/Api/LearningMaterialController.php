@@ -82,6 +82,7 @@ class LearningMaterialController extends ApiController
         $learningMaterialRecord = array_unique($learningMaterialRecord);
         $learningMaterialRecord = array_values($learningMaterialRecord);
         //用户学过的课程
+        $detail_count=0;
         if ($data) {
             foreach ($data->chapter as $k => &$v) {
                 foreach ($v->learningMaterialDetail as $kk => &$vv) {
@@ -92,10 +93,12 @@ class LearningMaterialController extends ApiController
                     } else {
                         $vv->is_study = 0;
                     }
+                    $detail_count++;
                 }
             }
         }
-
+        $data=$data->toArray($request);
+        $data['detail_count']=$detail_count;
         return self::success($data);
     }
 

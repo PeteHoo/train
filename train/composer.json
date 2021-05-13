@@ -10,6 +10,7 @@
     "require": {
         "php": "^7.2.5|^8.0",
         "alibabacloud/sdk": "1.8.447",
+        "dcat/easy-excel": "1.0.5",
         "dcat/laravel-admin": "2.*",
         "doctrine/dbal": "2.12",
         "fideloper/proxy": "^4.4",

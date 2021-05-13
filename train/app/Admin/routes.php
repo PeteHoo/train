@@ -25,6 +25,7 @@ Route::group([
         $router->resource('learning-material-chapter', 'LearningMaterialChapterController');
         $router->resource('learning-material-detail', 'LearningMaterialDetailController');
         $router->resource('test-question', 'TestQuestionController');
+        $router->get('test-question-excel/import', 'TestQuestionExcelController@importExcel');
         $router->resource('exam', 'ExamController');
         $router->resource('exam-detail', 'ExamDetailController');
         $router->resource('app-user', 'AppUserController');

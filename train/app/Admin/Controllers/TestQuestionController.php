@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Actions\ChooseQuestionBatch;
+use App\Admin\Forms\TestQuestionExcelForm;
 use App\Admin\Repositories\TestQuestion;
 use App\Models\Mechanism;
 use App\Models\Occupation;
@@ -11,6 +12,7 @@ use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
 use Dcat\Admin\Form\NestedForm;
 use Dcat\Admin\Grid;
+use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
 use Illuminate\Support\Str;
@@ -33,21 +35,21 @@ class TestQuestionController extends AdminController
             $grid->column('type')->display(function ($type) {
                 return Constants::getQuestionType($type);
             });
-            $grid->column('description')->display(function ($description){
-                return mb_chunk_split($description,15,"<br>");
+            $grid->column('description')->display(function ($description) {
+                return mb_chunk_split($description, 15, "<br>");
             });
 //            $grid->column('description_image')->display(function ($description_image){
 //                return json_decode($description_image,true);
 //            })->image(config('app.file_url'), 50, 50);
             $grid->column('选项')->display(function () {
-                if($this->type==Constants::JUDGMENT){
+                if ($this->type == Constants::JUDGMENT) {
                     return '';
                 }
-                $answer_single_option=json_decode($this->answer_single_option);
-                $result=array();
-                if($answer_single_option){
-                    foreach ($answer_single_option as $k=>$v){
-                        $result[]=$v->选项.':'.$v->答案;
+                $answer_single_option = json_decode($this->answer_single_option);
+                $result = array();
+                if ($answer_single_option) {
+                    foreach ($answer_single_option as $k => $v) {
+                        $result[] = $v->选项 . ':' . $v->答案;
                     }
                 }
                 return $result;
@@ -71,6 +73,7 @@ class TestQuestionController extends AdminController
                 $filter->equal('occupation_id')->select(Occupation::getOccupationData());
 
             });
+            $grid->tools('<a class="btn btn-primary" href="test-question-excel/import">excel试题导入</a>');
         });
     }
 
@@ -139,16 +142,16 @@ class TestQuestionController extends AdminController
 //                        $table->text('option');
 //                    })->savingArray();
                     //dd($form->answer_single_option);
-                    $answer_single_option=json_decode($form->model()->answer_single_option);
-                    $a=$answer_single_option[0]??'';
-                    $b=$answer_single_option[1]??'';
-                    $c=$answer_single_option[2]??'';
-                    $d=$answer_single_option[3]??'';
+                    $answer_single_option = json_decode($form->model()->answer_single_option);
+                    $a = $answer_single_option[0] ?? '';
+                    $b = $answer_single_option[1] ?? '';
+                    $c = $answer_single_option[2] ?? '';
+                    $d = $answer_single_option[3] ?? '';
 
-                    $form->text('A')->placeholder('请输入答案')->value($a->答案??'');
-                    $form->text('B')->placeholder('请输入答案')->value($b->答案??'');
-                    $form->text('C')->placeholder('请输入答案')->value($c->答案??'');
-                    $form->text('D')->placeholder('请输入答案')->value($d->答案??'');
+                    $form->text('A')->placeholder('请输入答案')->value($a->答案 ?? '');
+                    $form->text('B')->placeholder('请输入答案')->value($b->答案 ?? '');
+                    $form->text('C')->placeholder('请输入答案')->value($c->答案 ?? '');
+                    $form->text('D')->placeholder('请输入答案')->value($d->答案 ?? '');
                     $form->select('true_single_answer')->options(Constants::getSingleChoiceOptionItems());
                 })
                 ->when(Constants::JUDGMENT, function ($form) {
@@ -158,17 +161,17 @@ class TestQuestionController extends AdminController
             $form->select('occupation_id')->required()->options(Occupation::getOccupationData());
             $form->display('created_at');
             $form->display('updated_at');
-            $form->saving(function ($form){
-                $data[0]['选项']='A';
-                $data[0]['答案']=$form->input('A');
-                $data[1]['选项']='B';
-                $data[1]['答案']=$form->input('B');
-                $data[2]['选项']='C';
-                $data[2]['答案']=$form->input('C');
-                $data[3]['选项']='D';
-                $data[3]['答案']=$form->input('D');
+            $form->saving(function ($form) {
+                $data[0]['选项'] = 'A';
+                $data[0]['答案'] = $form->input('A');
+                $data[1]['选项'] = 'B';
+                $data[1]['答案'] = $form->input('B');
+                $data[2]['选项'] = 'C';
+                $data[2]['答案'] = $form->input('C');
+                $data[3]['选项'] = 'D';
+                $data[3]['答案'] = $form->input('D');
 
-                $form->answer_single_option=json_encode($data);
+                $form->answer_single_option = json_encode($data);
                 $form->deleteInput('A');
                 $form->deleteInput('B');
                 $form->deleteInput('C');
@@ -176,4 +179,5 @@ class TestQuestionController extends AdminController
             });
         });
     }
+
 }

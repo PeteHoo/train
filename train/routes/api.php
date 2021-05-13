@@ -24,6 +24,9 @@ Route::group([],function ($route){
     $route->get('base-data/mechanism','Api\BaseDataController@mechanism');//获取机构
     $route->get('base-data/all-industry-occupation','Api\BaseDataController@allIndustryOccupation');//职业数据
 
+    $route->get('test-question-down','Api\DownloadController@testQuestionDownload');//获取题目导入模板
+
+
 });
 
 Route::group(['middleware' => ['auth.api']], function ($route) {

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "64f3cee07949821539d0ee6e611e693a",
+    "content-hash": "edc19d8d73eedc5a50c5097ff9fc2cc1",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -473,6 +473,85 @@
             "time": "2020-08-19T09:56:28+00:00"
         },
         {
+            "name": "box/spout",
+            "version": "v3.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/box/spout.git",
+                "reference": "0f20c99a7f8b8792840ac061c34f3450641a03cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/box/spout/zipball/0f20c99a7f8b8792840ac061c34f3450641a03cc",
+                "reference": "0f20c99a7f8b8792840ac061c34f3450641a03cc",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "ext-xmlreader": "*",
+                "ext-zip": "*",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2",
+                "phpunit/phpunit": "^8"
+            },
+            "suggest": {
+                "ext-iconv": "To handle non UTF-8 CSV files (if \"php-intl\" is not already installed or is too limited)",
+                "ext-intl": "To handle non UTF-8 CSV files (if \"iconv\" is not already installed)"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Box\\Spout\\": "src/Spout"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Adrien Loison",
+                    "email": "adrien@box.com"
+                }
+            ],
+            "description": "PHP Library to read and write spreadsheet files (CSV, XLSX and ODS), in a fast and scalable way",
+            "homepage": "https://www.github.com/box/spout",
+            "keywords": [
+                "OOXML",
+                "csv",
+                "excel",
+                "memory",
+                "odf",
+                "ods",
+                "office",
+                "open",
+                "php",
+                "read",
+                "scale",
+                "spreadsheet",
+                "stream",
+                "write",
+                "xlsx"
+            ],
+            "support": {
+                "issues": "https://github.com/box/spout/issues",
+                "source": "https://github.com/box/spout/tree/v3.2.0"
+            },
+            "time": "2021-02-10T09:53:55+00:00"
+        },
+        {
             "name": "clagiordano/weblibs-configmanager",
             "version": "v1.1.0",
             "source": {
@@ -595,6 +674,71 @@
                 "source": "https://github.com/danielstjules/Stringy"
             },
             "time": "2017-06-12T01:10:27+00:00"
+        },
+        {
+            "name": "dcat/easy-excel",
+            "version": "1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jqhph/easy-excel.git",
+                "reference": "da0565ae0a31b306947222c4e014054a7172e4c4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jqhph/easy-excel/zipball/da0565ae0a31b306947222c4e014054a7172e4c4",
+                "reference": "da0565ae0a31b306947222c4e014054a7172e4c4",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "box/spout": "~3",
+                "league/flysystem": "~1|~2",
+                "php": ">=7.1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^2",
+                "phpunit/phpunit": "~7|~8.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Dcat\\EasyExcel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jqh",
+                    "email": "841324345@qq.com"
+                }
+            ],
+            "description": "使用简单实用的语义化接口快速读写Excel文件",
+            "homepage": "https://github.com/jqhph/easy-excel",
+            "keywords": [
+                "box spout",
+                "csv",
+                "easy excel",
+                "excel",
+                "ods",
+                "office",
+                "read",
+                "spreadsheet",
+                "stream",
+                "xlsx"
+            ],
+            "support": {
+                "issues": "https://github.com/jqhph/easy-excel/issues",
+                "source": "https://github.com/jqhph/easy-excel/tree/1.0.5"
+            },
+            "time": "2020-12-14T07:32:36+00:00"
         },
         {
             "name": "dcat/laravel-admin",
