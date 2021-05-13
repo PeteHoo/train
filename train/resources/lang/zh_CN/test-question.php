@@ -1,8 +1,8 @@
 <?php
 return [
     'labels' => [
-        'TestQuestion' => '题库',
-        'test-question' => '题库',
+        'TestQuestion' => '试题',
+        'test-question' => '试题',
     ],
     'fields' => [
         'type' => '类型',
