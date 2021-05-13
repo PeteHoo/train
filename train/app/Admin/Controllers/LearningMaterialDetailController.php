@@ -21,6 +21,7 @@ class LearningMaterialDetailController extends AdminController
     protected function grid()
     {
         return Grid::make(new LearningMaterialDetail(), function (Grid $grid) {
+            $grid->model()->orderBy('created_at','DESC');
             if(Admin::user()->isRole('mechanism')){
                 $learning_materials=LearningMaterial::getLearningMaterialIds(Admin::user()->id);
                 $grid->model()->whereIn('learning_material_id',$learning_materials);
@@ -30,7 +31,7 @@ class LearningMaterialDetailController extends AdminController
             $grid->column('chapter_id')->display(function ($chapter_id){
                 return LearningMaterialChapter::getLearningMaterialChapterDataDetail($chapter_id);
             });
-            $grid->column('description');
+//            $grid->column('description');
             $grid->column('video')->display(function ($video){
                 if($video){
                     return '<div class="lake-form-media-row-img"><video style="width:200px;height: 100px"controls="controls" width="100%" height="100%" src="'.config('app.file_url').$video.'"></video>';
@@ -38,14 +39,14 @@ class LearningMaterialDetailController extends AdminController
                     return '';
                 }
             });
-            $grid->column('sort');
-            $grid->column('duration');
+            //$grid->column('sort');
+            $grid->column('duration')->display(function (){
+                return changeTimeType(get_duration_params(($this->video)));
+            });
             $grid->column('status')->switch();
-            $grid->column('created_at');
-            $grid->column('updated_at')->sortable();
 
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
+                $filter->like('title');
 
             });
         });
@@ -70,7 +71,9 @@ class LearningMaterialDetailController extends AdminController
             $show->field('video')->file();
             $show->field('sort');
             $show->field('status');
-            $show->field('duration');
+            $show->field('duration')->as(function (){
+                return changeTimeType(get_duration_params(($this->video)));
+            });
             $show->field('created_at');
             $show->field('updated_at');
         });
@@ -92,12 +95,10 @@ class LearningMaterialDetailController extends AdminController
                 $form->select('learning_material_id')->options(LearningMaterial::getLearningMaterialData(Admin::user()->id))->load('chapter_id','api-chapter');
             }
             $form->select('chapter_id');
-            $form->text('description');
+//            $form->hidden('description');
             $form->file('video')->url('file-material');
-            $form->number('sort');
+            $form->hidden('sort')->default(0);
             $form->switch('status');
-            $form->time('duration')->default(0);
-
             $form->display('created_at');
             $form->display('updated_at');
         });

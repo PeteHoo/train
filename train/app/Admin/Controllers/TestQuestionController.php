@@ -13,6 +13,7 @@ use Dcat\Admin\Form\NestedForm;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 use Dcat\Admin\Http\Controllers\AdminController;
+use Illuminate\Support\Str;
 
 class TestQuestionController extends AdminController
 {
@@ -33,7 +34,7 @@ class TestQuestionController extends AdminController
                 return Constants::getQuestionType($type);
             });
             $grid->column('description')->display(function ($description){
-               return mb_substr($description,0,10,'utf-8');
+                return mb_chunk_split($description,15,"<br>");
             });
 //            $grid->column('description_image')->display(function ($description_image){
 //                return json_decode($description_image,true);
