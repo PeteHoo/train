@@ -39,7 +39,7 @@ class LearningMaterialDetailController extends AdminController
                     return '';
                 }
             });
-            //$grid->column('sort');
+            $grid->column('sort');
             $grid->column('duration')->display(function (){
                 return changeTimeType(get_duration_params(($this->video)));
             });
@@ -97,7 +97,7 @@ class LearningMaterialDetailController extends AdminController
             $form->select('chapter_id');
 //            $form->hidden('description');
             $form->file('video')->url('file-material');
-            $form->hidden('sort')->default(0);
+            $form->number('sort')->default(0);
             $form->switch('status');
             $form->display('created_at');
             $form->display('updated_at');

@@ -110,100 +110,6 @@ class ExamController extends AdminController
                     return Constants::getStatusType($status);
                 });
             });
-//            $show->judgment(function ($model)use($show) {
-//                $grid = new Grid(new TestQuestion());
-//                if (Admin::user()->isRole('administrator')) {
-//                    $grid->model()->where('type',Constants::JUDGMENT);
-//                } elseif (Admin::user()->isRole('mechanism')) {
-//                    $grid->model()->where('mechanism_id', $model->mechanism_id)->where('type',Constants::JUDGMENT);
-//                }
-//                $grid->setResource('test-question');
-//                $grid->column('type')->display(function ($type){
-//                    return Constants::getQuestionType($type);
-//                });
-//                $grid->column('attributes')->display(function ($attributes){
-//                    return Constants::getQuestionAttributeType($attributes);
-//                });
-//                $grid->column('description');
-//                $grid->column('description_image')->image();
-//                $grid->column('选项')->display(function (){
-//                    if($this->type==Constants::SINGLE_CHOICE){
-//                        return u2c($this->answer_single_option);
-//                    }else{
-//                        return u2c($this->answer_judgment_option);
-//                    }
-//                });
-//                $grid->column('答案')->display(function (){
-//                    if($this->type==Constants::SINGLE_CHOICE){
-//                        return u2c($this->true_single_answer);
-//                    }else{
-//                        return u2c($this->true_judgment_answer);
-//                    }
-//                });
-//
-//                $grid->column('mechanism_id')->display(function ($mechanism_id){
-//                    return Mechanism::getMechanismDataDetail($mechanism_id);
-//                });
-//                $grid->column('created_at');
-//                $grid->column('updated_at')->sortable();
-//
-//                $grid->filter(function (Grid\Filter $filter) {
-//                    $filter->like('description');
-//                    $filter->equal('attributes')->select(Constants::getQuestionAttributeItems());
-//                });
-//                $grid->disableDeleteButton();
-//                $grid->batchActions(function(Grid\Tools\BatchActions $actions)use($show){
-//                    $actions->add(new ChooseQuestionBatch($show->model()->id,Constants::JUDGMENT));
-//                });
-//                return $grid;
-//            });
-//            $show->single(function ($model)use($show) {
-//                $grid = new Grid(new TestQuestion());
-//                if (Admin::user()->isRole('administrator')) {
-//                    $grid->model()->where('type',Constants::SINGLE_CHOICE);
-//                } elseif (Admin::user()->isRole('mechanism')) {
-//                    $grid->model()->where('mechanism_id', $model->mechanism_id)->where('type',Constants::SINGLE_CHOICE);
-//                }
-//
-//                $grid->setResource('test-question');
-//                $grid->column('type')->display(function ($type){
-//                    return Constants::getQuestionType($type);
-//                });
-//                $grid->column('attributes')->display(function ($attributes){
-//                    return Constants::getQuestionAttributeType($attributes);
-//                });
-//                $grid->column('description');
-//                $grid->column('description_image')->image();
-//                $grid->column('选项')->display(function (){
-//                    if($this->type==Constants::SINGLE_CHOICE){
-//                        return u2c($this->answer_single_option);
-//                    }else{
-//                        return u2c($this->answer_judgment_option);
-//                    }
-//                });
-//                $grid->column('答案')->display(function (){
-//                    if($this->type==Constants::SINGLE_CHOICE){
-//                        return u2c($this->true_single_answer);
-//                    }else{
-//                        return u2c($this->true_judgment_answer);
-//                    }
-//                });
-//
-//                $grid->column('mechanism_id')->display(function ($mechanism_id){
-//                    return Mechanism::getMechanismDataDetail($mechanism_id);
-//                });
-//                $grid->column('created_at');
-//                $grid->column('updated_at')->sortable();
-//                $grid->filter(function (Grid\Filter $filter) {
-//                    $filter->like('description');
-//                    $filter->equal('attributes')->select(Constants::getQuestionAttributeItems());
-//                });
-//                $grid->disableDeleteButton();
-//                $grid->batchActions(function(Grid\Tools\BatchActions $actions)use($show){
-//                    $actions->add(new ChooseQuestionBatch($show->model()->id,Constants::SINGLE_CHOICE));
-//                });
-//                return $grid;
-//            });
         });
     }
 
@@ -268,6 +174,9 @@ JS
                         $form->score = 0;
                         $form->question_count = 0;
                     }
+                }
+                if (Admin::user()->isRole('mechanism')) {
+                    $form->status=Constants::CLOSE;
                 }
             });
             $form->saved(function ($form, $result) {

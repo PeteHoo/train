@@ -38,9 +38,16 @@ class TestQuestionTable extends LazyRenderable
         }
 
         return Grid::make(new TestQuestion(), function (Grid $grid)use($type,$mechanism_id,$count) {
-            $grid->model()
-                ->where('type',$type)
-                ->where('mechanism_id',$mechanism_id);
+            if($mechanism_id==1){
+                $grid->model()->where('mechanism_id',$mechanism_id)->where('type',$type);
+            }else{
+                $grid->model()->where('type',$type)->where(function ($query)use($mechanism_id){
+                    $query->where('mechanism_id','<>',$mechanism_id)->where('is_open',Constants::OPEN);
+                })->orWhere(function ($query)use($mechanism_id){
+                    $query->where('mechanism_id',$mechanism_id);
+                });
+            }
+
             $grid->column('id');
             $grid->column('type');
             $grid->column('description','题目');

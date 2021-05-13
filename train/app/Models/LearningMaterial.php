@@ -47,6 +47,10 @@ class LearningMaterial extends Model
     }
 
     public function chapter(){
-        return $this->hasMany('App\Models\LearningMaterialChapter','learning_material_id','id')->where('status',Constants::OPEN)->with('learningMaterialDetail');
+        return $this->hasMany('App\Models\LearningMaterialChapter','learning_material_id','id')
+            ->where('status',Constants::OPEN)
+            ->with('learningMaterialDetail')
+            ->orderBy('sort','DESC')
+            ->orderBy('created_at','DESC');
     }
 }
