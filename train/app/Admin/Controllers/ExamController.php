@@ -259,13 +259,15 @@ JS
                 ->from(TestQuestionTable::make(['type' => Constants::JUDGMENT, 'mechanism_id' => Admin::user()->id, 'occupation_id' => $form->model()->hidden_occupation_id]))// 设置渲染类实例，并传递自定义参数
                 ->model(TestQuestion::class, 'id', 'name')->savingArray(); // 设置编辑数据显示
             $form->saving(function (Form $form) {
-                $occupation = Occupation::find($form->occupation_id);
-                if ($occupation) {
-                    $form->score = $occupation->choice_question_num * $occupation->choice_question_score + $occupation->judgment_question_num * $occupation->judgment_question_score;
-                    $form->question_count = $occupation->choice_question_num + $occupation->judgment_question_num;
-                } else {
-                    $form->score = 0;
-                    $form->question_count = 0;
+                if($form->occupation_id){
+                    $occupation = Occupation::find($form->occupation_id);
+                    if ($occupation) {
+                        $form->score = $occupation->choice_question_num * $occupation->choice_question_score + $occupation->judgment_question_num * $occupation->judgment_question_score;
+                        $form->question_count = $occupation->choice_question_num + $occupation->judgment_question_num;
+                    } else {
+                        $form->score = 0;
+                        $form->question_count = 0;
+                    }
                 }
             });
             $form->saved(function ($form, $result) {
