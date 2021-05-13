@@ -38,21 +38,11 @@ class TestQuestionController extends AdminController
             $grid->column('description')->display(function ($description) {
                 return mb_chunk_split($description, 15, "<br>");
             });
-//            $grid->column('description_image')->display(function ($description_image){
-//                return json_decode($description_image,true);
-//            })->image(config('app.file_url'), 50, 50);
             $grid->column('选项')->display(function () {
                 if ($this->type == Constants::JUDGMENT) {
                     return '';
                 }
-                $answer_single_option = json_decode($this->answer_single_option);
-                $result = array();
-                if ($answer_single_option) {
-                    foreach ($answer_single_option as $k => $v) {
-                        $result[] = $v->选项 . ':' . $v->答案;
-                    }
-                }
-                return $result;
+                return json_decode($this->answer_single_option) ?? '';
             });
             $grid->column('答案')->display(function () {
                 if ($this->type == Constants::SINGLE_CHOICE) {
@@ -97,18 +87,17 @@ class TestQuestionController extends AdminController
 
             $show->field('description_image')->image();
 
-            $show->field('选项')->as(function () use ($show) {
-                if ($show->model()->type == Constants::SINGLE_CHOICE) {
-                    return u2c($show->model()->answer_single_option);
-                } else {
+            $show->field('选项')->as(function () {
+                if ($this->type == Constants::JUDGMENT) {
                     return '';
                 }
+                return $this->answer_single_option;
             });
-            $show->field('答案')->as(function () use ($show) {
+            $show->field('答案')->as(function () {
                 if ($this->type == Constants::SINGLE_CHOICE) {
-                    return u2c($show->model()->true_single_answer);
+                    return $this->true_single_answer;
                 } else {
-                    return u2c($show->model()->true_judgment_answer);
+                    return $this->true_judgment_answer;
                 }
             });
             $show->field('mechanism_id')->as(function ($mechanism_id) {
@@ -131,27 +120,34 @@ class TestQuestionController extends AdminController
     {
         return Form::make(new TestQuestion(), function (Form $form) {
             $form->display('id');
-            $form->textarea('description');
+            $form->textarea('description')->attribute('maxlength', 100);
             $form->multipleImage('description_image')->savingArray();
             $form->hidden('answer_single_option');
 
             $form->select('type')->required()->options(Constants::getQuestionTypeItems())
                 ->when(Constants::SINGLE_CHOICE, function ($form) {
-//                    $form->table('answer_single_option', function (NestedForm $table) {
-//                        //$table->select('选项')->options(Constants::getSingleChoiceOptionItems());
-//                        $table->text('option');
-//                    })->savingArray();
-                    //dd($form->answer_single_option);
-                    $answer_single_option = json_decode($form->model()->answer_single_option);
-                    $a = $answer_single_option[0] ?? '';
-                    $b = $answer_single_option[1] ?? '';
-                    $c = $answer_single_option[2] ?? '';
-                    $d = $answer_single_option[3] ?? '';
-
-                    $form->text('A')->placeholder('请输入答案')->value($a->答案 ?? '');
-                    $form->text('B')->placeholder('请输入答案')->value($b->答案 ?? '');
-                    $form->text('C')->placeholder('请输入答案')->value($c->答案 ?? '');
-                    $form->text('D')->placeholder('请输入答案')->value($d->答案 ?? '');
+                    $answer_single_option = json_decode($form->model()->answer_single_option, true);
+                    if ($answer_single_option) {
+                        foreach ($answer_single_option as $k => $v) {
+                            if ($k == 'A') {
+                                $form->text('A')->placeholder('请输入答案')->value($v ?? '');
+                            }
+                            if ($k == 'B') {
+                                $form->text('B')->placeholder('请输入答案')->value($v ?? '');
+                            }
+                            if ($k == 'C') {
+                                $form->text('C')->placeholder('请输入答案')->value($v ?? '');
+                            }
+                            if ($k == 'D') {
+                                $form->text('D')->placeholder('请输入答案')->value($v ?? '');
+                            }
+                        }
+                    }else{
+                        $form->text('A')->placeholder('请输入答案');
+                        $form->text('B')->placeholder('请输入答案');
+                        $form->text('C')->placeholder('请输入答案');
+                        $form->text('D')->placeholder('请输入答案');
+                    }
                     $form->select('true_single_answer')->options(Constants::getSingleChoiceOptionItems());
                 })
                 ->when(Constants::JUDGMENT, function ($form) {
@@ -162,16 +158,16 @@ class TestQuestionController extends AdminController
             $form->display('created_at');
             $form->display('updated_at');
             $form->saving(function ($form) {
-                $data[0]['选项'] = 'A';
-                $data[0]['答案'] = $form->input('A');
-                $data[1]['选项'] = 'B';
-                $data[1]['答案'] = $form->input('B');
-                $data[2]['选项'] = 'C';
-                $data[2]['答案'] = $form->input('C');
-                $data[3]['选项'] = 'D';
-                $data[3]['答案'] = $form->input('D');
-
-                $form->answer_single_option = json_encode($data);
+                if ($form->type == Constants::SINGLE_CHOICE) {
+                    $data['A'] = $form->input('A');
+                    $data['B'] = $form->input('B');
+                    $data['C'] = $form->input('C');
+                    $data['D'] = $form->input('D');
+                    $form->answer_single_option = json_encode($data);
+                }
+                elseif($form->type == Constants::JUDGMENT){
+                    $form->answer_single_option='';
+                }
                 $form->deleteInput('A');
                 $form->deleteInput('B');
                 $form->deleteInput('C');

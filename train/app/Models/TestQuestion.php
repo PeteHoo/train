@@ -11,18 +11,33 @@ class TestQuestion extends Model
 
     protected $table = 'test_questions';
 
+    protected $fillable=[
+        'type',
+        'description',
+        'description_image',
+        'answer_single_option',
+        'answer_judgment_option',
+        'true_single_answer',
+        'true_judgment_answer',
+        'mechanism_id',
+        'occupation_id',
+        'created_at',
+        'updated_at',
+    ];
+
     protected $appends = ['answer_option','description_image_json'];
 
     public function getAnswerOptionAttribute(){
         if($this->attributes['type']==Constants::SINGLE_CHOICE){
-            $answer_single=u2c($this->attributes['answer_single_option']);
-            $answer_single=str_replace('选项','option',$answer_single);
-            $answer_single=str_replace('答案','answer',$answer_single);
-            return json_decode($answer_single);
+            $answer_single_option=json_decode($this->attributes['answer_single_option'],true);
+            $data=array();
+            foreach ($answer_single_option as $k=>$v){
+                $da['option']=$k;
+                $da['answer']=$v;
+                $data[]=$da;
+            }
+            return $data;
         }elseif($this->attributes['type']==Constants::JUDGMENT){
-//            $answer_judgment=u2c($this->attributes['answer_judgment_option']);
-//            $answer_judgment=str_replace('选项','option',$answer_judgment);
-//            $answer_judgment=str_replace('答案','answer',$answer_judgment);
             $data[0]['option']='正确';
             $data[0]['answer']='正确';
             $data[1]['option']='错误';

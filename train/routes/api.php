@@ -25,6 +25,7 @@ Route::group([],function ($route){
     $route->get('base-data/all-industry-occupation','Api\BaseDataController@allIndustryOccupation');//职业数据
 
     $route->get('test-question-down','Api\DownloadController@testQuestionDownload');//获取题目导入模板
+    $route->get('change-exam-option','Api\DownloadController@changeExamOption');//获取题目导入模板
 
 
 });

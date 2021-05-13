@@ -164,6 +164,10 @@ class Constants
         return getItems(self::getQuestionTypeItems(), $type);
     }
 
+    public static function getQuestionKey($value){
+        return getItems(array_flip(self::getQuestionTypeItems()), $value);
+    }
+
     const TEXT = 1;
     const IMAGE = 2;
 

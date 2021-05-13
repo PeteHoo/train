@@ -4,6 +4,10 @@
 namespace App\Admin\Forms;
 
 
+use App\Models\Industry;
+use App\Models\Occupation;
+use App\Models\TestQuestion;
+use App\Utils\Constants;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Widgets\Form;
 use Dcat\EasyExcel\Excel;
@@ -28,33 +32,47 @@ class TestQuestionExcelForm extends Form
     public function handle(array $input)
     {
         $mechanism_id=Admin::user()->id;
+        $occupation_id=$input['occupation_id'];
         $final_data = array();
 //        try {
-            foreach (Excel::import($input['file'])->disk('admin')->first()->toArray() as $v) {
-//                $v['类型'];
-//                $v['描述'];
-//                $v['选项'];
-//                $v['答案'];
-//                $v['图案'];
-                dd($v);
-//                $course_id = Course::getCourseIdByCode($v['类型']);
-//                $domain_id = $v['平台授权ID(在平台管理中查询)'];
-//                if ((!CourseDomain::where(['course_id' => $course_id, 'domain_id' => $domain_id])->first()) && $course_id && $domain_id) {
-//                    $data = array();
-//                    $data['couerse_id'] = $course_id;
-//                    $data['domain_id'] = $domain_id;
-//                    $data['can_see'] = 0;
-//                    $data['can_sale'] = 0;
-//                    $final_data[] = $data;
-//                }
+            foreach (Excel::import($input['file'])->disk('admin')->first()->toArray() as $k=> $v) {
+                $type=Constants::getQuestionKey($v['类型']);
+                if(!in_array($type,[Constants::SINGLE_CHOICE,Constants::JUDGMENT])){
+                    return $this->response()->error('第'.($k+1).'行类型不正确');
+                }
+                $data=array();
+                $data['type']=$type;
+                $data['description']=$v['描述'];
+                if($type==Constants::SINGLE_CHOICE){
+                    if(!($v['选项A']&&$v['选项B']&&$v['选项C']&&$v['选项D'])){
+                        return $this->response()->error('第'.($k+1).'行选项格式不正确');
+                    }
+                    $answer_single_option=array();
+                    $answer_single_option['A']=$v['选项A'];
+                    $answer_single_option['B']=$v['选项B'];
+                    $answer_single_option['C']=$v['选项C'];
+                    $answer_single_option['D']=$v['选项D'];
+                    $data['answer_single_option']=json_encode($answer_single_option);
+                    $data['true_single_answer']=$v['答案'];
+                    $data['true_judgment_answer']='';
+                }elseif($type==Constants::JUDGMENT){
+                    $data['answer_single_option']='';
+                    $data['true_single_answer']='';
+                    $data['true_judgment_answer']=$v['答案'];
+                }
+                $data['mechanism_id']=$mechanism_id;
+                $data['occupation_id']=$occupation_id;
+                $final_data[] = $data;
+
             }
-//            CourseDomain::insert($final_data);
+                TestQuestion::insert($final_data);
             //导入完成删除文件
             unlink(public_path('uploads') . '/' . $input['file']);
+
 //        } catch (\Exception $e) {
 //            return $this->response()->error('导入文件数据格式不正确');
 //        }
-        return $this->response()->success('附件上传成功')->location('/course-domain');
+        return $this->response()->success('附件上传成功')->location('/test-question');
     }
 
     /**
@@ -65,6 +83,7 @@ class TestQuestionExcelForm extends Form
         //导入excel表单
         $this->divider();
         $this->html('<a href="#" onclick="downloadTestQuestionExcel()"><img style="border:none;" src="' . config('app.url') . '/image/downloads.png"> 模板下载 </a>');
+        $this->select('occupation_id')->options(Occupation::getOccupationData())->required();
         $this->file('file');
     }
 }
