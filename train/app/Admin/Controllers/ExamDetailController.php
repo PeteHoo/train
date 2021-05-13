@@ -78,6 +78,36 @@ class ExamDetailController extends AdminController
             $form->number('sort')->default(0);
             $form->display('created_at');
             $form->display('updated_at');
+
+            $form->deleted(function (Form $form, $result) {
+                // 获取待删除行数据，这里获取的是一个二维数组
+                $dataArray = $form->model()->toArray();
+
+                // 通过 $result 可以判断数据是否删除成功
+                if (! $result) {
+                    return $form->response()->error('数据删除失败');
+                }
+               foreach ($dataArray as $k=>$data){
+
+               }
+                $exam=Exam::where('id',$data['exam_id'])->first();
+                if($data['type']==Constants::SINGLE_CHOICE){
+                    $single_item_array=json_decode($exam->single_item);
+                    $single_item_result=array_diff($single_item_array,(array)($data['question_id']));
+                    $single_item_result=array_values($single_item_result);
+                    $exam->single_item=json_encode($single_item_result);
+                    $exam->save();
+                }elseif($data['type']==Constants::JUDGMENT){
+                    $judgment_item_array=json_decode($exam->judgment_item);
+                    $judgment_item_result=array_diff($judgment_item_array,(array)$data['question_id']);
+                    $judgment_item_result=array_values($judgment_item_result);
+                    $exam->judgment_item=json_encode($judgment_item_result);
+                    $exam->save();
+                }
+                // 返回删除成功提醒，此处跳转参数无效
+                return $form->response()->success('删除成功');
+            });
+
         });
     }
 
