@@ -1,8 +1,8 @@
 <?php
 return [
     'labels' => [
-        'TestQuestionExcel' => '题库导入',
-        'test-question-excel' => '题库导入',
+        'TestQuestionExcel' => '试题导入',
+        'test-question-excel' => '试题导入',
         'import'=>'导入'
     ],
     'fields' => [
