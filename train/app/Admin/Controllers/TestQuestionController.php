@@ -64,6 +64,13 @@ class TestQuestionController extends AdminController
                 $filter->equal('occupation_id')->select(Occupation::getOccupationData());
 
             });
+            $grid->actions(function ($actions){
+                if (Admin::user()->isRole('administrator')) {
+                    if($actions->row->mechanism_id!=1){
+                        $actions->disableEdit();
+                    }
+                }
+            });
             $grid->tools('<a class="btn btn-primary" href="test-question-excel/import">excel试题导入</a>');
         });
     }
