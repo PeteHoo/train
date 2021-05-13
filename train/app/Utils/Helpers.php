@@ -316,6 +316,26 @@ function changeTimeType($seconds)
     }
 
 }
+/*
+ * 时间转int
+ */
+function timeToSecond($his)
+{
+    $str = explode(':', $his);
+
+    $len = count($str);
+
+    if ($len == 3) {
+        $time = $str[0] * 3600 + $str[1] * 60 + $str[2];
+    } elseif ($len == 2) {
+        $time = $str[0] * 60 + $str[1];
+    } elseif ($len == 1) {
+        $time = $str[0];
+    } else {
+        $time = 0;
+    }
+    return $time;
+}
 
 
 function mb_chunk_split($string, $length, $end){

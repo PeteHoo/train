@@ -171,7 +171,8 @@ class LearningMaterialController extends ApiController
         }
         $data['user_id'] = Auth::user()->user_id;
         $data['learning_material_detail_id']=$learning_material_detail_id;
-        return LearningMaterialRecord::firstOrCreate($data) ? self::success() : self::error(ErrorCode::FAILURE);
+        $append['duration']=timeToSecond($request->post('duration'));
+        return LearningMaterialRecord::firstOrCreate($data,$append) ? self::success() : self::error(ErrorCode::FAILURE);
     }
 
     /** 删除学习记录
