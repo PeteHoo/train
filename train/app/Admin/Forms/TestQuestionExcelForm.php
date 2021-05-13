@@ -34,7 +34,7 @@ class TestQuestionExcelForm extends Form
         $mechanism_id=Admin::user()->id;
         $occupation_id=$input['occupation_id'];
         $final_data = array();
-//        try {
+        try {
             foreach (Excel::import($input['file'])->disk('admin')->first()->toArray() as $k=> $v) {
                 $type=Constants::getQuestionKey($v['类型']);
                 if(!in_array($type,[Constants::SINGLE_CHOICE,Constants::JUDGMENT])){
@@ -62,6 +62,8 @@ class TestQuestionExcelForm extends Form
                 }
                 $data['mechanism_id']=$mechanism_id;
                 $data['occupation_id']=$occupation_id;
+                $data['created_at']=dateNow();
+                $data['updated_at']=dateNow();
                 $final_data[] = $data;
 
             }
@@ -69,10 +71,10 @@ class TestQuestionExcelForm extends Form
             //导入完成删除文件
             unlink(public_path('uploads') . '/' . $input['file']);
 
-//        } catch (\Exception $e) {
-//            return $this->response()->error('导入文件数据格式不正确');
-//        }
-        return $this->response()->success('附件上传成功')->location('/test-question');
+        } catch (\Exception $e) {
+            return $this->response()->error('导入文件数据格式不正确');
+        }
+        return $this->response()->success('导入成功')->location('/test-question');
     }
 
     /**
