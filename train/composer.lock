@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "edc19d8d73eedc5a50c5097ff9fc2cc1",
+    "content-hash": "14528060731713cf2c3a2ebf1c256f60",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -814,6 +814,71 @@
                 "source": "https://github.com/jqhph/dcat-admin/tree/2.0.22-beta"
             },
             "time": "2021-04-01T12:25:13+00:00"
+        },
+        {
+            "name": "dishcheng/yunxinsms",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/dishcheng/yunxinsms.git",
+                "reference": "1d3544c994ea8c259f3dd292cc2e56678e3ded87"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/dishcheng/yunxinsms/zipball/1d3544c994ea8c259f3dd292cc2e56678e3ded87",
+                "reference": "1d3544c994ea8c259f3dd292cc2e56678e3ded87",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "laravel/framework": ">=5.5",
+                "php": ">=7.0.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "DishCheng\\YunXinSms\\YunXinSmsProvider"
+                    ],
+                    "aliases": {
+                        "YunXinSms": "DishCheng\\YunXinSms\\YunXinSms"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "DishCheng\\YunXinSms\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "caicheng",
+                    "email": "251329204@qq.com"
+                }
+            ],
+            "description": "laravel网易云短信sdk",
+            "keywords": [
+                "laravel",
+                "sms",
+                "yunxin",
+                "云信",
+                "短信",
+                "网易云信"
+            ],
+            "support": {
+                "issues": "https://github.com/dishcheng/yunxinsms/issues",
+                "source": "https://github.com/dishcheng/yunxinsms/tree/master"
+            },
+            "time": "2018-11-28T15:08:52+00:00"
         },
         {
             "name": "dnoegel/php-xdg-base-dir",

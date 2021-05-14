@@ -18,6 +18,7 @@ use Dcat\Admin\Http\Controllers\AdminController;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Models\Administrator;
 use Dcat\Admin\Traits\LazyWidget;
+use DishCheng\YunXinSms\YunXinSms;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redis;
 
@@ -70,13 +71,17 @@ class RegisterController extends AdminController
         if(Administrator::where('phone',$data['phone'])->first()){
             return self::error(ErrorCode::FAILURE,'该手机号已注册');
         }
-        $aliTask = new AliTask();
+
         $code = mt_rand(1000, 9999);
         Redis::setex($data['phone'], 60 * 10, $code);
         Redis::setex($data['phone'].'time',60, 1);
+        //阿里短信
+        $aliTask = new AliTask();
         $data['params']['code'] = $code;
         $result = $aliTask->sendMessage($data['phone'],'SMS_171185461','皮特胡商城', '您正在申请手机注册，验证码为：${code}，5分钟内有效！', $data['params']);
-
+        //网易云短信
+        //$params = ['mobile' => $data['phone'], 'templateid' => 'xxxxxxx', 'authCode' => $code];
+        //$result=YunXinSms::code_post($params);
         if (!$result) {
             return self::error('', '发送失败');
         }
