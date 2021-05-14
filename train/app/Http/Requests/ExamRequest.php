@@ -23,7 +23,7 @@ class ExamRequest extends BaseRequest
                 break;
             case 'api/exam/list':
                 return [
-                    'perPage'=>['integer'],
+                    'per_page'=>['integer'],
                     'page'=>['integer'],
                     'occupation_id'=>['integer'],
                     'only_mechanism'=>['integer']

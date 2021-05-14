@@ -16,7 +16,7 @@ class LearningMaterialRequest extends BaseRequest
         switch ($this->route()->uri) {
             case 'api/learning-material/list':
                 return [
-                    'perPage'=>['integer'],
+                    'per_page'=>['integer'],
                     'page'=>['integer'],
                     'occupation_id'=>['integer']
                 ];
@@ -35,7 +35,7 @@ class LearningMaterialRequest extends BaseRequest
                 return [
                     'id'=>['required'],
                     'occupation_id'=>['required'],
-                    'perPage'=>['integer'],
+                    'per_page'=>['integer'],
                     'page'=>['integer'],
                 ];
                 break;

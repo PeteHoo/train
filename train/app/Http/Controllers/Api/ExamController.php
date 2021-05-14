@@ -81,7 +81,7 @@ class ExamController extends ApiController
                     });
             });
         }
-        return self::success(new ExamCollectionPaginate($query->paginate($request->get('perPage'))));
+        return self::success(new ExamCollectionPaginate($query->paginate($request->get('per_page'))));
     }
 
     public function examDetail(ExamRequest $request)
