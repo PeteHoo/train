@@ -36,7 +36,6 @@ class ExamRequest extends BaseRequest
                 break;
             case 'api/exam/random':
                 return [
-                    'only_mechanism'=>['required','integer'],
                     'occupation_id'=>['required','integer'],
                 ];
                 break;

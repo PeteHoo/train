@@ -45,15 +45,6 @@ class ExamController extends AdminController
             });
             $grid->column('score');
             $grid->column('question_count');
-            $grid->column('is_open')->if(function ($column) {
-                if ($this->mechanism_id != Admin::user()->id) {
-                    $column->display(function ($status) {
-                        return Constants::getStatusType($status);
-                    });
-                } else {
-                    $column->switch();
-                }
-            });
             $grid->actions(function ($actions){
                 if (Admin::user()->isRole('administrator')) {
                     if($actions->row->mechanism_id!=1){
@@ -68,11 +59,24 @@ class ExamController extends AdminController
             } elseif (Admin::user()->isRole('administrator')) {
                 $grid->column('status')->switch();
             }
+            if (Admin::user()->isRole('administrator')) {
+                $grid->disableEditButton();
+                $grid->disableCreateButton();
+                $grid->disableQuickEditButton();
+            }
             $grid->actions(function (Grid\Displayers\Actions $actions) {
                 $actions->append('<a href="exam-detail?exam_id=' . $actions->row->id . '"><i class="fa fa-eye">题目详情</i></a>');
+
+                    if (Admin::user()->isRole('administrator')) {
+                        $actions->disableEdit();
+                    }
+
             });
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
+                $filter->equal('mechanism_id')->select(Mechanism::getMechanismData());
+                $filter->equal('industry_id')->select(Industry::getIndustryData())->load('occupation_id', 'api-occupation');
+                $filter->equal('occupation_id');
+                $filter->like('name');
 
             });
         });
@@ -148,7 +152,6 @@ JS
             $form->hidden('mechanism_id')->value(Admin::user()->id);
             $form->select('industry_id')->options(Industry::getIndustryData())->load('occupation_id', 'api-occupation');
             $form->select('occupation_id');
-            $form->switch('is_open');
             $form->hidden('status')->default(Constants::CLOSE);
             $form->display('created_at');
             $form->display('updated_at');

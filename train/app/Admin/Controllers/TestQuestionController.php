@@ -58,10 +58,27 @@ class TestQuestionController extends AdminController
             $grid->column('occupation_id')->display(function ($occupation_id) {
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
+            $grid->column('is_open')->if(function ($column) {
+                if ($this->mechanism_id != Admin::user()->id) {
+                    $column->display(function ($status) {
+                        return Constants::getStatusType($status);
+                    });
+                } else {
+                    $column->switch();
+                }
+            });
+            if (Admin::user()->isRole('mechanism')) {
+                $grid->column('status')->help('需要平台审核')->display(function ($status) {
+                    return Constants::getStatusType($status);
+                });
+            } elseif (Admin::user()->isRole('administrator')) {
+                $grid->column('status')->switch();
+            }
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('type')->select(Constants::getQuestionTypeItems());
                 $filter->equal('mechanism_id')->select(Mechanism::getMechanismData());
                 $filter->equal('occupation_id')->select(Occupation::getOccupationData());
+                $filter->like('description');
 
             });
             $grid->actions(function ($actions){
@@ -114,6 +131,12 @@ class TestQuestionController extends AdminController
             $show->field('occupation_id')->as(function ($occupation_id) {
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
+            $show->field('is_open')->display(function ($status) {
+                return Constants::getStatusType($status);
+            });
+            $show->field('status')->display(function ($status) {
+                return Constants::getStatusType($status);
+            });
             $show->field('created_at');
             $show->field('updated_at');
         });
@@ -163,6 +186,8 @@ class TestQuestionController extends AdminController
                 });
             $form->hidden('mechanism_id')->default(Admin::user()->id);
             $form->select('occupation_id')->required()->options(Occupation::getOccupationData());
+            $form->switch('is_open');
+            $form->hidden('status')->default(Constants::CLOSE);
             $form->display('created_at');
             $form->display('updated_at');
             $form->saving(function ($form) {
@@ -175,6 +200,9 @@ class TestQuestionController extends AdminController
                 }
                 elseif($form->type == Constants::JUDGMENT){
                     $form->answer_single_option='';
+                }
+                if (Admin::user()->isRole('mechanism')) {
+                    $form->status=Constants::CLOSE;
                 }
                 $form->deleteInput('A');
                 $form->deleteInput('B');
