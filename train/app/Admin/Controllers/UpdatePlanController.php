@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 
 use App\Admin\Repositories\UpdatePlan;
+use App\Models\AppName;
 use App\Models\Version;
 use App\Utils\Constants;
 use Dcat\Admin\Form;
@@ -87,7 +88,7 @@ class UpdatePlanController extends AdminController
     {
         return Form::make(new UpdatePlan(), function (Form $form) {
             $form->display('id');
-            $form->select('name')->required()->options(Constants::getAppItems())->loads(['after_version','before_version'], ['api-version','api-version']);
+            $form->select('name')->required()->options(AppName::getAppNameData())->loads(['after_version','before_version'], ['api-version','api-version']);
             $form->text('md5');
             $form->file('download_link');
             $form->textarea('description');

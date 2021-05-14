@@ -342,3 +342,14 @@ function mb_chunk_split($string, $length, $end){
     $array=mb_str_split($string,$length);
     return implode($end, $array);
 }
+
+function genUserNumber()
+{
+    $chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    $username = "";
+    for ( $i = 0; $i < 6; $i++ )
+    {
+        $username .= $chars[mt_rand(0, strlen($chars))];
+    }
+    return strtoupper(base_convert(time() - 1420070400, 10, 36)).$username;
+}

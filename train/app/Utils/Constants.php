@@ -86,31 +86,6 @@ class Constants
     }
 
     /**
-     * 跳转方式
-     */
-    const FOOD = 1;
-    const MAKE_UP = 2;
-    const DRUGS = 3;
-
-    public static function getAppItems()
-    {
-        return [
-            self::FOOD => '食品',
-            self::MAKE_UP => '化妆',
-            self::DRUGS => '药品',
-        ];
-    }
-
-    public static function getAppType($app)
-    {
-        return getItems(self::getAppItems(), $app);
-    }
-
-    public static function getAppKey($name)
-    {
-        return getItems(array_flip(self::getAppItems()), $name);
-    }
-    /**
      * 协议位置
      */
     const BACKEND_SETTLE = 1;

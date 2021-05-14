@@ -13,8 +13,6 @@ namespace Dcat\Admin {
     /**
      * @property Grid\Column|Collection detail
      * @property Grid\Column|Collection width
-     * @property Grid\Column|Collection judgment
-     * @property Grid\Column|Collection single
      * @property Grid\Column|Collection id
      * @property Grid\Column|Collection name
      * @property Grid\Column|Collection type
@@ -69,11 +67,16 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection industry_id
      * @property Grid\Column|Collection occupation_id
      * @property Grid\Column|Collection api_token
+     * @property Grid\Column|Collection temp_mechanism_id
      * @property Grid\Column|Collection score
      * @property Grid\Column|Collection question_count
+     * @property Grid\Column|Collection single_item
+     * @property Grid\Column|Collection judgment_item
+     * @property Grid\Column|Collection is_open
      * @property Grid\Column|Collection exam_id
      * @property Grid\Column|Collection question_id
      * @property Grid\Column|Collection sort
+     * @property Grid\Column|Collection picture
      * @property Grid\Column|Collection href_way
      * @property Grid\Column|Collection material_id
      * @property Grid\Column|Collection link
@@ -84,13 +87,13 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection failed_at
      * @property Grid\Column|Collection words
      * @property Grid\Column|Collection count
+     * @property Grid\Column|Collection is_default
      * @property Grid\Column|Collection learning_material_id
      * @property Grid\Column|Collection chapter_id
-     * @property Grid\Column|Collection is_open
      * @property Grid\Column|Collection video
      * @property Grid\Column|Collection duration
+     * @property Grid\Column|Collection view_count
      * @property Grid\Column|Collection learning_material_detail_id
-     * @property Grid\Column|Collection picture
      * @property Grid\Column|Collection social_credit_code
      * @property Grid\Column|Collection deposit_bank
      * @property Grid\Column|Collection bank_card_number
@@ -106,7 +109,6 @@ namespace Dcat\Admin {
      * @property Grid\Column|Collection lng
      * @property Grid\Column|Collection lat
      * @property Grid\Column|Collection material_ids
-     * @property Grid\Column|Collection attributes
      * @property Grid\Column|Collection description_image
      * @property Grid\Column|Collection answer_single_option
      * @property Grid\Column|Collection answer_judgment_option
@@ -122,8 +124,6 @@ namespace Dcat\Admin {
      *
      * @method Grid\Column|Collection detail(string $label = null)
      * @method Grid\Column|Collection width(string $label = null)
-     * @method Grid\Column|Collection judgment(string $label = null)
-     * @method Grid\Column|Collection single(string $label = null)
      * @method Grid\Column|Collection id(string $label = null)
      * @method Grid\Column|Collection name(string $label = null)
      * @method Grid\Column|Collection type(string $label = null)
@@ -178,11 +178,16 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection industry_id(string $label = null)
      * @method Grid\Column|Collection occupation_id(string $label = null)
      * @method Grid\Column|Collection api_token(string $label = null)
+     * @method Grid\Column|Collection temp_mechanism_id(string $label = null)
      * @method Grid\Column|Collection score(string $label = null)
      * @method Grid\Column|Collection question_count(string $label = null)
+     * @method Grid\Column|Collection single_item(string $label = null)
+     * @method Grid\Column|Collection judgment_item(string $label = null)
+     * @method Grid\Column|Collection is_open(string $label = null)
      * @method Grid\Column|Collection exam_id(string $label = null)
      * @method Grid\Column|Collection question_id(string $label = null)
      * @method Grid\Column|Collection sort(string $label = null)
+     * @method Grid\Column|Collection picture(string $label = null)
      * @method Grid\Column|Collection href_way(string $label = null)
      * @method Grid\Column|Collection material_id(string $label = null)
      * @method Grid\Column|Collection link(string $label = null)
@@ -193,13 +198,13 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection failed_at(string $label = null)
      * @method Grid\Column|Collection words(string $label = null)
      * @method Grid\Column|Collection count(string $label = null)
+     * @method Grid\Column|Collection is_default(string $label = null)
      * @method Grid\Column|Collection learning_material_id(string $label = null)
      * @method Grid\Column|Collection chapter_id(string $label = null)
-     * @method Grid\Column|Collection is_open(string $label = null)
      * @method Grid\Column|Collection video(string $label = null)
      * @method Grid\Column|Collection duration(string $label = null)
+     * @method Grid\Column|Collection view_count(string $label = null)
      * @method Grid\Column|Collection learning_material_detail_id(string $label = null)
-     * @method Grid\Column|Collection picture(string $label = null)
      * @method Grid\Column|Collection social_credit_code(string $label = null)
      * @method Grid\Column|Collection deposit_bank(string $label = null)
      * @method Grid\Column|Collection bank_card_number(string $label = null)
@@ -215,7 +220,6 @@ namespace Dcat\Admin {
      * @method Grid\Column|Collection lng(string $label = null)
      * @method Grid\Column|Collection lat(string $label = null)
      * @method Grid\Column|Collection material_ids(string $label = null)
-     * @method Grid\Column|Collection attributes(string $label = null)
      * @method Grid\Column|Collection description_image(string $label = null)
      * @method Grid\Column|Collection answer_single_option(string $label = null)
      * @method Grid\Column|Collection answer_judgment_option(string $label = null)
@@ -236,8 +240,6 @@ namespace Dcat\Admin {
     /**
      * @property Show\Field|Collection detail
      * @property Show\Field|Collection width
-     * @property Show\Field|Collection judgment
-     * @property Show\Field|Collection single
      * @property Show\Field|Collection id
      * @property Show\Field|Collection name
      * @property Show\Field|Collection type
@@ -292,11 +294,16 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection industry_id
      * @property Show\Field|Collection occupation_id
      * @property Show\Field|Collection api_token
+     * @property Show\Field|Collection temp_mechanism_id
      * @property Show\Field|Collection score
      * @property Show\Field|Collection question_count
+     * @property Show\Field|Collection single_item
+     * @property Show\Field|Collection judgment_item
+     * @property Show\Field|Collection is_open
      * @property Show\Field|Collection exam_id
      * @property Show\Field|Collection question_id
      * @property Show\Field|Collection sort
+     * @property Show\Field|Collection picture
      * @property Show\Field|Collection href_way
      * @property Show\Field|Collection material_id
      * @property Show\Field|Collection link
@@ -307,13 +314,13 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection failed_at
      * @property Show\Field|Collection words
      * @property Show\Field|Collection count
+     * @property Show\Field|Collection is_default
      * @property Show\Field|Collection learning_material_id
      * @property Show\Field|Collection chapter_id
-     * @property Show\Field|Collection is_open
      * @property Show\Field|Collection video
      * @property Show\Field|Collection duration
+     * @property Show\Field|Collection view_count
      * @property Show\Field|Collection learning_material_detail_id
-     * @property Show\Field|Collection picture
      * @property Show\Field|Collection social_credit_code
      * @property Show\Field|Collection deposit_bank
      * @property Show\Field|Collection bank_card_number
@@ -329,7 +336,6 @@ namespace Dcat\Admin {
      * @property Show\Field|Collection lng
      * @property Show\Field|Collection lat
      * @property Show\Field|Collection material_ids
-     * @property Show\Field|Collection attributes
      * @property Show\Field|Collection description_image
      * @property Show\Field|Collection answer_single_option
      * @property Show\Field|Collection answer_judgment_option
@@ -345,8 +351,6 @@ namespace Dcat\Admin {
      *
      * @method Show\Field|Collection detail(string $label = null)
      * @method Show\Field|Collection width(string $label = null)
-     * @method Show\Field|Collection judgment(string $label = null)
-     * @method Show\Field|Collection single(string $label = null)
      * @method Show\Field|Collection id(string $label = null)
      * @method Show\Field|Collection name(string $label = null)
      * @method Show\Field|Collection type(string $label = null)
@@ -401,11 +405,16 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection industry_id(string $label = null)
      * @method Show\Field|Collection occupation_id(string $label = null)
      * @method Show\Field|Collection api_token(string $label = null)
+     * @method Show\Field|Collection temp_mechanism_id(string $label = null)
      * @method Show\Field|Collection score(string $label = null)
      * @method Show\Field|Collection question_count(string $label = null)
+     * @method Show\Field|Collection single_item(string $label = null)
+     * @method Show\Field|Collection judgment_item(string $label = null)
+     * @method Show\Field|Collection is_open(string $label = null)
      * @method Show\Field|Collection exam_id(string $label = null)
      * @method Show\Field|Collection question_id(string $label = null)
      * @method Show\Field|Collection sort(string $label = null)
+     * @method Show\Field|Collection picture(string $label = null)
      * @method Show\Field|Collection href_way(string $label = null)
      * @method Show\Field|Collection material_id(string $label = null)
      * @method Show\Field|Collection link(string $label = null)
@@ -416,13 +425,13 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection failed_at(string $label = null)
      * @method Show\Field|Collection words(string $label = null)
      * @method Show\Field|Collection count(string $label = null)
+     * @method Show\Field|Collection is_default(string $label = null)
      * @method Show\Field|Collection learning_material_id(string $label = null)
      * @method Show\Field|Collection chapter_id(string $label = null)
-     * @method Show\Field|Collection is_open(string $label = null)
      * @method Show\Field|Collection video(string $label = null)
      * @method Show\Field|Collection duration(string $label = null)
+     * @method Show\Field|Collection view_count(string $label = null)
      * @method Show\Field|Collection learning_material_detail_id(string $label = null)
-     * @method Show\Field|Collection picture(string $label = null)
      * @method Show\Field|Collection social_credit_code(string $label = null)
      * @method Show\Field|Collection deposit_bank(string $label = null)
      * @method Show\Field|Collection bank_card_number(string $label = null)
@@ -438,7 +447,6 @@ namespace Dcat\Admin {
      * @method Show\Field|Collection lng(string $label = null)
      * @method Show\Field|Collection lat(string $label = null)
      * @method Show\Field|Collection material_ids(string $label = null)
-     * @method Show\Field|Collection attributes(string $label = null)
      * @method Show\Field|Collection description_image(string $label = null)
      * @method Show\Field|Collection answer_single_option(string $label = null)
      * @method Show\Field|Collection answer_judgment_option(string $label = null)

@@ -50,7 +50,7 @@ class LearningMaterial extends Model
         return $this->hasMany('App\Models\LearningMaterialChapter','learning_material_id','id')
             ->where('status',Constants::OPEN)
             ->with('learningMaterialDetail')
-            ->orderBy('sort','DESC')
-            ->orderBy('created_at','DESC');
+            ->orderBy('sort','ASC')
+            ->orderBy('created_at','ASC');
     }
 }

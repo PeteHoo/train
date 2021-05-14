@@ -184,7 +184,7 @@ class LearningMaterialController extends ApiController
         if(!$ids=json_decode($request->post('ids'))){
            return self::error(ErrorCode::PARAMETER_ERROR,'ids格式错误');
         }
-        return LearningMaterialRecord::whereIn('id',$ids)->where('user_id',Auth::user()->user_id)->delete()?self::success():self::error(ErrorCode::FAILURE,'删除失败');
+        return LearningMaterialRecord::whereIn('id',$ids)->where('user_id',Auth::user()->user_id)->update(['is_delete'=>1])?self::success():self::error(ErrorCode::FAILURE,'删除失败');
     }
 
     /** 学习记录
@@ -193,7 +193,7 @@ class LearningMaterialController extends ApiController
      */
     public function learningMaterialRecordList(LearningMaterialRequest $request)
     {
-        $data=LearningMaterialRecord::where('user_id', Auth::user()->user_id)->with('learningMaterialDetail')->paginate($request->get('perPage'));
+        $data=LearningMaterialRecord::where('user_id', Auth::user()->user_id)->where('is_delete',0)->with('learningMaterialDetail')->paginate($request->get('perPage'));
         return self::success(new LearningMaterialRecordCollectionPaginate($data));
     }
 

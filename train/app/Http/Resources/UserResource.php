@@ -37,8 +37,8 @@ class UserResource extends JsonResource
             'api_token' => $this->api_token,
             'status' => $this->status,
             'has_password'=>$this->password?1:0,
-            'created_at'=>$this->created_at,
-            'updated_at'=>$this->updated_at,
+            'created_at'=>$this->created_at->toDateTimeString(),
+            'updated_at'=>$this->updated_at->toDateTimeString(),
         ];
     }
 }

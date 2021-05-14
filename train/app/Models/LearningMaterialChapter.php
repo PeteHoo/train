@@ -23,7 +23,7 @@ class LearningMaterialChapter extends Model
     public function learningMaterialDetail(){
         return $this->hasMany('App\Models\LearningMaterialDetail','chapter_id','id')
             ->where('status',Constants::OPEN)
-            ->orderBy('sort','DESC')
-            ->orderBy('created_at','DESC');
+            ->orderBy('sort','ASC')
+            ->orderBy('created_at','ASC');
     }
 }

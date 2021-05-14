@@ -26,7 +26,7 @@ class LearningMaterialRecordResource extends JsonResource
             'description' => $this->learningMaterialDetail->description??'',
             'video' =>  getImageUrl($this->learningMaterialDetail->video??''),
             'sort' => $this->learningMaterialDetail->sort??'',
-            'duration' => $this->learningMaterialDetail->duration??'',
+            'duration' => changeTimeType($this->duration??0),
             'status' => $this->learningMaterialDetail->status??'',
             'created_at' => $this->created_at->toDateTimeString(),
             'updated_at' => $this->updated_at->toDateTimeString(),

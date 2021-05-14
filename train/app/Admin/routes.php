@@ -13,6 +13,7 @@ Route::group([
 ], function (Router $router) {
     $router->group([ 'middleware' => config('admin.route.middleware')],function (Router $router){
         $router->get('/', 'TestQuestionController@index');
+        $router->resource('app-name', 'AppNameController');
         $router->resource('version', 'VersionController');
         $router->resource('exhibition', 'ExhibitionController');
         $router->resource('industry', 'IndustryController');

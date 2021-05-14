@@ -21,6 +21,7 @@ Route::group([],function ($route){
 
     $route->get('base-data/check-version','Api\BaseDataController@checkVersion');//检查版本
     $route->get('base-data/get-agreement','Api\BaseDataController@getAgreement');//获取协议
+    $route->get('base-data/get-agreement-list','Api\BaseDataController@getAgreementList');//获取App所有协议
     $route->get('base-data/mechanism','Api\BaseDataController@mechanism');//获取机构
     $route->get('base-data/all-industry-occupation','Api\BaseDataController@allIndustryOccupation');//职业数据
 

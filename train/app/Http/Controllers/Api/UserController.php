@@ -69,11 +69,14 @@ class UserController extends ApiController
             return self::success(new UserResource($user), ErrorCode::SUCCESS, '登录成功');
         } else {
             $user = new AppUser();
+            $name=genUserNumber();
+            $user->name=$name;
+            $user->nick_name=$name;
             $user->user_id = getUserId();
             $user->phone = $data['phone'];
             $user->api_token = generateToken(32, true);
             $user->save();
-            return self::success($user, ErrorCode::SUCCESS, '登录成功');
+            return self::success(new UserResource($user), ErrorCode::SUCCESS, '登录成功');
         }
 
     }

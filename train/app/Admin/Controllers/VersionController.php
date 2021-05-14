@@ -3,6 +3,7 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\Version;
+use App\Models\AppName;
 use App\Utils\Constants;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -21,7 +22,7 @@ class VersionController extends AdminController
         return Grid::make(new Version(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('name')->display(function ($name){
-                return Constants::getAppType($name);
+                return AppName::getAppNameDetail($name);
             });
             $grid->column('os')->display(function ($os){
                 return Constants::getOsType($os);
@@ -50,7 +51,7 @@ class VersionController extends AdminController
         return Show::make($id, new Version(), function (Show $show) {
             $show->field('id');
             $show->field('name')->as(function ($name){
-                return Constants::getAppType($name);
+                return AppName::getAppNameDetail($name);
             });
             $show->field('os')->as(function ($os){
                 return Constants::getOsType($os);
@@ -73,7 +74,7 @@ class VersionController extends AdminController
     {
         return Form::make(new Version(), function (Form $form) {
             $form->display('id');
-            $form->select('name')->options(Constants::getAppItems());
+            $form->select('name')->options(AppName::getAppNameData());
             $form->select('os')->options(Constants::getOsItems());
             $form->text('version_code');
             $form->switch('status');

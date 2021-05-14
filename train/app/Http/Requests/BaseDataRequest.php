@@ -21,6 +21,11 @@ class BaseDataRequest extends BaseRequest
                     'title'=>['required']
                 ];
                 break;
+            case 'api/base-data/special':
+                return [
+                    'occupation_id'=>['integer']
+                ];
+                break;
             default:return [];
         }
     }

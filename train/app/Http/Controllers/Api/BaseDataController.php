@@ -9,6 +9,7 @@ use App\Http\Resources\ExhibitionResource;
 use App\Http\Resources\SpecialResource;
 use App\Http\Resources\UpdatePlanResource;
 use App\Models\Agreement;
+use App\Models\AppName;
 use App\Models\Exhibition;
 use App\Models\HotSearch;
 use App\Models\Industry;
@@ -82,10 +83,10 @@ class BaseDataController extends ApiController
      * @param Request $request
      * @return null|string
      */
-    public function special(Request $request)
+    public function special(BaseDataRequest $request)
     {
         $occupation_id = $request->get('occupation_id');
-        $query = Special::whereIn('occupation_id', json_decode(Auth::user()->occupation_id));
+        $query = Special::whereIn('occupation_id', json_decode(Auth::user()->occupation_id)??[]);
         if ($occupation_id) {
             $query->where('occupation_id', $occupation_id);
         }
@@ -130,10 +131,10 @@ class BaseDataController extends ApiController
     {
         $version_code = $request->get('version_code');
         $os = $request->get('os');
-        $name = Constants::getAppKey($request->get('name'));
+        $id = AppName::getAppKey($request->get('name'));
         $version = Version::where('version_code', $version_code)
             ->where('os', $os)
-            ->where('name', $name)
+            ->where('name', $id)
             ->first();
         if (!$version) {
             return self::error(ErrorCode::FAILURE, '未查询到版本信息');
@@ -141,7 +142,7 @@ class BaseDataController extends ApiController
 
         $version = UpdatePlan::where('status', Constants::OPEN)
             ->whereRaw('FIND_IN_SET("' . $version->id . '",before_version)', true)
-            ->where('name', $name)
+            ->where('name', $id)
             ->orderBy('after_version', 'DESC')
             ->with('versionName')
             ->with('afterVersionApi')
@@ -164,6 +165,14 @@ class BaseDataController extends ApiController
         $title = $request->get('title');
         $agreement = Agreement::where('position', $position)->where('title', $title)->where('status', Constants::OPEN)->orderBy('created_at', 'DESC')->first();
         return self::success($agreement);
+    }
+
+    /** 获取所有App协议
+     * @return null|string
+     */
+    public function getAgreementList(){
+        $agreementList = Agreement::whereIn('position',[Constants::APP_ABOUT_US,Constants::APP_REGISTER,Constants::APP_DISCLAIMER])->where('status', Constants::OPEN)->orderBy('created_at', 'DESC')->get();
+        return self::success($agreementList);
     }
 
 }

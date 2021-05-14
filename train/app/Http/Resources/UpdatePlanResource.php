@@ -9,6 +9,7 @@
 namespace App\Http\Resources;
 
 
+use App\Models\AppName;
 use App\Models\Version;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -17,9 +18,10 @@ class UpdatePlanResource extends JsonResource
     public function toArray($request)
     {
         $versionList=Version::getVersionData($this->versionName->name??'');
+        $appNameList=AppName::getAppNameData();
         return [
             'id' => $this->id,
-            'name' => $this->versionName->name??'',
+            'name' => $appNameList[$this->versionName->name]??'',
             'md5' => $this->md5,
             'download_link' =>getImageUrl($this->download_link),
             'description' =>  $this->description,
