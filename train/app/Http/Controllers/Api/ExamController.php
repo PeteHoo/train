@@ -52,7 +52,7 @@ class ExamController extends ApiController
             $count = 1;
         }
         $data['all_question_count'] = (int)(ExamScoreRecord::where('user_id', Auth::user()->user_id)->sum('question_count'));
-        $data['average_score'] = $all_score / $count;
+        $data['average_score'] = (int)($all_score / $count);
         $data['duration'] = changeTimeType($duration);
         return self::success($data);
     }
