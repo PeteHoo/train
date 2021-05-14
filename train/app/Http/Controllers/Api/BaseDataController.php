@@ -61,8 +61,9 @@ class BaseDataController extends ApiController
         return self::success(Occupation::getOccupationDataByIndustry_id($industry));
     }
 
-    public function allIndustryOccupation(){
-        $data=Industry::getIndustryObject();
+    public function allIndustryOccupation()
+    {
+        $data = Industry::getIndustryObject();
         return self::success($data);
     }
 
@@ -73,19 +74,25 @@ class BaseDataController extends ApiController
     {
         return self::success(ExhibitionResource::collection(
             Exhibition::where('status', Constants::OPEN)
-            ->orderBy('sort', 'DESC')
-            ->get()));
+                ->orderBy('sort', 'DESC')
+                ->get()));
     }
 
     /**
+     * @param Request $request
      * @return null|string
      */
-    public function special()
+    public function special(Request $request)
     {
-        if (!$data = Special::whereIn('occupation_id', json_decode(Auth::user()->occupation_id))
-            ->where('status', Constants::OPEN)
+        $occupation_id = $request->get('occupation_id');
+        $query = Special::whereIn('occupation_id', json_decode(Auth::user()->occupation_id));
+        if ($occupation_id) {
+            $query->where('occupation_id', $occupation_id);
+        }
+        $data = $query->where('status', Constants::OPEN)
             ->orderBy('sort', 'DESC')
-            ->get()) {
+            ->get();
+        if (!$data) {
             return self::error(ErrorCode::FAILURE, '未查询到专题');
         }
         return self::success(SpecialResource::collection($data));
@@ -97,9 +104,22 @@ class BaseDataController extends ApiController
     public function searchWordsList()
     {
         return self::success(HotSearch::where('status', Constants::OPEN)
+            ->where('is_default', Constants::CLOSE)
             ->orderBy('sort', 'DESC')
             ->orderBy('count', 'DESC')
             ->get());
+    }
+
+    /** 默认搜索热词
+     * @return null|string
+     */
+    public function searchWordsDefault()
+    {
+        return self::success(HotSearch::where('status', Constants::OPEN)
+            ->where('is_default', Constants::OPEN)
+            ->orderBy('sort', 'DESC')
+            ->orderBy('count', 'DESC')
+            ->first());
     }
 
     /** 检查版本
@@ -120,7 +140,7 @@ class BaseDataController extends ApiController
         }
 
         $version = UpdatePlan::where('status', Constants::OPEN)
-            ->whereRaw('FIND_IN_SET("'.$version->id.'",before_version)',true)
+            ->whereRaw('FIND_IN_SET("' . $version->id . '",before_version)', true)
             ->where('name', $name)
             ->orderBy('after_version', 'DESC')
             ->with('versionName')

@@ -8,6 +8,7 @@ return [
         'words' => '搜索词语',
         'count' => '搜索次数',
         'sort' => '排序',
+        'is_default'=>'默认',
         'status' => '状态',
     ],
     'options' => [

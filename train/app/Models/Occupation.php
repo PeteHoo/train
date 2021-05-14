@@ -19,9 +19,7 @@ class Occupation extends Model
         $industryData=Industry::pluck('name','id');
         $belongData=self::pluck('industry_id','id');
         $query=self::select('id','name','industry_id');
-        if($json_occupation=json_decode($json_occupation,true)){
-            $query->whereIn('id',$json_occupation);
-        }
+        $query->whereIn('id',json_decode($json_occupation,true)??[]);
         $occupationData=$query->get()->toArray();
         foreach ($occupationData as $k=>$v){
             $occupationData[$k]['industry']=$industryData[$belongData[$v['id']]];

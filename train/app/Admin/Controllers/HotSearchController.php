@@ -22,6 +22,7 @@ class HotSearchController extends AdminController
             $grid->column('words');
             $grid->column('count');
             $grid->column('sort');
+            $grid->column('is_default')->switch()->help('用来展示在App首页的默认只取一个');
             $grid->column('status')->switch();
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
@@ -47,6 +48,7 @@ class HotSearchController extends AdminController
             $show->field('words');
             $show->field('count');
             $show->field('sort');
+            $show->field('is_default');
             $show->field('status');
             $show->field('created_at');
             $show->field('updated_at');
@@ -65,8 +67,8 @@ class HotSearchController extends AdminController
             $form->text('words')->required();
             $form->number('count');
             $form->number('sort');
+            $form->switch('is_default');
             $form->switch('status');
-
             $form->display('created_at');
             $form->display('updated_at');
         });

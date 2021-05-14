@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth.api']], function ($route) {
     $route->get('base-data/banner','Api\BaseDataController@banner');//banner数据
     $route->get('base-data/special','Api\BaseDataController@special');//专题数据
     $route->get('base-data/search-words-list','Api\BaseDataController@searchWordsList');//专题数据
+    $route->get('base-data/search-words-default','Api\BaseDataController@searchWordsDefault');//搜索热词
 
 
 

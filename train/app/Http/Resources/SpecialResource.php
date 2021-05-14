@@ -20,7 +20,8 @@ class SpecialResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->title,
-            'occupation_id' => $this->occupation->name??'',
+            'occupation_id' => $this->occupation->id??'',
+            'occupation_name' => $this->occupation->name??'',
             'material' =>getMultipleItems($materialList,$this->material_ids),
             'status' =>  $this->status,
             'sort' => $this->sort,
