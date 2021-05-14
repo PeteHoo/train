@@ -79,12 +79,15 @@ class RegisterController extends AdminController
         $aliTask = new AliTask();
         $data['params']['code'] = $code;
         $result = $aliTask->sendMessage($data['phone'],'SMS_171185461','皮特胡商城', '您正在申请手机注册，验证码为：${code}，5分钟内有效！', $data['params']);
-        //网易云短信
-        //$params = ['mobile' => $data['phone'], 'templateid' => 'xxxxxxx', 'authCode' => $code];
-        //$result=YunXinSms::code_post($params);
         if (!$result) {
             return self::error('', '发送失败');
         }
+        //网易云短信
+//        $params = ['mobile' => $data['phone'], 'templateid' => '19475174', 'authCode' => $code];
+//        $result=YunXinSms::code_post($params);
+//        if ($result['code']!=200) {
+//            return self::error(ErrorCode::FAILURE, '发送失败');
+//        }
         return self::success($result['result'], '', '发送成功,请输入您的验证码');
     }
 
