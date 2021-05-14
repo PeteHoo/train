@@ -75,11 +75,7 @@ class LearningMaterialChapterController extends AdminController
         return Form::make(new LearningMaterialChapter(), function (Form $form) {
             $form->display('id');
             $form->text('title');
-            if(Admin::user()->isRole('administrator')){
-                $form->select('learning_material_id')->options(LearningMaterial::getLearningMaterialData());
-            }elseif(Admin::user()->isRole('mechanism')){
-                $form->select('learning_material_id')->options(LearningMaterial::getLearningMaterialData(Admin::user()->id));
-            }
+            $form->select('learning_material_id')->options(LearningMaterial::getLearningMaterialData(Admin::user()->id));
             $form->number('sort');
             $form->switch('status');
             $form->display('created_at');

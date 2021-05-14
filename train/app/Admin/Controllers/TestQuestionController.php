@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Actions\ChooseQuestionBatch;
 use App\Admin\Forms\TestQuestionExcelForm;
 use App\Admin\Repositories\TestQuestion;
+use App\Models\ExamDetail;
 use App\Models\Mechanism;
 use App\Models\Occupation;
 use App\Utils\Constants;
@@ -27,7 +28,7 @@ class TestQuestionController extends AdminController
     protected function grid()
     {
         return Grid::make(new TestQuestion(), function (Grid $grid) {
-            $grid->model()->orderBy('created_at','DESC');
+            $grid->model()->orderBy('created_at', 'DESC');
             $grid->setResource('test-question');
             if (Admin::user()->isRole('mechanism')) {
                 $grid->model()->where('mechanism_id', Admin::user()->id);
@@ -81,9 +82,9 @@ class TestQuestionController extends AdminController
                 $filter->like('description');
 
             });
-            $grid->actions(function ($actions){
+            $grid->actions(function ($actions) {
                 if (Admin::user()->isRole('administrator')) {
-                    if($actions->row->mechanism_id!=1){
+                    if ($actions->row->mechanism_id != 1) {
                         $actions->disableEdit();
                     }
                 }
@@ -173,7 +174,7 @@ class TestQuestionController extends AdminController
                                 $form->text('D')->placeholder('请输入答案')->value($v ?? '');
                             }
                         }
-                    }else{
+                    } else {
                         $form->text('A')->placeholder('请输入答案');
                         $form->text('B')->placeholder('请输入答案');
                         $form->text('C')->placeholder('请输入答案');
@@ -186,7 +187,7 @@ class TestQuestionController extends AdminController
                 });
             $form->hidden('mechanism_id')->default(Admin::user()->id);
             $form->select('occupation_id')->required()->options(Occupation::getOccupationData());
-            $form->switch('is_open');
+            $form->switch('is_open')->default(1);
             $form->hidden('status')->default(Constants::CLOSE);
             $form->display('created_at');
             $form->display('updated_at');
@@ -197,17 +198,30 @@ class TestQuestionController extends AdminController
                     $data['C'] = $form->input('C');
                     $data['D'] = $form->input('D');
                     $form->answer_single_option = json_encode($data);
-                }
-                elseif($form->type == Constants::JUDGMENT){
-                    $form->answer_single_option='';
+                } elseif ($form->type == Constants::JUDGMENT) {
+                    $form->answer_single_option = '';
                 }
                 if (Admin::user()->isRole('mechanism')) {
-                    $form->status=Constants::CLOSE;
+                    $form->status = Constants::CLOSE;
                 }
                 $form->deleteInput('A');
                 $form->deleteInput('B');
                 $form->deleteInput('C');
                 $form->deleteInput('D');
+            });
+
+            $form->deleted(function (Form $form, $result) {
+                // 获取待删除行数据，这里获取的是一个二维数组
+                $dataArray = $form->model()->toArray();
+                // 通过 $result 可以判断数据是否删除成功
+                if (!$result) {
+                    return $form->response()->error('数据删除失败');
+                }
+                foreach ($dataArray as $key => $value) {
+                    ExamDetail::where('question_id',$value['id'])->delete();
+                }
+                // 返回删除成功提醒，此处跳转参数无效
+                return $form->response()->success('删除成功');
             });
         });
     }

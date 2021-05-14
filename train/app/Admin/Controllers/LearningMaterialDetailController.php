@@ -47,7 +47,8 @@ class LearningMaterialDetailController extends AdminController
 
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->like('title');
-
+                $filter->equal('learning_material_id')->select(LearningMaterial::getLearningMaterialData())->load('chapter_id','api-chapter');
+                $filter->equal('chapter_id')->select();
             });
         });
     }
@@ -89,11 +90,7 @@ class LearningMaterialDetailController extends AdminController
         return Form::make(new LearningMaterialDetail(), function (Form $form) {
             $form->display('id');
             $form->text('title');
-            if(Admin::user()->isRole('administrator')){
-                $form->select('learning_material_id')->options(LearningMaterial::getLearningMaterialData())->load('chapter_id','api-chapter');
-            }elseif(Admin::user()->isRole('mechanism')){
-                $form->select('learning_material_id')->options(LearningMaterial::getLearningMaterialData(Admin::user()->id))->load('chapter_id','api-chapter');
-            }
+            $form->select('learning_material_id')->options(LearningMaterial::getLearningMaterialData(Admin::user()->id))->load('chapter_id','api-chapter');
             $form->select('chapter_id');
 //            $form->hidden('description');
             $form->file('video')->url('file-material');

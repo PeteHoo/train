@@ -73,11 +73,16 @@ class AppUserController extends AdminController
                 }
                 return $occupation_id_result;
             });
-            $grid->column('created_at');
-            $grid->column('updated_at')->sortable();
+//            $grid->column('created_at');
+//            $grid->column('updated_at')->sortable();
             $grid->actions(function ($actions) {
                 if($actions->row->status==0){
                     $actions->append(new ChangeMechanismRowAction());
+                }
+                if (Admin::user()->isRole('administrator')) {
+                    if($actions->row->mechanism_id!=1){
+                        $actions->disableEdit();
+                    }
                 }
             });
             $grid->filter(function (Grid\Filter $filter) {
@@ -121,6 +126,7 @@ class AppUserController extends AdminController
             });
             $show->field('created_at');
             $show->field('updated_at');
+
         });
     }
 

@@ -1,9 +1,6 @@
 <?php
 
-use Dcat\Admin\Admin;
-use Dcat\Admin\Grid;
 use Dcat\Admin\Form;
-use Dcat\Admin\Grid\Filter;
 use Dcat\Admin\Show;
 
 /**
@@ -28,6 +25,10 @@ Form::resolving(function (Form $form) {
     $form->disableEditingCheck();
     $form->disableViewCheck();
 });
+Show::resolving(function (Show $show){
+    $show->disableEditButton();
+});
+
 
 Form\Field::macro('savingArray', function () {
     return $this->saving(function ($v) {
