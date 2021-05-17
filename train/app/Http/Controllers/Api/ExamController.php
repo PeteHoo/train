@@ -95,21 +95,35 @@ class ExamController extends ApiController
         $choice_question_score = $occupation->choice_question_score;
         $judgment_question_num = $occupation->judgment_question_num;
         $judgment_question_score = $occupation->judgment_question_score;
-        $choice_result = TestQuestion::where('occupation_id', $occupation_id)
+        $choice_query = TestQuestion::where('occupation_id', $occupation_id)
             ->where('type', Constants::SINGLE_CHOICE)
-            ->where('mechanism_id', Auth::user()->mechanism_id)
             ->orderBy(DB::raw('RAND()'))
-            ->limit($choice_question_num)
-            ->get()
-            ->toArray();
-        $judgment_result = TestQuestion::where('occupation_id', $occupation_id)
-            ->where('type', Constants::JUDGMENT)
-            ->where('mechanism_id', Auth::user()->mechanism_id)
-            ->orderBy(DB::raw('RAND()'))
-            ->limit($judgment_question_num)
-            ->get()
-            ->toArray();
+            ->limit($choice_question_num);
 
+        $judgment_query = TestQuestion::where('occupation_id', $occupation_id)
+            ->where('type', Constants::JUDGMENT)
+            ->orderBy(DB::raw('RAND()'))
+            ->limit($judgment_question_num);
+
+        if ($mechanism_id = Auth::user()->mechanism_id) {
+            $choice_query->where('mechanism_id', $mechanism_id)
+                ->orWhere(function ($query)use($mechanism_id){
+                return $query->where('mechanism_id','<>',$mechanism_id)
+                    ->where('is_open',Constants::OPEN);
+            });
+            $judgment_query->where('mechanism_id', $mechanism_id)
+                ->orWhere(function ($query)use($mechanism_id){
+                return $query->where('mechanism_id','<>',$mechanism_id)
+                    ->where('is_open',Constants::OPEN);
+            });
+        }else{
+            $choice_query->where('mechanism_id', 1);
+            $judgment_query->where('mechanism_id', 1);
+        }
+        $choice_result=$choice_query->get()
+            ->toArray();
+        $judgment_result=$judgment_query->get()
+        ->toArray();
         if (count($choice_result) < $choice_question_num) {
             return self::error(ErrorCode::FAILURE, '题库选择题数量不够无法生成');
         }
