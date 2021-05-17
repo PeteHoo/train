@@ -77,6 +77,10 @@ class ExamController extends ApiController
     public function examDetail(ExamRequest $request)
     {
         $exam = Exam::where('status', Constants::OPEN)->where('id', $request->get('id'))->first();
+        $data=new ExamAllDetailResource($exam);
+        foreach ($data->examDetail as $k=>$v){
+            $data->examDetail[$k]=$v->question;
+        }
         return self::success(new ExamAllDetailResource($exam));
     }
 
