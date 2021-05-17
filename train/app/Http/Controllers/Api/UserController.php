@@ -69,9 +69,9 @@ class UserController extends ApiController
             return self::success(new UserResource($user), ErrorCode::SUCCESS, '登录成功');
         } else {
             $user = new AppUser();
-            $name=genUserNumber();
-            $user->name=$name;
-            $user->nick_name=$name;
+            $name = genUserNumber();
+            $user->name = $name;
+            $user->nick_name = $name;
             $user->user_id = getUserId();
             $user->phone = $data['phone'];
             $user->api_token = generateToken(32, true);
@@ -82,12 +82,13 @@ class UserController extends ApiController
     }
 
 
-    public function passwordLogin(UserRequest $request){
+    public function passwordLogin(UserRequest $request)
+    {
         $data = $request->post();
         if (!$user = AppUser::where('phone', $data['phone'])->first()) {
             return self::error(ErrorCode::FAILURE, '用户不存在');
         }
-        if($user->password!=$data['password']){
+        if ($user->password != $data['password']) {
             return self::error(ErrorCode::FAILURE, '密码不正确');
         }
         $user->api_token = generateToken(32, true);
@@ -134,16 +135,26 @@ class UserController extends ApiController
                 $data['avatar'] = $path;
             }
         }
-        if($data['mechanism_id']??''&&$data['mechanism_id']!=Auth::user()->mechanism_id){
-            $data['status']=Constants::CLOSE;
-            $data['temp_mechanism_id']=$data['mechanism_id'];
+        if ($data['mechanism_id'] ?? '' && $data['mechanism_id'] != Auth::user()->mechanism_id) {
+            $data['status'] = Constants::CLOSE;
+            $data['temp_mechanism_id'] = $data['mechanism_id'];
             unset($data['mechanism_id']);
+        }
+        if ($data['industry_id'] ?? '') {
+            if (count(json_decode($data['industry'])) > 3) {
+                return self::error(ErrorCode::PARAMETER_ERROR, '行业不能超过了3个');
+            }
+        }
+        if ($data['occupation_id'] ?? '') {
+            if (count(json_decode($data['occupation_id'])) > 3) {
+                return self::error(ErrorCode::PARAMETER_ERROR, '职业不能超过了3个');
+            }
         }
         if (!$user = AppUser::where('user_id', $user_id)->update($data)) {
             return self::error(ErrorCode::FAILURE, '个人信息更新失败');
         }
 
-        return self::success(new UserResource(AppUser::where('user_id',$user_id)->first()));
+        return self::success(new UserResource(AppUser::where('user_id', $user_id)->first()));
     }
 
     /** 用户信息
@@ -174,20 +185,22 @@ class UserController extends ApiController
      * @param UserRequest $request
      * @return string|null
      */
-    public function feedback(UserRequest $request){
-        $data=$request->post();
-        $data['user_id']=Auth::user()->user_id;
-        return Feedback::create($data)?self::success():self::error(ErrorCode::FAILURE);
+    public function feedback(UserRequest $request)
+    {
+        $data = $request->post();
+        $data['user_id'] = Auth::user()->user_id;
+        return Feedback::create($data) ? self::success() : self::error(ErrorCode::FAILURE);
     }
 
     /** 用户反馈列表
      * @param UserRequest $request
      * @return string|null
      */
-    public function feedbackList(UserRequest $request){
+    public function feedbackList(UserRequest $request)
+    {
         return self::success(
-            Feedback::where('user_id',Auth::user()->user_id)
-            ->paginate($request->get('perPage')));
+            Feedback::where('user_id', Auth::user()->user_id)
+                ->paginate($request->get('perPage')));
     }
 
 }
