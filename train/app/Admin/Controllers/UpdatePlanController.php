@@ -26,7 +26,7 @@ class UpdatePlanController extends AdminController
         return Grid::make(new UpdatePlan(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('name')->display(function ($name){
-                return Constants::getAppType($name);
+                return AppName::getAppNameDetail($name);
             });
             $grid->column('md5');
 //            $grid->column('download_link')->display(function ($download_link){
