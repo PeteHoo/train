@@ -63,7 +63,7 @@ class ExamController extends ApiController
      */
     public function examList(ExamRequest $request)
     {
-        if (!$occupation_id = json_decode(Auth::user()->occupation_id,true)) {
+        if (!$occupation_id = json_decode(Auth::user()->occupation_id, true)) {
             return self::error(ErrorCode::FAILURE, '您还没有职业');
         }
         $query = Exam::where('status', Constants::OPEN)->whereIn('occupation_id', $occupation_id);
@@ -97,35 +97,37 @@ class ExamController extends ApiController
         $judgment_question_score = $occupation->judgment_question_score;
         $choice_query = TestQuestion::where('occupation_id', $occupation_id)
             ->where('type', Constants::SINGLE_CHOICE)
-            ->where('occupation_id',$occupation_id)
             ->orderBy(DB::raw('RAND()'))
             ->limit($choice_question_num);
 
         $judgment_query = TestQuestion::where('occupation_id', $occupation_id)
             ->where('type', Constants::JUDGMENT)
-            ->where('occupation_id',$occupation_id)
             ->orderBy(DB::raw('RAND()'))
             ->limit($judgment_question_num);
 
         if ($mechanism_id = Auth::user()->mechanism_id) {
-            $choice_query->where('mechanism_id', $mechanism_id)
-                ->orWhere(function ($query)use($mechanism_id){
-                return $query->where('mechanism_id','<>',$mechanism_id)
-                    ->where('is_open',Constants::OPEN);
+            $choice_query->where(function ($query) use ($mechanism_id) {
+                $query->where('mechanism_id', $mechanism_id)
+                    ->orWhere(function ($query) use ($mechanism_id) {
+                        return $query->where('mechanism_id', '<>', $mechanism_id)
+                            ->where('is_open', Constants::OPEN);
+                    });
             });
-            $judgment_query->where('mechanism_id', $mechanism_id)
-                ->orWhere(function ($query)use($mechanism_id){
-                return $query->where('mechanism_id','<>',$mechanism_id)
-                    ->where('is_open',Constants::OPEN);
+            $judgment_query->where(function ($query) use ($mechanism_id) {
+                $query->where('mechanism_id', $mechanism_id)
+                    ->orWhere(function ($query) use ($mechanism_id) {
+                        return $query->where('mechanism_id', '<>', $mechanism_id)
+                            ->where('is_open', Constants::OPEN);
+                    });
             });
-        }else{
+        } else {
             $choice_query->where('mechanism_id', 1);
             $judgment_query->where('mechanism_id', 1);
         }
-        $choice_result=$choice_query->get()
+        $choice_result = $choice_query->get()
             ->toArray();
-        $judgment_result=$judgment_query->get()
-        ->toArray();
+        $judgment_result = $judgment_query->get()
+            ->toArray();
         if (count($choice_result) < $choice_question_num) {
             return self::error(ErrorCode::FAILURE, '题库选择题数量不够无法生成');
         }
