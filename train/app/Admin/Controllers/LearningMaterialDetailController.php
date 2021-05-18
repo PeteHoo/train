@@ -34,7 +34,7 @@ class LearningMaterialDetailController extends AdminController
 //            $grid->column('description');
             $grid->column('video')->display(function ($video){
                 if($video){
-                    return '<div class="lake-form-media-row-img"><video style="width:200px;height: 100px"controls="controls" width="100%" height="100%" src="'.config('app.file_url').$video.'"></video>';
+                    return '<div class="lake-form-media-row-img"><video style="width:200px;height: 100px"controls="controls" width="100%" height="100%" src="'.config('app.cdn_file_url').$video.'"></video>';
                 }else{
                     return '';
                 }

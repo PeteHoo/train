@@ -1,6 +1,7 @@
 <?php
 
 use Dcat\Admin\Form;
+use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
 
 /**
@@ -21,10 +22,12 @@ use Dcat\Admin\Show;
  * Admin::js('/packages/prettydocs/js/main.js');
  *
  */
+
 Form::resolving(function (Form $form) {
     $form->disableEditingCheck();
     $form->disableViewCheck();
 });
+
 Show::resolving(function (Show $show){
     $show->disableEditButton();
 });

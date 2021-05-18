@@ -51,7 +51,7 @@ class LearningMaterialController extends AdminController
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
 
-            $grid->column('picture')->image();
+            $grid->column('picture')->image(config('app.cdn_file_url'));
             $grid->column('is_open')->if(function ($column) {
                 if ($this->mechanism_id != Admin::user()->id) {
                     $column->display(function ($status) {
@@ -112,7 +112,7 @@ class LearningMaterialController extends AdminController
             $show->field('occupation_id')->as(function ($occupation_id) {
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
-            $show->field('picture')->image();
+            $show->field('picture')->image(config('app.cdn_file_url'));
             $show->field('is_open')->as(function ($status) {
                 return Constants::getStatusType($status);
             });
