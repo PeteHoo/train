@@ -69,7 +69,7 @@ class RegisterController extends AdminController
         }
 
         if(Administrator::where('phone',$data['phone'])->first()){
-            return self::error(ErrorCode::FAILURE,'该手机号已注册');
+            return self::error(ErrorCode::FAILURE,'您已经注册过了,去登录吧');
         }
 
         $code = mt_rand(1000, 9999);
