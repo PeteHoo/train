@@ -85,18 +85,20 @@ class BaseDataController extends ApiController
      */
     public function special(BaseDataRequest $request)
     {
-        $occupation_id = $request->get('occupation_id');
-        $query = Special::whereIn('occupation_id', json_decode(Auth::user()->occupation_id)??[]);
-        if ($occupation_id) {
-            $query->where('occupation_id', $occupation_id);
+        $data=array();
+        if($occupation_ids=json_decode(Auth::user()->occupation_id)){
+            foreach ($occupation_ids as $k=>$v){
+                $data[$k]['occupation_id']=(int)$v;
+                $data[$k]['special'] = SpecialResource::collection(Special::where('occupation_id', $v)->where('status', Constants::OPEN)
+                    ->orderBy('sort', 'DESC')
+                    ->get());
+            }
         }
-        $data = $query->where('status', Constants::OPEN)
-            ->orderBy('sort', 'DESC')
-            ->get();
+
         if (!$data) {
             return self::error(ErrorCode::FAILURE, '未查询到专题');
         }
-        return self::success(SpecialResource::collection($data));
+        return self::success($data);
     }
 
     /** 热词列表
