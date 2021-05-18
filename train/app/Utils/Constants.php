@@ -26,7 +26,28 @@ class Constants
     }
 
     /**
-     * 审核状态
+     * 状态
+     */
+    const INIT = 0;
+    const VERIFYING = 1;
+    const VERIFIED = 2;
+
+    public static function getVerifyItems()
+    {
+        return [
+            self::INIT => '初始',
+            self::VERIFYING => '待审核',
+            self::VERIFIED => '已审核',
+        ];
+    }
+
+    public static function getVerifyType($status)
+    {
+        return getItems(self::getVerifyItems(), $status);
+    }
+
+    /**
+     * 系统
      */
     const ANDROID = 1;
     const IOS = 2;

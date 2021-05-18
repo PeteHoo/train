@@ -136,7 +136,7 @@ class UserController extends ApiController
             }
         }
         if ($data['mechanism_id'] ?? '' && $data['mechanism_id'] != Auth::user()->mechanism_id) {
-            $data['status'] = Constants::CLOSE;
+            $data['status'] = Constants::VERIFYING;
             $data['temp_mechanism_id'] = $data['mechanism_id'];
             unset($data['mechanism_id']);
         }

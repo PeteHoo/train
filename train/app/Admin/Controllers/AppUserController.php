@@ -76,7 +76,7 @@ class AppUserController extends AdminController
 //            $grid->column('created_at');
 //            $grid->column('updated_at')->sortable();
             $grid->actions(function ($actions) {
-                if($actions->row->status==0){
+                if($actions->row->status==Constants::VERIFYING){
                     $actions->append(new ChangeMechanismRowAction());
                 }
                 if (Admin::user()->isRole('administrator')) {
@@ -122,7 +122,7 @@ class AppUserController extends AdminController
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
             $show->field('status')->as(function ($status) {
-                return Constants::getStatusType($status);
+                return Constants::getVerifyType($status);
             });
             $show->field('created_at');
             $show->field('updated_at');
@@ -151,7 +151,7 @@ class AppUserController extends AdminController
             $form->multipleSelect('occupation_id')->options(Occupation::getOccupationData())->savingArray();
             $form->text('phone')->required();
             $form->password('password');
-            $form->switch('status');
+            $form->select('status')->options(Constants::getVerifyItems());
             $form->display('created_at');
             $form->display('updated_at');
             $form->saving(function ($form) {

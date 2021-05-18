@@ -24,7 +24,7 @@ class ChangeMechanismRowAction extends RowAction
         $key = $this->getKey();
         $appUser=AppUser::find($key);
         $appUser->mechanism_id=$appUser->temp_mechanism_id;
-        $appUser->status=Constants::OPEN;
+        $appUser->status=Constants::VERIFIED;
         $appUser->save();
         return $this->response()
             ->success('修改成功')->refresh();
