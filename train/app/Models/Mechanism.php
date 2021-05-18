@@ -27,7 +27,9 @@ class Mechanism extends Model
             $query->where('name','like','%'.$search_words.'%');
         }
         return $query
-            ->select('id','name')->get();
+            ->select('id','name')
+            ->where('id','>',1)
+            ->get();
     }
 
     public static function getMechanismDataDetail($id){
