@@ -93,7 +93,7 @@ class LearningMaterialDetailController extends AdminController
             $form->select('learning_material_id')->options(LearningMaterial::getLearningMaterialData(Admin::user()->id))->load('chapter_id','api-chapter');
             $form->select('chapter_id');
 //            $form->hidden('description');
-            $form->file('video')->url('file-material')->maxSize(1024*2);
+            $form->file('video')->url('file-material')->maxSize(1024*2*1024);
             $form->number('sort')->default(0);
             $form->switch('status');
             $form->display('created_at');
