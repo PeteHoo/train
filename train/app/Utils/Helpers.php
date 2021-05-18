@@ -291,6 +291,9 @@ function generateToken( $len = 32, $md5 = true ) {
  */
 function getImageUrl($url)
 {
+    if(config('app.cdn_url')){
+        return $url?config('app.cdn_file_url').$url:'';
+    }
     return $url?config('app.file_url') . $url:'';
 }
 

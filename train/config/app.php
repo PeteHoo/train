@@ -54,6 +54,8 @@ return [
 
     'url' => env('APP_URL', 'http://localhost'),
     'file_url' => env('APP_URL', 'http://localhost').'/uploads/',
+    'cdn_url'=>env('CDN_URL'),
+    'cdn_file_url'=>env('CDN_URL').'/uploads/',
     'asset_url' => env('ASSET_URL', null),
     'ffmpeg'=>env('FFMPEG'),
     'ffprobe'=>env('FFPROBE'),
