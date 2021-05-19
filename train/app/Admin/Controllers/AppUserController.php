@@ -47,7 +47,9 @@ class AppUserController extends AdminController
                 return Constants::getSexType($sex);
             });
             $grid->column('birthday');
-            $grid->column('attribute');
+            $grid->column('attribute')->display(function ($attribute){
+                return Constants::getAttributeType($attribute);
+            });
             $grid->column('avatar')->image();
             $grid->column('mechanism_id')->display(function ($mechanism_id) {
                 return Mechanism::getMechanismDataDetail($mechanism_id);
@@ -115,11 +117,13 @@ class AppUserController extends AdminController
                 return Constants::getSexType($sex);
             });
             $show->field('birthday');
-            $show->field('attribute');
+            $show->field('attribute')->as(function ($attribute){
+                return Constants::getAttributeType($attribute);
+            });
             $show->field('avatar')->image();
             $show->field('mechanism_id')->as(function ($mechanism_id) {
                 return Mechanism::getMechanismDataDetail($mechanism_id);
-            });;
+            });
             $show->field('industry_id')->as(function ($industry_id) {
                 return Industry::getIndustryDataDetail($industry_id);
             });
