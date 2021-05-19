@@ -33,6 +33,7 @@ class AppUserController extends AdminController
                 $grid->disableDeleteButton();
                 $grid->disableBatchDelete();
                 $grid->actions(function ($actions) {
+                    if($actions->row->mechanism_id==Admin::user()->id)
                         $actions->append(new CancelMechanismRowAction());
                 });
 
