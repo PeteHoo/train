@@ -72,6 +72,7 @@ class UserController extends ApiController
             $name = genUserNumber();
             $user->name = $name;
             $user->nick_name = $name;
+            $user->mechanism_id = 1;
             $user->user_id = getUserId();
             $user->phone = $data['phone'];
             $user->api_token = generateToken(32, true);
