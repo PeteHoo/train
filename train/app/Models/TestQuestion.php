@@ -47,7 +47,7 @@ class TestQuestion extends Model
     }
 
     public function getDescriptionImageJsonAttribute(){
-        $data=json_decode($this->attributes['description_image']);
+        $data=json_decode($this->attributes['description_image'],true);
         if($data){
             foreach ($data as $k=>$v){
                 $data[$k]=getImageUrl($v);
