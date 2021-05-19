@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 
 use App\Admin\Actions\CancelMechanismRowAction;
+use App\Admin\Actions\ChangeMechanismFailRowAction;
 use App\Admin\Actions\ChangeMechanismRowAction;
 use App\Admin\Repositories\AppUser;
 use App\Models\Industry;
@@ -28,7 +29,7 @@ class AppUserController extends AdminController
         return Grid::make(new AppUser(), function (Grid $grid) {
 
             if (Admin::user()->isRole('mechanism')) {
-                $grid->model()->where('mechanism_id', Admin::user()->id);
+                $grid->model()->where('mechanism_id', Admin::user()->id)->orWhere('temp_mechanism_id',Admin::user()->id);
                 $grid->disableDeleteButton();
                 $grid->disableBatchDelete();
                 $grid->actions(function ($actions) {
@@ -78,6 +79,8 @@ class AppUserController extends AdminController
             $grid->actions(function ($actions) {
                 if($actions->row->status==Constants::VERIFYING){
                     $actions->append(new ChangeMechanismRowAction());
+                    $actions->append(new ChangeMechanismFailRowAction());
+
                 }
                 if (Admin::user()->isRole('administrator')) {
                     if($actions->row->mechanism_id!=1){
