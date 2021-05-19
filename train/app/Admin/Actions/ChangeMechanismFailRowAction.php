@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class ChangeMechanismFailRowAction extends RowAction
 {
 
-    protected $title='回退机构';
+    protected $title='[回退机构]';
     public function confirm()
     {
         return '您确定要回退该账号的修改机构吗？';

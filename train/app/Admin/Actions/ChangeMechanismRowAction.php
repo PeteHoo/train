@@ -12,7 +12,7 @@ use Illuminate\Http\Request;
 class ChangeMechanismRowAction extends RowAction
 {
 
-    protected $title='修改机构';
+    protected $title='[修改机构]';
     public function confirm()
     {
         return '您确定要修改该账号的机构吗？';
@@ -30,8 +30,6 @@ class ChangeMechanismRowAction extends RowAction
         return $this->response()
             ->success('修改成功')->refresh();
     }
-
-
 
     // 设置请求参数
     public function parameters()

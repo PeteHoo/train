@@ -77,10 +77,11 @@ class AppUserController extends AdminController
 //            $grid->column('created_at');
 //            $grid->column('updated_at')->sortable();
             $grid->actions(function ($actions) {
-                if($actions->row->status==Constants::VERIFYING){
+                if (Admin::user()->isRole('mechanism')) {
+                if($actions->row->status==Constants::VERIFYING) {
                     $actions->append(new ChangeMechanismRowAction());
                     $actions->append(new ChangeMechanismFailRowAction());
-
+                }
                 }
                 if (Admin::user()->isRole('administrator')) {
                     if($actions->row->mechanism_id!=1){
