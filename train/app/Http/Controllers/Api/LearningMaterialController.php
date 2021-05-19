@@ -138,24 +138,25 @@ class LearningMaterialController extends ApiController
                             $query->where('name', 'like', '%' . $search_word . '%');
                         });
                     });
-            })->where(function ($where) {
-            return $where->where('mechanism_id', 1)
-                ->orWhere(function ($where) {
-                    $where->where('mechanism_id','>',1)
-                        ->where(function ($where){
-                            $where->where('is_open', Constants::CLOSE)
-                                ->where('mechanism_id', Auth::user()->mechanism_id);
-                        })
-                        ->orWhere('is_open',Constants::OPEN);
-
-                });
-        });
-        if ($industry_id = json_decode(Auth::user()->industry_id)) {
-            $query->whereIn('industry_id', $industry_id);
-        }
-        if ($occupation_id = json_decode(Auth::user()->occupation_id)) {
-            $query->whereIn('occupation_id', $occupation_id);
-        }
+            });
+//        ->where(function ($where) {
+//        return $where->where('mechanism_id', 1)
+//            ->orWhere(function ($where) {
+//                $where->where('mechanism_id','>',1)
+//                    ->where(function ($where){
+//                        $where->where('is_open', Constants::CLOSE)
+//                            ->where('mechanism_id', Auth::user()->mechanism_id);
+//                    })
+//                    ->orWhere('is_open',Constants::OPEN);
+//
+//            });
+//    });
+//        if ($industry_id = json_decode(Auth::user()->industry_id)) {
+//            $query->whereIn('industry_id', $industry_id);
+//        }
+//        if ($occupation_id = json_decode(Auth::user()->occupation_id)) {
+//            $query->whereIn('occupation_id', $occupation_id);
+//        }
         return self::success(new LearningMaterialCollectionPaginate($query->paginate($request->get('per_page'))));
     }
 
