@@ -77,7 +77,9 @@ class TestQuestionController extends AdminController
             }
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('type')->select(Constants::getQuestionTypeItems());
-                $filter->equal('mechanism_id')->select(Mechanism::getMechanismData());
+                if (Admin::user()->isRole('administrator')) {
+                    $filter->equal('mechanism_id')->select(Mechanism::getMechanismData());
+                }
                 $filter->equal('occupation_id')->select(Occupation::getOccupationData());
                 $filter->like('description');
 
@@ -188,7 +190,12 @@ class TestQuestionController extends AdminController
             $form->hidden('mechanism_id')->default(Admin::user()->id);
             $form->select('occupation_id')->required()->options(Occupation::getOccupationData());
             $form->switch('is_open')->default(1);
-            $form->hidden('status')->default(Constants::CLOSE);
+            if (Admin::user()->isRole('mechanism')) {
+                $form->hidden('status')->default(Constants::CLOSE);
+            } elseif (Admin::user()->isRole('administrator')) {
+                $form->hidden('status')->default(Constants::OPEN);
+            }
+
             $form->display('created_at');
             $form->display('updated_at');
             $form->saving(function ($form) {

@@ -86,6 +86,14 @@ class OccupationController extends AdminController
 
             $form->display('created_at');
             $form->display('updated_at');
+
+            $form->saving(function (Form $form) {
+                $industry = \App\Models\Occupation::where('name',$form->name)->first();
+                if ($industry) {
+                    return $form->response()
+                        ->error('该职业名已存在');
+                }
+            });
         });
     }
 }

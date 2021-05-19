@@ -40,6 +40,9 @@ class TestQuestionExcelForm extends Form
                 if(!in_array($type,[Constants::SINGLE_CHOICE,Constants::JUDGMENT])){
                     return $this->response()->error('第'.($k+1).'行类型不正确');
                 }
+                if(strlen($v['描述'])>100){
+                    return $this->response()->error('第'.($k+1).'行描述超过100字');
+                }
                 $data=array();
                 $data['type']=$type;
                 $data['description']=$v['描述'];

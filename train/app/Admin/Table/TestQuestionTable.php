@@ -41,13 +41,29 @@ class TestQuestionTable extends LazyRenderable
                 $grid->model()->where('type',$type)
                     ->where('occupation_id',$occupation_id)
                     ->where(function ($query)use($mechanism_id){
-                    $query->where('mechanism_id','<>',$mechanism_id)->where('is_open',Constants::OPEN);
-                })->orWhere(function ($query)use($mechanism_id){
-                    $query->where('mechanism_id',$mechanism_id);
-                });
+                        $query->where(function ($query)use($mechanism_id){
+                            $query->where('mechanism_id','<>',$mechanism_id)->where('is_open',Constants::OPEN);
+                        })->orWhere(function ($query)use($mechanism_id){
+                            $query->where('mechanism_id',$mechanism_id);
+                        });
+                    });
+
             $grid->column('id');
             $grid->column('type');
             $grid->column('description','题目');
+            $grid->column('选项')->display(function () {
+                if ($this->type == Constants::JUDGMENT) {
+                    return '';
+                }
+                return json_decode($this->answer_single_option) ?? '';
+            });
+            $grid->column('答案')->display(function () {
+                if ($this->type == Constants::SINGLE_CHOICE) {
+                    return $this->true_single_answer;
+                } else {
+                    return $this->true_judgment_answer;
+                }
+            });
             $grid->column('created_at');
             $grid->column('updated_at');
 

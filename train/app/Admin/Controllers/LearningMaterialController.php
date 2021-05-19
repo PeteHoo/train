@@ -82,7 +82,9 @@ class LearningMaterialController extends AdminController
                 }
             });
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('mechanism_id')->select(Mechanism::getMechanismData());
+                if (Admin::user()->isRole('administrator')) {
+                    $filter->equal('mechanism_id')->select(Mechanism::getMechanismData());
+                }
                 $filter->equal('industry_id')->select(Industry::getIndustryData())->load('occupation_id', 'api-occupation');
                 $filter->equal('occupation_id')->select(Occupation::getOccupationData());
                 $filter->equal('is_open')->select(Constants::getStatusItems());

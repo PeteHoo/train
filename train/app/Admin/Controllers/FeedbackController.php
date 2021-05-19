@@ -21,10 +21,12 @@ class FeedbackController extends AdminController
             $grid->column('id')->sortable();
             $grid->column('user_id');
             $grid->column('title');
-            $grid->column('description');
+            $grid->column('description')->display(function ($description){
+                return mb_chunk_split($description, 15, "<br>");
+            });
             $grid->column('phone');
             $grid->column('created_at');
-            $grid->column('updated_at')->sortable();
+//            $grid->column('updated_at')->sortable();
             $grid->disableCreateButton();
             $grid->disableEditButton();
             $grid->filter(function (Grid\Filter $filter) {

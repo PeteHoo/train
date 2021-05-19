@@ -2,6 +2,7 @@
 
 namespace App\Admin\Controllers;
 
+use App\Admin\Actions\ResetPasswordRowAction;
 use App\Models\Mechanism;
 use App\Models\Region;
 use App\Utils\Constants;
@@ -56,6 +57,10 @@ class MechanismController extends AdminController
             $grid->column('status')->switch();
             $grid->column('updated_at')->sortable();
             $grid->disableCreateButton();
+            $grid->disableEditButton();
+            $grid->actions(function ($actions){
+                $actions->append(new ResetPasswordRowAction());
+            });
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
 

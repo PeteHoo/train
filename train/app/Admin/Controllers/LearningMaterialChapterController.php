@@ -36,7 +36,11 @@ class LearningMaterialChapterController extends AdminController
             $grid->column('updated_at')->sortable();
 
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('learning_material_id')->select(LearningMaterial::getLearningMaterialData());
+                if(Admin::user()->isRole('mechanism')){
+                    $filter->equal('learning_material_id')->select(LearningMaterial::getAllLearningMaterialData(Admin::user()->id));
+                }elseif(Admin::user()->isRole('administrator')){
+                    $filter->equal('learning_material_id')->select(LearningMaterial::getAllLearningMaterialData());
+                }
                 $filter->like('title');
 
             });
@@ -75,7 +79,7 @@ class LearningMaterialChapterController extends AdminController
         return Form::make(new LearningMaterialChapter(), function (Form $form) {
             $form->display('id');
             $form->text('title');
-            $form->select('learning_material_id')->options(LearningMaterial::getLearningMaterialData(Admin::user()->id));
+            $form->select('learning_material_id')->options(LearningMaterial::getAllLearningMaterialData(Admin::user()->id));
             $form->number('sort');
             $form->switch('status');
             $form->display('created_at');

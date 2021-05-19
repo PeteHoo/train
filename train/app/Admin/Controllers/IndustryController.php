@@ -61,11 +61,18 @@ class IndustryController extends AdminController
     {
         return Form::make(new Industry(), function (Form $form) {
             $form->display('id');
-            $form->text('name');
+            $form->text('name')->required();
             $form->switch('status');
             $form->number('sort')->default(0);
             $form->display('created_at');
             $form->display('updated_at');
+            $form->saving(function (Form $form) {
+                    $industry = \App\Models\Industry::where('name',$form->name)->first();
+                    if ($industry) {
+                        return $form->response()
+                            ->error('该行业名已存在');
+                    }
+            });
         });
     }
 }

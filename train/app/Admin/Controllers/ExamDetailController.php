@@ -20,16 +20,19 @@ class ExamDetailController extends AdminController
         return Grid::make(new ExamDetail(), function (Grid $grid) {
             $grid->model()->where('exam_id', request()->get('exam_id'))->orderBy('sort', 'DESC');
             $grid->column('id')->sortable();
-            $grid->column('question_id')->display(function ($question_id) {
-                $testQuestion = TestQuestion::find($question_id);
+            $grid->column('问题文字描述')->display(function () {
+                $testQuestion = TestQuestion::find($this->question_id);
                 if (!$testQuestion) {
                     return '';
                 }
-                if ($testQuestion->attributes == Constants::TEXT) {
-                    return $testQuestion->description;
-                } else {
-                    return '<img src="' . config('app.url') . '/' . $testQuestion->description_image . '">';
+                return '<img src="' . config('app.url') . '/' . $testQuestion->description_image . '">';
+            });
+            $grid->column('问题图片描述')->display(function () {
+                $testQuestion = TestQuestion::find($this->question_id);
+                if (!$testQuestion) {
+                    return '';
                 }
+                return $testQuestion->description;
             });
             $grid->column('type')->display(function ($type) {
                 return Constants::getQuestionType($type);

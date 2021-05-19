@@ -100,11 +100,13 @@ class ExamController extends ApiController
         $judgment_question_num = $occupation->judgment_question_num;
         $judgment_question_score = $occupation->judgment_question_score;
         $choice_query = TestQuestion::where('occupation_id', $occupation_id)
+            ->where('status',Constants::OPEN)
             ->where('type', Constants::SINGLE_CHOICE)
             ->orderBy(DB::raw('RAND()'))
             ->limit($choice_question_num);
 
         $judgment_query = TestQuestion::where('occupation_id', $occupation_id)
+            ->where('status',Constants::OPEN)
             ->where('type', Constants::JUDGMENT)
             ->orderBy(DB::raw('RAND()'))
             ->limit($judgment_question_num);
