@@ -27,7 +27,7 @@ class AppUserController extends AdminController
     protected function grid()
     {
         return Grid::make(new AppUser(), function (Grid $grid) {
-
+            $grid->model()->orderBy('id','DESC');
             if (Admin::user()->isRole('mechanism')) {
                 $grid->model()->where('mechanism_id', Admin::user()->id)->orWhere('temp_mechanism_id',Admin::user()->id);
                 $grid->disableDeleteButton();

@@ -18,15 +18,16 @@ class LearningMaterialRecordController extends AdminController
     protected function grid()
     {
         return Grid::make(new LearningMaterialRecord(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
             $grid->column('learning_material_detail_id');
             $grid->column('user_id');
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
-        
+
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-        
+
             });
         });
     }
@@ -60,7 +61,7 @@ class LearningMaterialRecordController extends AdminController
             $form->display('id');
             $form->text('learning_material_detail_id');
             $form->text('user_id');
-        
+
             $form->display('created_at');
             $form->display('updated_at');
         });

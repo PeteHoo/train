@@ -33,6 +33,7 @@ class LearningMaterialController extends AdminController
     protected function grid()
     {
         return Grid::make(new LearningMaterial(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             if (Admin::user()->isRole('mechanism')) {
                 $grid->model()->where('mechanism_id', Admin::user()->id);
             }

@@ -23,6 +23,7 @@ class ExhibitionController extends AdminController
     protected function grid()
     {
         return Grid::make(new Exhibition(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
             $grid->column('title');
             $grid->column('picture')->image(config('app.cdn_file_url'));

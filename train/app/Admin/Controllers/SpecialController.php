@@ -22,6 +22,7 @@ class SpecialController extends AdminController
     protected function grid()
     {
         return Grid::make(new Special(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
             $grid->column('title');
             $grid->column('occupation_id')->display(function ($occupation_id) {

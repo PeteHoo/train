@@ -18,6 +18,7 @@ class FeedbackController extends AdminController
     protected function grid()
     {
         return Grid::make(new Feedback(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
             $grid->column('user_id');
             $grid->column('title');

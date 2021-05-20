@@ -19,6 +19,7 @@ class AgreementController extends AdminController
     protected function grid()
     {
         return Grid::make(new Agreement(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
             $grid->column('title');
             $grid->column('position')->display(function ($position){

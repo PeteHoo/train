@@ -32,6 +32,7 @@ class MechanismController extends AdminController
     protected function grid()
     {
         return Grid::make(new Administrator(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             $grid->model()->where('id','>',1);
             $grid->column('id')->sortable();
             $grid->column('username');

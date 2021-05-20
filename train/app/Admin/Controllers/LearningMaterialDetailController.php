@@ -21,7 +21,7 @@ class LearningMaterialDetailController extends AdminController
     protected function grid()
     {
         return Grid::make(new LearningMaterialDetail(), function (Grid $grid) {
-            $grid->model()->orderBy('created_at','DESC');
+            $grid->model()->orderBy('id','DESC');
             if(Admin::user()->isRole('mechanism')){
                 $learning_materials=LearningMaterial::getLearningMaterialIds(Admin::user()->id);
                 $grid->model()->whereIn('learning_material_id',$learning_materials);

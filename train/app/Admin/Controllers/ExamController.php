@@ -28,7 +28,7 @@ class ExamController extends AdminController
     protected function grid()
     {
         return Grid::make(new Exam(), function (Grid $grid) {
-            $grid->model()->orderBy('created_at', 'DESC');
+            $grid->model()->orderBy('id','DESC');
             if (Admin::user()->isRole('mechanism')) {
                 $grid->model()->where('mechanism_id', Admin::user()->id);
             }

@@ -18,14 +18,15 @@ class AppNameController extends AdminController
     protected function grid()
     {
         return Grid::make(new AppName(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
             $grid->column('name');
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
-        
+
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
-        
+
             });
         });
     }
@@ -57,7 +58,7 @@ class AppNameController extends AdminController
         return Form::make(new AppName(), function (Form $form) {
             $form->display('id');
             $form->text('name');
-        
+
             $form->display('created_at');
             $form->display('updated_at');
         });

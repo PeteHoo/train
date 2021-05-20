@@ -20,6 +20,7 @@ class IndustryController extends AdminController
     protected function grid()
     {
         return Grid::make(new Industry(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
             $grid->column('name');
             $grid->column('status')->switch();

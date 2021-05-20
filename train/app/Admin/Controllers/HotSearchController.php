@@ -18,6 +18,7 @@ class HotSearchController extends AdminController
     protected function grid()
     {
         return Grid::make(new HotSearch(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
             $grid->column('words');
             $grid->column('count');

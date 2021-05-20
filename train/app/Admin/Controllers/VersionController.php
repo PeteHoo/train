@@ -20,6 +20,7 @@ class VersionController extends AdminController
     protected function grid()
     {
         return Grid::make(new Version(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
             $grid->column('name')->display(function ($name){
                 return AppName::getAppNameDetail($name);

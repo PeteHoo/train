@@ -19,6 +19,7 @@ class OccupationController extends AdminController
     protected function grid()
     {
         return Grid::make(new Occupation(), function (Grid $grid) {
+            $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
             $grid->column('name');
             $grid->column('industry_id')->display(function ($industry_id){
