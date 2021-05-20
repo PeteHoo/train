@@ -25,7 +25,7 @@ class ApiToken
     public function handle($request, Closure $next)
     {
         if (Auth::guard('api')->guest()) {
-            return response()->json(['code' => ErrorCode::AUTH_ERROR,'message' => '未设置token']);
+            return response()->json(['code' => ErrorCode::AUTH_ERROR,'message' => '您的账号在其他设备登录']);
         }
         return $next($request);
     }
