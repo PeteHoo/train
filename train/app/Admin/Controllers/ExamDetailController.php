@@ -25,14 +25,15 @@ class ExamDetailController extends AdminController
                 if (!$testQuestion) {
                     return '';
                 }
-                return '<img src="' . config('app.url') . '/' . $testQuestion->description_image . '">';
+                return $testQuestion->description;
             });
             $grid->column('问题图片描述')->display(function () {
                 $testQuestion = TestQuestion::find($this->question_id);
                 if (!$testQuestion) {
                     return '';
                 }
-                return $testQuestion->description;
+                return '<img src="' . config('app.url') . '/' . $testQuestion->description_image . '">';
+
             });
             $grid->column('type')->display(function ($type) {
                 return Constants::getQuestionType($type);
