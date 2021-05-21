@@ -20,6 +20,23 @@ class LearningMaterial extends Model
         return $query->pluck('title','id');
     }
 
+    public static function getLearningMaterialDataHaveKey($mechanism_id=0){
+        $query=self::where('status',Constants::OPEN)
+            ->orderBy('sort','DESC');
+        if($mechanism_id){
+            $query->where('mechanism_id',$mechanism_id);
+        }
+        $data=$query->select('id','title as name','mechanism_id','is_open')
+            ->get();
+        $result=array();
+        if($data){
+            foreach ($data as $k=>$v){
+                $result[$v->id]=$v;
+            }
+        }
+        return $result;
+    }
+
     public static function getAllLearningMaterialData($mechanism_id=0){
         $query=self::orderBy('sort','DESC');
         if($mechanism_id){

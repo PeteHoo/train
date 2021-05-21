@@ -40,6 +40,7 @@ class TestQuestionTable extends LazyRenderable
         return Grid::make(new TestQuestion(), function (Grid $grid)use($type,$mechanism_id,$occupation_id,$count) {
                 $grid->model()->where('type',$type)
                     ->where('occupation_id',$occupation_id)
+                    ->where('status',Constants::VERIFIED)
                     ->where(function ($query)use($mechanism_id){
                         $query->where(function ($query)use($mechanism_id){
                             $query->where('mechanism_id','<>',$mechanism_id)->where('is_open',Constants::OPEN);

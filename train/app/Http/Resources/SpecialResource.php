@@ -16,13 +16,13 @@ class SpecialResource extends JsonResource
 {
     public function toArray($request)
     {
-        $materialList=LearningMaterial::getLearningMaterialData();
+        $materialList=LearningMaterial::getLearningMaterialDataHaveKey();
         return [
             'id' => $this->id,
             'title' => $this->title,
             'occupation_id' => $this->occupation->id??'',
             'occupation_name' => $this->occupation->name??'',
-            'material' =>getMultipleItems($materialList,$this->material_ids),
+            'material' =>getBackendMultipleItems($materialList,$this->material_ids),
             'status' =>  $this->status,
             'sort' => $this->sort,
             'created_at' => $this->created_at->toDateTimeString(),
