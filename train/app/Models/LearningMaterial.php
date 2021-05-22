@@ -46,8 +46,7 @@ class LearningMaterial extends Model
     }
 
     public static function getLearningMaterialIds($mechanism_id){
-        $query=self::where('status',Constants::OPEN)
-            ->where('mechanism_id',$mechanism_id)
+        $query=self::where('mechanism_id',$mechanism_id)
             ->orderBy('sort','DESC');
         return $query->pluck('id');
     }

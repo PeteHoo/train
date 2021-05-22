@@ -53,7 +53,7 @@ class LearningMaterialDetailController extends AdminController
                     }
                 }
             });
-            
+
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->like('title');
                 if(Admin::user()->isRole('mechanism')){
