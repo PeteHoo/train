@@ -20,6 +20,12 @@ class Industry extends Model
             ->pluck('name','id');
     }
 
+    public static function getIndustryDataPaginate($start){
+        $query=self::where('status',Constants::OPEN)
+            ->orderBy('sort','DESC');
+        return $query->paginate($start);
+    }
+
     public static function getIndustryObject(){
         $query=self::where('status',Constants::OPEN)
             ->select('id','name')

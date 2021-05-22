@@ -49,4 +49,20 @@ class ApiController extends AdminController
         return LearningMaterialChapter::orderBy('sort', 'DESC')->where('learning_material_id', $learning_material_id)->get(['id', DB::raw('title as text')]);
 
     }
+
+    /**
+     * 统计
+     */
+    public function home(Request $request){
+        $mechanism_id=$request->get('mechanism_id');
+        $start=$request->get('start');
+        $occupationList=Occupation::getOccupationData($start)->toArray();
+        dd($occupationList);
+        $result=array();
+        foreach ($occupationList['data'] as $k=>$v){
+            $data=array();
+            $data['industry_name']=$v['name'];
+            $data['industry_name']=$v['name'];
+        }
+    }
 }

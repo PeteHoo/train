@@ -2,9 +2,11 @@
 
 namespace App\Admin\Controllers;
 
-use App\Admin\Metrics\Examples;
+use Admin;
+use App\Admin\Metrics\Home\AllData;
 use App\Http\Controllers\Controller;
-use Dcat\Admin\Http\Controllers\Dashboard;
+use App\Models\Industry;
+use Dcat\Admin\Grid;
 use Dcat\Admin\Layout\Column;
 use Dcat\Admin\Layout\Content;
 use Dcat\Admin\Layout\Row;
@@ -13,24 +15,29 @@ class HomeController extends Controller
 {
     public function index(Content $content)
     {
+//        $industryList=Industry::getIndustryDataPaginate(11)->toArray();
+//        dd($industryList['data']);
         return $content
-            ->header('Dashboard')
-            ->description('Description...')
+            ->header(Admin::user()->name)
+            ->description(Admin::user()->status==1?'已审核':'未审核')
             ->body(function (Row $row) {
-                $row->column(6, function (Column $column) {
-                    $column->row(Dashboard::title());
-                    $column->row(new Examples\Tickets());
-                });
-
-                $row->column(6, function (Column $column) {
+                $row->column(12, function (Column $column) {
                     $column->row(function (Row $row) {
-                        $row->column(6, new Examples\NewUsers());
-                        $row->column(6, new Examples\NewDevices());
+                        $row->column(3, new AllData('用户访问'));
+                        $row->column(3, new AllData('做题数量'));
+                        $row->column(3, new AllData('做题时长'));
+                        $row->column(3, new AllData('考试成绩'));
                     });
-
-                    $column->row(new Examples\Sessions());
-                    $column->row(new Examples\ProductOrders());
+                });
+                $row->column(12,function (Column $column){
+                    $this->grid();
                 });
             });
     }
+
+    protected function grid()
+    {
+        return Grid::make(new Home(), function (Grid $grid) {});
+    }
+
 }
