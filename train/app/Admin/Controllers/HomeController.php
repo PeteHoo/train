@@ -35,9 +35,9 @@ class HomeController extends Controller
             });
     }
 
-    protected function grid()
-    {
-        return Grid::make(new Home(), function (Grid $grid) {});
-    }
+//    protected function grid()
+//    {
+//        return Grid::make(new Home(), function (Grid $grid) {});
+//    }
 
 }
