@@ -26,4 +26,8 @@ class LearningMaterialChapter extends Model
             ->orderBy('sort','ASC')
             ->orderBy('created_at','ASC');
     }
+
+    public function learningMaterial(){
+        return $this->hasOne('App\Models\LearningMaterial','id','learning_material_id');
+    }
 }

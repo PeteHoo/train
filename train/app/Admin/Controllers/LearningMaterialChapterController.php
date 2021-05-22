@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\LearningMaterialChapter;
 use App\Models\LearningMaterial;
+use App\Utils\Constants;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -20,14 +21,14 @@ class LearningMaterialChapterController extends AdminController
     protected function grid()
     {
         return Grid::make(new LearningMaterialChapter(), function (Grid $grid) {
-            $grid->model()->orderBy('id','DESC');
-            if(Admin::user()->isRole('mechanism')){
-                $learning_materials=LearningMaterial::getLearningMaterialIds(Admin::user()->id);
-                $grid->model()->whereIn('learning_material_id',$learning_materials);
+            $grid->model()->orderBy('id', 'DESC');
+            if (Admin::user()->isRole('mechanism')) {
+                $learning_materials = LearningMaterial::getLearningMaterialIds(Admin::user()->id);
+                $grid->model()->whereIn('learning_material_id', $learning_materials);
             }
             $grid->column('id')->sortable();
             $grid->column('title');
-            $grid->column('learning_material_id')->display(function ($learning_material_id){
+            $grid->column('learning_material_id')->display(function ($learning_material_id) {
                 return LearningMaterial::getLearningMaterialDataDetail($learning_material_id);
             });
             $grid->column('sort');
@@ -35,10 +36,18 @@ class LearningMaterialChapterController extends AdminController
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
 
+            $grid->actions(function ($actions) {
+                if (Admin::user()->isRole('administrator')) {
+                    if ($actions->row->learningMaterial->mechanism_id != 1) {
+                        $actions->disableEdit();
+                    }
+                }
+            });
+
             $grid->filter(function (Grid\Filter $filter) {
-                if(Admin::user()->isRole('mechanism')){
+                if (Admin::user()->isRole('mechanism')) {
                     $filter->equal('learning_material_id')->select(LearningMaterial::getAllLearningMaterialData(Admin::user()->id));
-                }elseif(Admin::user()->isRole('administrator')){
+                } elseif (Admin::user()->isRole('administrator')) {
                     $filter->equal('learning_material_id')->select(LearningMaterial::getAllLearningMaterialData());
                 }
                 $filter->like('title');
@@ -59,7 +68,7 @@ class LearningMaterialChapterController extends AdminController
         return Show::make($id, new LearningMaterialChapter(), function (Show $show) {
             $show->field('id');
             $show->field('title');
-            $show->field('learning_material_id')->as(function ($learning_material_id){
+            $show->field('learning_material_id')->as(function ($learning_material_id) {
                 return LearningMaterial::getLearningMaterialDataDetail($learning_material_id);
             });
             $show->field('sort');
@@ -84,6 +93,19 @@ class LearningMaterialChapterController extends AdminController
             $form->switch('status');
             $form->display('created_at');
             $form->display('updated_at');
+
+            $form->saved(function ($form, $result) {
+                if ($form->isEditing()) {
+                    $result = $form->getKey();
+                }
+                if (Admin::user()->isRole('mechanism')) {
+                    $learningMaterialChapter = \App\Models\LearningMaterialChapter::where('id', $result)->first();
+                    $learning_material_id = $learningMaterialChapter->learning_material_id;
+                    $learningMaterial = LearningMaterial::find($learning_material_id);
+                    $learningMaterial->status = Constants::CLOSE;
+                    $learningMaterial->save();
+                }
+            });
         });
     }
 }

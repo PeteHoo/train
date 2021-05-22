@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Repositories\LearningMaterialDetail;
 use App\Models\LearningMaterial;
 use App\Models\LearningMaterialChapter;
+use App\Utils\Constants;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -45,6 +46,14 @@ class LearningMaterialDetailController extends AdminController
             });
             $grid->column('status')->switch();
 
+            $grid->actions(function ($actions) {
+                if (Admin::user()->isRole('administrator')) {
+                    if ($actions->row->learningMaterial->mechanism_id != 1) {
+                        $actions->disableEdit();
+                    }
+                }
+            });
+            
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->like('title');
                 if(Admin::user()->isRole('mechanism')){
@@ -103,6 +112,18 @@ class LearningMaterialDetailController extends AdminController
             $form->switch('status');
             $form->display('created_at');
             $form->display('updated_at');
+            $form->saved(function ($form, $result) {
+                if ($form->isEditing()) {
+                    $result = $form->getKey();
+                }
+                if (Admin::user()->isRole('mechanism')) {
+                $learningMaterialDetail = \App\Models\LearningMaterialDetail::where('id',$result)->first();
+                $learning_material_id = $learningMaterialDetail->learning_material_id;
+                $learningMaterial = LearningMaterial::find($learning_material_id);
+                $learningMaterial->status = Constants::CLOSE;
+                $learningMaterial->save();
+                }
+            });
         });
     }
 }
