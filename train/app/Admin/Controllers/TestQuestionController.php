@@ -96,7 +96,7 @@ class TestQuestionController extends AdminController
             $grid->actions(function ($actions) {
                 if (Admin::user()->isRole('administrator')) {
                     if ($actions->row->mechanism_id != 1) {
-                        if ($actions->row->status == Constants::VERIFYING) {
+                        if ($actions->row->status == Constants::VERIFYING||$actions->row->status == Constants::INIT) {
                             $actions->append(new ChangeTestQuestionRowAction());
                             $actions->append(new ChangeTestQuestionFailRowAction());
                         }
