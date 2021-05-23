@@ -52,24 +52,15 @@ class TestQuestionController extends AdminController
                 }
             });
             $grid->column('temp_description')->display(function ($temp_description) {
-                if (Admin::user()->isRole('administrator')) {
-                    return '';
-                }
                 return mb_chunk_split($temp_description, 15, "<br>");
             });
             $grid->column('临时选项')->display(function () {
-                if (Admin::user()->isRole('administrator')) {
-                    return '';
-                }
                 if ($this->type == Constants::JUDGMENT) {
                     return '';
                 }
                 return json_decode($this->temp_answer_single_option) ?? '';
             });
             $grid->column('临时答案')->display(function () {
-                if (Admin::user()->isRole('administrator')) {
-                    return '';
-                }
                 if ($this->type == Constants::SINGLE_CHOICE) {
                     return $this->temp_true_single_answer;
                 } else {
