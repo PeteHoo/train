@@ -248,7 +248,11 @@ class TestQuestionController extends AdminController
             $form->select('occupation_id')->required()->options(Occupation::getOccupationData());
             $form->switch('is_open')->default(Constants::OPEN);
             if (Admin::user()->isRole('mechanism')) {
-                $form->hidden('status')->default(Constants::VERIFYING);
+                if($form->isCreating()){
+                    $form->hidden('status')->default(Constants::INIT);
+                }elseif($form->isEditing()){
+                    $form->hidden('status')->default(Constants::VERIFYING);
+                }
             } elseif (Admin::user()->isRole('administrator')) {
                 $form->hidden('status')->default(Constants::VERIFIED);
             }
