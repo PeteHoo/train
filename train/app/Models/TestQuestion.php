@@ -31,10 +31,12 @@ class TestQuestion extends Model
         if($this->attributes['type']==Constants::SINGLE_CHOICE){
             $answer_single_option=json_decode($this->attributes['answer_single_option'],true);
             $data=array();
-            foreach ($answer_single_option as $k=>$v){
-                $da['option']=$k;
-                $da['answer']=$v;
-                $data[]=$da;
+            if($answer_single_option){
+                foreach ($answer_single_option as $k=>$v){
+                    $da['option']=$k;
+                    $da['answer']=$v;
+                    $data[]=$da;
+                }
             }
             return $data;
         }elseif($this->attributes['type']==Constants::JUDGMENT){
