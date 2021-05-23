@@ -281,7 +281,12 @@ class TestQuestionController extends AdminController
                     $form->deleteInput('answer_single_option');
                     $form->deleteInput('true_single_answer');
                     $form->deleteInput('true_judgment_answer');
-                    $form->status = Constants::VERIFYING;
+
+                    if($form->isCreating()){
+                        $form->status = Constants::INIT;
+                    }elseif($form->isEditing()){
+                        $form->status = Constants::VERIFYING;
+                    }
                 }
                 $form->deleteInput('A');
                 $form->deleteInput('B');
