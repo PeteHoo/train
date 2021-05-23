@@ -48,8 +48,10 @@ class LearningMaterialDetailController extends AdminController
 
             $grid->actions(function ($actions) {
                 if (Admin::user()->isRole('administrator')) {
+                    if($actions->row->learningMaterial){
                     if ($actions->row->learningMaterial->mechanism_id != 1) {
                         $actions->disableEdit();
+                    }
                     }
                 }
             });
