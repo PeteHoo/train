@@ -23,10 +23,10 @@ class HomeController extends Controller
             ->body(function (Row $row) {
                 $row->column(12, function (Column $column) {
                     $column->row(function (Row $row) {
-                        $row->column(3, new AllData('用户访问'));
-                        $row->column(3, new AllData('做题数量'));
-                        $row->column(3, new AllData('做题时长'));
-                        $row->column(3, new AllData('考试成绩'));
+                        $row->column(3, new AllData('用户总量',Admin::user()->id));
+                        $row->column(3, new AllData('做题数量',Admin::user()->id));
+                        $row->column(3, new AllData('做题时长',Admin::user()->id));
+                        $row->column(3, new AllData('考试成绩',Admin::user()->id));
                     });
                 });
                 $row->column(12,function (Column $column){

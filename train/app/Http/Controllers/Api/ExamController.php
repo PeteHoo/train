@@ -81,8 +81,14 @@ class ExamController extends ApiController
             return self::error(ErrorCode::FAILURE,'未查询到该试卷');
         }
         $data=new ExamAllDetailResource($exam);
-        foreach ($data->examDetail as $k=>$v){
+        foreach ($data->examDetail as $k=>&$v){
             $data->examDetail[$k]=$v->question;
+            unset($data->examDetail[$k]['temp_is_open']);
+            unset($data->examDetail[$k]['temp_description']);
+            unset($data->examDetail[$k]['temp_description_image']);
+            unset($data->examDetail[$k]['temp_answer_single_option']);
+            unset($data->examDetail[$k]['temp_true_single_answer']);
+            unset($data->examDetail[$k]['temp_true_judgment_answer']);
         }
         return self::success(new ExamAllDetailResource($exam));
     }
@@ -145,6 +151,14 @@ class ExamController extends ApiController
         }
         $examDetail = array_merge((array)$choice_result, (array)$judgment_result);
 
+        foreach ($examDetail as $k=>&$v){
+            unset($examDetail[$k]['temp_is_open']);
+            unset($examDetail[$k]['temp_description']);
+            unset($examDetail[$k]['temp_description_image']);
+            unset($examDetail[$k]['temp_answer_single_option']);
+            unset($examDetail[$k]['temp_true_single_answer']);
+            unset($examDetail[$k]['temp_true_judgment_answer']);
+        }
         $data['name'] = $occupation->name . '随机试题';
         $data['mechanism_id'] = $mechanism_id ?? 1;
         $data['industry_id'] = $occupation->industry_id;

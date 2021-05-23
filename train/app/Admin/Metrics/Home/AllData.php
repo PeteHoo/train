@@ -9,16 +9,21 @@
 namespace App\Admin\Metrics\Home;
 
 
+use App\Models\AppUser;
+use App\Models\ExamDetail;
 use Dcat\Admin\Widgets\Metrics\Card;
 use Illuminate\Http\Request;
 
 class AllData extends Card
 {
     protected $title;
+    protected $mechanism_id;
     protected $height=100;
-    public function __construct($title = null, $icon = null)
+    public function __construct($title = null, $mechanism_id = null)
     {
-        parent::__construct($title, $icon);
+        parent::__construct($title);
+        $this->title=$title;
+        $this->mechanism_id=$mechanism_id;
     }
 
     /**
@@ -61,7 +66,22 @@ class AllData extends Card
      */
     public function handle(Request $request)
     {
-        $this->content(143);
+        $content='';
+        if($request->get('mechanism_id')==1){
+            if($request->get('title')=='用户总量'){
+                $content=AppUser::count();
+            }
+            if($request->get('title')=='做题数量'){
+                $content=ExamDetail::count();
+            }
+            if($request->get('title')=='做题时长'){
+                $content=ExamDetail::count();
+            }
+            if($request->get('title')=='考试成绩'){
+                $content=AppUser::count();
+            }
+        }
+        $this->content($content);
     }
 
     /**
@@ -106,4 +126,12 @@ HTML;
     {
         return $this->toString($this->footer);
     }
+
+    public function parameters() : array
+    {
+        return [
+            'title'=>$this->title,
+            'mechanism_id' =>$this->mechanism_id
+    ];
+}
 }
