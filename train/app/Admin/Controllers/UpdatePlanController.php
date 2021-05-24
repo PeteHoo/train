@@ -91,7 +91,7 @@ class UpdatePlanController extends AdminController
             $form->display('id');
             $form->select('name')->required()->options(AppName::getAppNameData())->loads(['after_version','before_version'], ['api-version','api-version']);
             $form->text('md5');
-            $form->file('download_link');
+            $form->file('download_link')->maxSize(1024*500);
             $form->textarea('description');
             $form->select('after_version');
             $form->multipleSelect('before_version')->saving(function ($before_version){
