@@ -137,7 +137,7 @@ class LearningMaterialController extends AdminController
     {
         return Form::make(new LearningMaterial(), function (Form $form) {
             $form->display('id');
-            $form->text('title');
+            $form->text('title')->maxLength(15);
             $form->textarea('description');
             $form->hidden('mechanism_id')->default(Admin::user()->id);
             $form->select('industry_id')->options(Industry::getIndustryData())->load('occupation_id', 'api-occupation')->required();

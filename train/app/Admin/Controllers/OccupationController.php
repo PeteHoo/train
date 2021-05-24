@@ -76,7 +76,7 @@ class OccupationController extends AdminController
     {
         return Form::make(new Occupation(), function (Form $form) {
             $form->display('id');
-            $form->text('name');
+            $form->text('name')->maxLength(6);
             $form->select('industry_id')->options(Industry::getIndustryData());
             $form->number('choice_question_num');
             $form->number('choice_question_score');
