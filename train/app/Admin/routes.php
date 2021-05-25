@@ -33,6 +33,8 @@ Route::group([
         $router->resource('special', 'SpecialController');
         $router->resource('hot-search', 'HotSearchController');
 
+        $router->resource('auth/users', 'UserController');
+
 
         $router->get('api-version','ApiController@version');
         $router->get('api-occupation','ApiController@occupation');
