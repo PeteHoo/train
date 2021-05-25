@@ -196,7 +196,9 @@ class LearningMaterialController extends ApiController
     {
         $data=LearningMaterialRecord::where('user_id', Auth::user()->user_id)->where('is_delete',0)
             ->whereHas('learningMaterialDetail', function ($query){
-                $query->where('id', '>=', 1);
+                if($query){
+                    $query->whereHas('learningMaterial');
+                }
             })->with('learningMaterialDetail')
             ->paginate($request->get('perPage'));
         return self::success(new LearningMaterialRecordCollectionPaginate($data));
