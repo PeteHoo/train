@@ -198,9 +198,8 @@ class LearningMaterialController extends ApiController
             ->whereHas('learningMaterialDetail', function ($query){
                 if($query){
                     $query->whereHas('learningMaterial',function ($query){
-                        if($query){
-                            $query->whereHas('learningMaterialChapter');
-                        }
+                    });
+                    $query->whereHas('learningMaterialChapter',function ($query){
                     });
                 }
             })->with('learningMaterialDetail')
