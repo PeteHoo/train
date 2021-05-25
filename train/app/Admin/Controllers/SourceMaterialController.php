@@ -21,14 +21,18 @@ class SourceMaterialController extends AdminController
         return Grid::make(new SourceMaterial(), function (Grid $grid) {
             $grid->column('id')->sortable();
             $grid->column('name');
-            $grid->column('picture')->image();
+            $grid->column('picture')->display(function ($picture){
+                return '<image style="width:200px;height: 100px"  src="'.config('app.cdn_file_url').$picture.'">';
+            });
             $grid->column('type')->display(function ($type){
                 return Constants::getSourceMaterialType($type);
             });
             $grid->column('file_url')->if(function ($column){
                 if($this->type==Constants::PICTURE){
                     $column->display(function ($file_url) {
-                        return '<image style="width:200px;height: 100px"  src="'.config('app.cdn_file_url').$file_url.'">';
+
+                        return  '<img data-action="preview-img" src="'.config('app.cdn_file_url').$file_url.'" style="max-width:200px;max-height:200px;cursor:pointer" class="img img-thumbnail">';
+
 
                     });
                 }elseif($this->type==Constants::VIDEO){
