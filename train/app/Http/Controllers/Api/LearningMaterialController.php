@@ -200,6 +200,7 @@ class LearningMaterialController extends ApiController
                     $query->whereHas('learningMaterial');
                 }
             })->with('learningMaterialDetail')
+            ->orderBy('created_at','DESC')
             ->paginate($request->get('perPage'));
         return self::success(new LearningMaterialRecordCollectionPaginate($data));
     }
