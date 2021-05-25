@@ -197,7 +197,11 @@ class LearningMaterialController extends ApiController
         $data=LearningMaterialRecord::where('user_id', Auth::user()->user_id)->where('is_delete',0)
             ->whereHas('learningMaterialDetail', function ($query){
                 if($query){
-                    $query->whereHas('learningMaterial');
+                    $query->whereHas('learningMaterial',function ($query){
+                        if($query){
+                            $query->whereHas('learningMaterialChapter');
+                        }
+                    });
                 }
             })->with('learningMaterialDetail')
             ->orderBy('created_at','DESC')
