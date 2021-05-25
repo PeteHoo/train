@@ -32,6 +32,8 @@ Route::group([
         $router->resource('app-user', 'AppUserController');
         $router->resource('special', 'SpecialController');
         $router->resource('hot-search', 'HotSearchController');
+        $router->resource('source-material', 'SourceMaterialController');
+
 
         $router->resource('auth/users', 'UserController');
 

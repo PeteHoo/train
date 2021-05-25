@@ -250,4 +250,24 @@ class Constants
             self::CHANGE_PASSWORD => '修改密码',
         ];
     }
+
+
+    const PICTURE=1;
+    const VIDEO=2;
+    const MODEL=3;
+
+   public static function getSourceMaterialItems()
+   {
+       return [
+           self::PICTURE => '图片',
+           self::VIDEO => '视频',
+           self::MODEL => '模型',
+       ];
+   }
+
+    public static function getSourceMaterialType($attribute)
+    {
+        return getItems(self::getSourceMaterialItems(), $attribute);
+    }
+
 }
