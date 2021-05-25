@@ -92,10 +92,10 @@ class SourceMaterialController extends AdminController
             $form->image('picture');
             if($form->isCreating()){
                 $form->select('type')->options(Constants::getSourceMaterialItems());
-                $form->file('file_url');
+                $form->file('file_url')->maxSize(1024*1024*2);
             }elseif($form->isEditing()){
                 $form->hidden('type');
-                $form->file('file_url');
+                $form->file('file_url')->maxSize(1024*1024*2);
             }
             $form->switch('status');
             $form->display('created_at');
