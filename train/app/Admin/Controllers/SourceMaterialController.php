@@ -91,7 +91,7 @@ class SourceMaterialController extends AdminController
             $form->text('name');
             $form->image('picture');
             if($form->isCreating()){
-                $form->select('type')->options(Constants::getSourceMaterialItems())
+                $form->select('type')->options(Constants::getSourceMaterialItems());
                 $form->file('file_url');
             }elseif($form->isEditing()){
                 $form->hidden('type');
