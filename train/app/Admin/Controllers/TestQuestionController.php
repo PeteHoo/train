@@ -26,6 +26,7 @@ class TestQuestionController extends AdminController
     protected function grid()
     {
         return Grid::make(new TestQuestion(), function (Grid $grid) {
+            $grid->setResource('test-question');
             $grid->model()->orderBy('id', 'DESC');
             $grid->setResource('test-question');
             if (Admin::user()->isRole('mechanism')) {
@@ -104,7 +105,7 @@ class TestQuestionController extends AdminController
                     }
                 }
             });
-            $grid->tools('<a class="btn btn-primary" href="test-question-excel/import">excel试题导入</a>');
+            $grid->tools('<a class="btn btn-primary" href="/admin/test-question-excel/import">excel试题导入</a>');
         });
     }
 
