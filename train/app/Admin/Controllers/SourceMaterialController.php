@@ -33,7 +33,11 @@ class SourceMaterialController extends AdminController
                     });
                 }elseif($this->type==Constants::VIDEO){
                     $column->display(function ($file_url) {
-                        return '<div class="lake-form-media-row-img"><video style="width:200px;height: 100px"controls="controls" width="100%" height="100%" src="'.config('app.cdn_file_url').$file_url.'"></video>';
+                        if($file_url){
+                            return '<div class="lake-form-media-row-img"><video style="width:200px;height: 100px"controls="controls" width="100%" height="100%" src="'.config('app.cdn_file_url').$file_url.'"></video>';
+                        }else{
+                            return '';
+                        }
                     });
                 }else{
                     return $column;
@@ -87,20 +91,11 @@ class SourceMaterialController extends AdminController
             $form->text('name');
             $form->image('picture');
             if($form->isCreating()){
-                $form->select('type')->options(Constants::getSourceMaterialItems())->when(Constants::PICTURE,function ($form){
-                    $form->image('file_url');
-                })->when(Constants::VIDEO,function ($form){
-                    $form->file('file_url');
-                })->when(Constants::MODEL,function ($form){
-                    $form->file('file_url');
-                });
+                $form->select('type')->options(Constants::getSourceMaterialItems())
+                $form->file('file_url');
             }elseif($form->isEditing()){
                 $form->hidden('type');
-                if($form->type==Constants::PICTURE){
-                    $form->image('file_url');
-                }else{
-                    $form->file('file_url');
-                }
+                $form->file('file_url');
             }
             $form->switch('status');
             $form->display('created_at');
