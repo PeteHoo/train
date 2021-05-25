@@ -201,6 +201,7 @@ class UserController extends ApiController
     {
         return self::success(
             Feedback::where('user_id', Auth::user()->user_id)
+                ->orderBy('created_at','DESC')
                 ->paginate($request->get('perPage')));
     }
 
