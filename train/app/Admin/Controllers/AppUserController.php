@@ -39,7 +39,7 @@ class AppUserController extends AdminController
 
             }
             $grid->column('id')->sortable();
-            $grid->column('user_id');
+//            $grid->column('user_id');
             $grid->column('name');
             $grid->column('nick_name');
             $grid->column('phone');
@@ -93,8 +93,11 @@ class AppUserController extends AdminController
                 }
             });
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-
+                $filter->equal('name');
+                $filter->equal('attribute')->select(Constants::getAttributeItems());
+                if (Admin::user()->isRole('administrator')) {
+                    $filter->equal('mechanism_id')->select(Mechanism::getMechanismData());
+                }
             });
         });
     }
