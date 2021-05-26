@@ -35,7 +35,7 @@ class MechanismController extends AdminController
             $grid->model()->orderBy('id','DESC');
             $grid->model()->where('id','>',1);
             $grid->column('id')->sortable();
-            $grid->column('username');
+            $grid->column('name');
             $grid->column('member_type')->display(function ($member_type){
                 return Constants::getMemberType($member_type);
             });
