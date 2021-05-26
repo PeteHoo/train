@@ -17,10 +17,10 @@ class FeedbackController extends AdminController
      */
     protected function grid()
     {
-        return Grid::make(new Feedback(), function (Grid $grid) {
+        return Grid::make(new Feedback(['appUser']), function (Grid $grid) {
             $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
-            $grid->column('user_id');
+            $grid->column('appUser.name');
             $grid->column('title');
             $grid->column('description')->display(function ($description){
                 return mb_chunk_split($description, 15, "<br>");

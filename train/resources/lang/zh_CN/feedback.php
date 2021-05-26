@@ -1,4 +1,4 @@
-<?php 
+<?php
 return [
     'labels' => [
         'Feedback' => '用户反馈',
@@ -9,6 +9,7 @@ return [
         'title' => '标题',
         'description' => '描述',
         'phone' => '联系方式',
+        'name'=>'名字'
     ],
     'options' => [
     ],
