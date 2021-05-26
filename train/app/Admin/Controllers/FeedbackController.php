@@ -20,7 +20,7 @@ class FeedbackController extends AdminController
         return Grid::make(new Feedback(['appUser']), function (Grid $grid) {
             $grid->model()->orderBy('id','DESC');
             $grid->column('id')->sortable();
-            $grid->column('appUser.name');
+            $grid->column('appUser.name','名字');
             $grid->column('title');
             $grid->column('description')->display(function ($description){
                 return mb_chunk_split($description, 15, "<br>");
@@ -31,7 +31,7 @@ class FeedbackController extends AdminController
             $grid->disableCreateButton();
             $grid->disableEditButton();
             $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
+                $filter->like('appUser.name','名字');
 
             });
         });
