@@ -59,6 +59,8 @@ class MechanismController extends AdminController
             $grid->column('updated_at')->sortable();
             $grid->disableCreateButton();
             $grid->disableEditButton();
+            $grid->disableDeleteButton();
+            $grid->disableBatchDelete();
             $grid->actions(function ($actions){
                 $actions->append(new ResetPasswordRowAction());
             });
