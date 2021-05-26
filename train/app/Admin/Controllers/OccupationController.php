@@ -33,7 +33,11 @@ class OccupationController extends AdminController
             $grid->column('passing_grade');
             $grid->column('created_at');
             $grid->column('updated_at')->sortable();
-
+            if(config('app.name')=='食安员培训'){
+                $grid->disableDeleteButton();
+                $grid->disableCreateButton();
+                $grid->disableBatchDelete();
+            }
             $grid->filter(function (Grid\Filter $filter) {
                 $filter->equal('id');
 
@@ -55,7 +59,7 @@ class OccupationController extends AdminController
             $show->field('name');
             $show->field('industry_id')->as(function ($industry_id){
                 return Industry::getIndustryDataDetail($industry_id);
-            });;
+            });
             $show->field('choice_question_num');
             $show->field('choice_question_score');
             $show->field('judgment_question_num');
@@ -76,8 +80,10 @@ class OccupationController extends AdminController
     {
         return Form::make(new Occupation(), function (Form $form) {
             $form->display('id');
-            $form->text('name')->maxLength(6);
-            $form->select('industry_id')->options(Industry::getIndustryData());
+            if(config('app.name')=='共乐学堂'){
+                $form->text('name')->maxLength(6);
+                $form->select('industry_id')->options(Industry::getIndustryData())->required();
+            }
             $form->number('choice_question_num');
             $form->number('choice_question_score');
             $form->number('judgment_question_num');
@@ -89,10 +95,12 @@ class OccupationController extends AdminController
             $form->display('updated_at');
 
             $form->saving(function (Form $form) {
-                $industry = \App\Models\Occupation::where('name',$form->name)->first();
-                if ($industry) {
-                    return $form->response()
-                        ->error('该职业名已存在');
+                if($form->isCreating()){
+                    $occupation = \App\Models\Occupation::where('name',$form->name)->first();
+                    if ($occupation) {
+                        return $form->response()
+                            ->error('该职业名已存在');
+                    }
                 }
             });
         });
