@@ -145,6 +145,7 @@ class UserController extends ApiController
             if (count(json_decode($data['industry_id'])) > 3) {
                 return self::error(ErrorCode::PARAMETER_ERROR, '行业不能超过了3个');
             }
+            $data['occupation_id']='';
         }
         if ($data['occupation_id'] ?? '') {
             if (count(json_decode($data['occupation_id'])) > 3) {

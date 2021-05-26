@@ -3,7 +3,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>食品培训</title>
+        <title>{{config('app.name')}}</title>
 
 
         <!-- Styles -->
@@ -87,7 +87,7 @@
             }
         </style>
     </head>
-
+@if(config('app.name')=='共乐学堂')
 <div id="home_index" border='0' style="background:url({{config('app.cdn_url')}}/image/home.png) no-repeat;background-size:100%,100%; ">
                     <div class="top-right links">
 
@@ -97,6 +97,17 @@
 
                     </div>
 </div>
+    @elseif(config('app.name')=='食安员培训')
+    <div id="home_index" border='0' style="background:url({{config('app.cdn_url')}}/image/home1.png) no-repeat;background-size:100%,100%; ">
+        <div class="top-right links">
+
+            <a href="auth/login"><img src="{{config('app.cdn_url')}}/image/login.png"></a>
+
+            <a href="/admin/phone-register"><img src="{{config('app.cdn_url')}}/image/register.png"></a>
+
+        </div>
+    </div>
+@endif
 <script>
     $('#home_index').css('height', window.innerHeight);
     $('#home_index').css('width', window.innerWidth);

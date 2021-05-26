@@ -47,13 +47,36 @@ class ExamController extends ApiController
     {
         $all_score = ExamScoreRecord::where('user_id', Auth::user()->user_id)->sum('score') ?? 0;
         $count = ExamScoreRecord::where('user_id', Auth::user()->user_id)->count();
-        $duration = LearningMaterialRecord::where('user_id', Auth::user()->user_id)->sum('duration');
+        $occupations_duration=array();
+        $duration=0;
+        if(config('app.name')=='食安员培训'){
+            $duration = LearningMaterialRecord::where('user_id', Auth::user()->user_id)->sum('duration');
+        }elseif(config('app.name')=='共乐学堂'){
+            if($occupation_ids=json_decode(Auth::user()->occupation_id,true)){
+                $occupationData=Occupation::getOccupationData();
+                foreach ($occupation_ids as $k=>$v){
+                    $occupations_duration[$k]['occupation_id']=(int)$v;
+                    $occupations_duration[$k]['occupation_name']=$occupationData[$v]??'';
+                    $occupations_duration[$k]['duration']=changeTimeType(LearningMaterialRecord::where('user_id', Auth::user()->user_id)
+                        ->whereHas('learningMaterialDetail', function ($query)use($v){
+                        if($query){
+                            $query->whereHas('learningMaterial',function ($query)use($v){
+                                $query->where('occupation_id',$v);
+                            });
+                            $query->whereHas('learningMaterialChapter',function ($query){
+                            });
+                        }
+                    })->sum('duration'));
+                }
+            }
+        }
         if ($count == 0) {
             $count = 1;
         }
         $data['all_question_count'] = (int)(ExamScoreRecord::where('user_id', Auth::user()->user_id)->sum('question_count'));
         $data['average_score'] = (int)($all_score / $count);
         $data['duration'] = changeTimeType($duration);
+        $data['occupations_duration'] = $occupations_duration;
         return self::success($data);
     }
 
