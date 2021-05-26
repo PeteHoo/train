@@ -53,6 +53,8 @@ class UserController extends BaseAuthController
             $grid->showColumnSelector();
             $grid->disableEditButton();
             $grid->disableCreateButton();
+            $grid->disableBatchDelete();
+            $grid->disableDeleteButton();
 
             $grid->actions(function (Grid\Displayers\Actions $actions) {
                 if ($actions->getKey() == AdministratorModel::DEFAULT_ID) {
