@@ -123,6 +123,9 @@ class LearningMaterialController extends ApiController
         $query = LearningMaterial::where('status', Constants::OPEN)
             ->where(function ($where) use ($search_word) {
                 return $where->where('description', 'like', $search_word)
+                    ->orWhere(function ($where)use($search_word){
+                        $where->where('title','like', '%' . $search_word . '%');
+                    })
                     ->orWhere(function ($where) use ($search_word) {
                         $where->whereHas('mechanism', function ($query) use ($search_word) {
                             $query->where('name', 'like', '%' . $search_word . '%');
