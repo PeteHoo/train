@@ -28,6 +28,12 @@ class UserController extends ApiController
     public function sendCode(UserRequest $request)
     {
         $data = $request->post();
+        if(config('app.name')=='食安员培训'){
+            if(!AppUser::where('phone',$data['phone'])->first()){
+                return self::error(ErrorCode::FAILURE, '不存在该用户');
+            }
+        }
+
         //60秒的发送短信冷却时间
         $cant_send = Redis::get($data['type'] . '_' . $data['phone'] . 'time');
         if ($cant_send) {
