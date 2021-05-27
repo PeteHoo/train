@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\LearningMaterial;
 use App\Models\Industry;
+use App\Models\LearningMaterialChapter;
 use App\Models\Mechanism;
 use App\Models\Occupation;
 use App\Utils\Constants;
@@ -154,6 +155,17 @@ class LearningMaterialController extends AdminController
 
             $form->display('created_at');
             $form->display('updated_at');
+
+            $form->deleting(function (Form $form) {
+                // 获取待删除行数据，这里获取的是一个二维数组
+                $data = $form->model()->toArray();
+                foreach ($data as $k=>$v){
+                    if(LearningMaterialChapter::where('learning_material_id',$v['id'])->count()){
+                        return $form->response()
+                            ->error($v['title'].'下还有章节不能删除');
+                    }
+                }
+            });
         });
     }
 }

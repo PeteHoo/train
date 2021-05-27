@@ -295,6 +295,17 @@ class TestQuestionController extends AdminController
                 $form->deleteInput('D');
             });
 
+            $form->deleting(function (Form $form) {
+                // 获取待删除行数据，这里获取的是一个二维数组
+                $data = $form->model()->toArray();
+                foreach ($data as $k=>$v){
+                    if(ExamDetail::where('question_id',$v['id'])->count()){
+                        return $form->response()
+                            ->error($v['id'].'-试题在试卷里暂时不能删除');
+                    }
+                }
+            });
+
             $form->deleted(function (Form $form, $result) {
                 // 获取待删除行数据，这里获取的是一个二维数组
                 $dataArray = $form->model()->toArray();

@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\Industry;
 use App\Models\Mechanism;
+use App\Models\Occupation;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
@@ -73,6 +74,16 @@ class IndustryController extends AdminController
                         return $form->response()
                             ->error('该行业名已存在');
                     }
+            });
+            $form->deleting(function (Form $form) {
+                // 获取待删除行数据，这里获取的是一个二维数组
+                $data = $form->model()->toArray();
+                foreach ($data as $k=>$v){
+                    if(Occupation::where('industry_id',$v['id'])->count()){
+                        return $form->response()
+                            ->error($v['name'].'下还有职业不能删除');
+                    }
+                }
             });
         });
     }

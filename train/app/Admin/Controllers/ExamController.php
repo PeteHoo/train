@@ -28,7 +28,7 @@ class ExamController extends AdminController
     protected function grid()
     {
         return Grid::make(new Exam(), function (Grid $grid) {
-            $grid->model()->orderBy('id','DESC');
+            $grid->model()->with('examDetail')->orderBy('id','DESC');
             if (Admin::user()->isRole('mechanism')) {
                 $grid->model()->where('mechanism_id', Admin::user()->id);
             }
@@ -79,6 +79,7 @@ class ExamController extends AdminController
                 $filter->equal('industry_id')->select(Industry::getIndustryData())->load('occupation_id', 'api-occupation');
                 $filter->equal('occupation_id');
                 $filter->like('name');
+                $filter->equal('examDetail.question_id','题目id');
 
             });
         });

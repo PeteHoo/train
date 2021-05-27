@@ -4,6 +4,7 @@ namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\LearningMaterialChapter;
 use App\Models\LearningMaterial;
+use App\Models\LearningMaterialDetail;
 use App\Utils\Constants;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
@@ -106,6 +107,16 @@ class LearningMaterialChapterController extends AdminController
                     $learningMaterial = LearningMaterial::find($learning_material_id);
                     $learningMaterial->status = Constants::CLOSE;
                     $learningMaterial->save();
+                }
+            });
+            $form->deleting(function (Form $form) {
+                // 获取待删除行数据，这里获取的是一个二维数组
+                $data = $form->model()->toArray();
+                foreach ($data as $k=>$v){
+                    if(LearningMaterialDetail::where('chapter_id',$v['id'])->count()){
+                        return $form->response()
+                            ->error($v['title'].'下还有课程详情不能删除');
+                    }
                 }
             });
         });

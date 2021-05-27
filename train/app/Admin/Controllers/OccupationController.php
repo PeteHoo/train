@@ -3,7 +3,10 @@
 namespace App\Admin\Controllers;
 
 use App\Admin\Repositories\Occupation;
+use App\Models\Exam;
 use App\Models\Industry;
+use App\Models\LearningMaterial;
+use App\Models\TestQuestion;
 use Dcat\Admin\Form;
 use Dcat\Admin\Grid;
 use Dcat\Admin\Show;
@@ -100,6 +103,24 @@ class OccupationController extends AdminController
                     if ($occupation) {
                         return $form->response()
                             ->error('该职业名已存在');
+                    }
+                }
+            });
+            $form->deleting(function (Form $form) {
+                // 获取待删除行数据，这里获取的是一个二维数组
+                $data = $form->model()->toArray();
+                foreach ($data as $k=>$v){
+                    if(LearningMaterial::where('occupation_id',$v['id'])->count()){
+                        return $form->response()
+                            ->error($v['name'].'下还有课程不能删除');
+                    }
+                    if(TestQuestion::where('occupation_id',$v['id'])->count()){
+                        return $form->response()
+                            ->error($v['name'].'下还有试题不能删除');
+                    }
+                    if(Exam::where('occupation_id',$v['id'])->count()){
+                        return $form->response()
+                            ->error($v['name'].'下还有试卷不能删除');
                     }
                 }
             });
