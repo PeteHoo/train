@@ -93,10 +93,10 @@ class UpdatePlanController extends AdminController
             $form->text('md5');
             $form->file('download_link')->maxSize(1024*500);
             $form->textarea('description');
-            $form->select('after_version');
+            $form->select('after_version')->required();
             $form->multipleSelect('before_version')->saving(function ($before_version){
                 return implode(',',$before_version);
-            });
+            })->required();
             $form->switch('status');
             $form->display('created_at');
             $form->display('updated_at');
