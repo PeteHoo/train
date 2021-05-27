@@ -161,7 +161,7 @@ class AppUserController extends AdminController
             $form->text('name');
             $form->multipleSelect('industry_id')->options(Industry::getIndustryData())->savingArray()->load('occupation_id', 'api-occupation');
             $form->multipleSelect('occupation_id')->options(Occupation::getOccupationData())->savingArray();
-            $form->text('phone')->required();
+            $form->mobile('phone')->required();
             $form->password('password');
             $form->select('status')->options(Constants::getVerifyItems());
             $form->display('created_at');
