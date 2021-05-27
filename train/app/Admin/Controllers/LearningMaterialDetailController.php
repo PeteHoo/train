@@ -105,9 +105,9 @@ class LearningMaterialDetailController extends AdminController
     {
         return Form::make(new LearningMaterialDetail(), function (Form $form) {
             $form->display('id');
-            $form->text('title');
-            $form->select('learning_material_id')->options(LearningMaterial::getAllLearningMaterialData(Admin::user()->id))->load('chapter_id','api-chapter');
-            $form->select('chapter_id');
+            $form->text('title')->required();
+            $form->select('learning_material_id')->required()->options(LearningMaterial::getAllLearningMaterialData(Admin::user()->id))->load('chapter_id','api-chapter');
+            $form->select('chapter_id')->required();
 //            $form->hidden('description');
             $form->file('video')->url('file-material')->maxSize(1024*2*1024)->required();
             $form->number('sort')->default(0);
