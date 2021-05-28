@@ -70,8 +70,8 @@ class AgreementController extends AdminController
     {
         return Form::make(new Agreement(), function (Form $form) {
             $form->display('id');
-            $form->text('title');
-            $form->select('position')->options(Constants::getAgreementItems());
+            $form->text('title')->required();
+            $form->select('position')->options(Constants::getAgreementItems())->required();
             $form->editor('content');
             $form->switch('status');
 

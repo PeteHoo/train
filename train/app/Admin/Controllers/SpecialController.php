@@ -87,7 +87,7 @@ class SpecialController extends AdminController
     {
         return Form::make(new Special(), function (Form $form) {
             $form->display('id');
-            $form->text('title');
+            $form->text('title')->required();
             $form->select('occupation_id')->options(Occupation::getOccupationData())->required();
             $form->multipleSelect('material_ids')->options(LearningMaterial::getLearningMaterialData())->savingArray();
             $form->switch('status');

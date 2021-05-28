@@ -90,8 +90,8 @@ class LearningMaterialChapterController extends AdminController
     {
         return Form::make(new LearningMaterialChapter(), function (Form $form) {
             $form->display('id');
-            $form->text('title');
-            $form->select('learning_material_id')->options(LearningMaterial::getAllLearningMaterialData(Admin::user()->id));
+            $form->text('title')->required();
+            $form->select('learning_material_id')->options(LearningMaterial::getAllLearningMaterialData(Admin::user()->id))->required();
             $form->number('sort');
             $form->switch('status');
             $form->display('created_at');

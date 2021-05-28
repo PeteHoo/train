@@ -57,7 +57,7 @@ class AppNameController extends AdminController
     {
         return Form::make(new AppName(), function (Form $form) {
             $form->display('id');
-            $form->text('name');
+            $form->text('name')->required();
 
             $form->display('created_at');
             $form->display('updated_at');

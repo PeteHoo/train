@@ -176,14 +176,12 @@ class LearningMaterialController extends ApiController
         $data['user_id'] = Auth::user()->user_id;
         $data['learning_material_detail_id']=$learning_material_detail_id;
         $append['duration']=timeToSecond($request->post('duration'));
-
         $learningMaterialDetail = LearningMaterialDetail::find($learning_material_detail_id);
         $learningMaterialDetail->increment('view_count');
         $learningMaterial = LearningMaterial::find($learningMaterialDetail->learning_material_id);
         if ($learningMaterial) {
             $learningMaterial->increment('view_count');
         }
-
         return LearningMaterialRecord::firstOrCreate($data,$append) ? self::success() : self::error(ErrorCode::FAILURE);
     }
 

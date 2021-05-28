@@ -153,17 +153,17 @@ class AppUserController extends AdminController
             $form->display('id');
 
             if (Admin::user()->isRole('administrator')) {
-                $form->select('mechanism_id')->options(Mechanism::getMechanismData())->load('industry_id', 'api-industry');
+                $form->select('mechanism_id')->options(Mechanism::getMechanismData())->load('industry_id', 'api-industry')->required();
             } elseif (Admin::user()->isRole('mechanism')) {
-                $form->select('mechanism_id')->options(Mechanism::getMechanismData())->default(Admin::user()->id)->readOnly()->load('industry_id', 'api-industry');
+                $form->select('mechanism_id')->options(Mechanism::getMechanismData())->default(Admin::user()->id)->readOnly()->load('industry_id', 'api-industry')->required();
             }
             $form->hidden('user_id');
-            $form->text('name');
-            $form->multipleSelect('industry_id')->options(Industry::getIndustryData())->savingArray()->load('occupation_id', 'api-occupation');
-            $form->multipleSelect('occupation_id')->options(Occupation::getOccupationData())->savingArray();
+            $form->text('name')->required();
+            $form->multipleSelect('industry_id')->options(Industry::getIndustryData())->savingArray()->load('occupation_id', 'api-occupation')->required();
+            $form->multipleSelect('occupation_id')->options(Occupation::getOccupationData())->savingArray()->required();
             $form->mobile('phone')->required();
-            $form->password('password');
-            $form->select('status')->options(Constants::getVerifyItems());
+            $form->password('password')->required();
+            $form->select('status')->options(Constants::getVerifyItems())->required();
             $form->display('created_at');
             $form->display('updated_at');
             $form->saving(function ($form) {

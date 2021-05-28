@@ -75,9 +75,9 @@ class VersionController extends AdminController
     {
         return Form::make(new Version(), function (Form $form) {
             $form->display('id');
-            $form->select('name')->options(AppName::getAppNameData());
-            $form->select('os')->options(Constants::getOsItems());
-            $form->text('version_code');
+            $form->select('name')->options(AppName::getAppNameData())->required();
+            $form->select('os')->options(Constants::getOsItems())->required();
+            $form->text('version_code')->required();
             $form->switch('status');
             $form->display('created_at');
             $form->display('updated_at');
