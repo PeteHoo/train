@@ -164,12 +164,12 @@ JS
                 ->title('选择题')
                 ->dialogWidth('50%')// 弹窗宽度，默认 800px
                 ->from(TestQuestionTable::make(['type' => Constants::SINGLE_CHOICE, 'mechanism_id' => Admin::user()->id, 'occupation_id' => $form->hidden_occupation_id]))// 设置渲染类实例，并传递自定义参数
-                ->model(TestQuestion::class, 'id', 'name')->savingArray(); // 设置编辑数据显示
+                ->model(TestQuestion::class, 'id', 'name')->required()->savingArray(); // 设置编辑数据显示
             $form->multipleSelectTable('judgment_item')
                 ->title('判断题')
                 ->dialogWidth('50%')// 弹窗宽度，默认 800px
                 ->from(TestQuestionTable::make(['type' => Constants::JUDGMENT, 'mechanism_id' => Admin::user()->id, 'occupation_id' => $form->model()->hidden_occupation_id]))// 设置渲染类实例，并传递自定义参数
-                ->model(TestQuestion::class, 'id', 'name')->savingArray(); // 设置编辑数据显示
+                ->model(TestQuestion::class, 'id', 'name')->required()->savingArray(); // 设置编辑数据显示
             $form->saving(function (Form $form) {
                 if($form->occupation_id){
                     $occupation = Occupation::find($form->occupation_id);
