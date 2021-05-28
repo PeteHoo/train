@@ -76,6 +76,13 @@ class LearningMaterialRequest extends BaseRequest
 
     public function messages()
     {
-        return [];
+        switch ($this->route()->uri) {
+            case 'api/learning-material/search':
+                return [
+                    'search_word.required'=>'请输入搜索关键词',
+                ];
+                break;
+            default:return [];
+        }
     }
 }
