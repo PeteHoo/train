@@ -163,7 +163,7 @@ class AppUserController extends AdminController
             $form->multipleSelect('occupation_id')->options(Occupation::getOccupationData())->savingArray()->required();
             $form->mobile('phone')->required();
             $form->password('password')->required();
-            $form->select('status')->options(Constants::getVerifyItems())->required();
+            $form->select('status')->options(Constants::getVerifyItems())->required()->default(Constants::VERIFIED);
             $form->display('created_at');
             $form->display('updated_at');
             $form->saving(function ($form) {
