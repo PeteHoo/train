@@ -286,7 +286,9 @@ class TestQuestionController extends AdminController
                     if($form->isCreating()){
                         $form->status = Constants::INIT;
                     }elseif($form->isEditing()){
-                        $form->status = Constants::VERIFYING;
+                        if($form->status!=Constants::INIT){
+                            $form->status = Constants::VERIFYING;
+                        }
                     }
                 }
                 $form->deleteInput('A');

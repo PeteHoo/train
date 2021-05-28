@@ -12,7 +12,7 @@ Route::group([
     'namespace'  => config('admin.route.namespace'),
 ], function (Router $router) {
     $router->group([ 'middleware' => config('admin.route.middleware')],function (Router $router){
-        $router->get('/', 'TestQuestionController@index');
+        $router->get('/', 'LearningMaterialController@index');
         $router->resource('app-name', 'AppNameController');
         $router->resource('version', 'VersionController');
         $router->resource('exhibition', 'ExhibitionController');

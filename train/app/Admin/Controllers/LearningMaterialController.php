@@ -7,6 +7,7 @@ use App\Models\Industry;
 use App\Models\LearningMaterialChapter;
 use App\Models\Mechanism;
 use App\Models\Occupation;
+use App\Models\Special;
 use App\Utils\Constants;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
@@ -34,6 +35,7 @@ class LearningMaterialController extends AdminController
     protected function grid()
     {
         return Grid::make(new LearningMaterial(), function (Grid $grid) {
+            $grid->setResource('learning-material');
             $grid->model()->orderBy('id','DESC');
             if (Admin::user()->isRole('mechanism')) {
                 $grid->model()->where('mechanism_id', Admin::user()->id);
@@ -163,6 +165,10 @@ class LearningMaterialController extends AdminController
                     if(LearningMaterialChapter::where('learning_material_id',$v['id'])->count()){
                         return $form->response()
                             ->error($v['title'].'下还有章节不能删除');
+                    }
+                    if(Special::whereRaw("JSON_CONTAINS(learning_material_id->'$[*]', ".$v['id'].", '$')")->count()){
+                        return $form->response()
+                            ->error($v['title'].'下还有专题不能删除');
                     }
                 }
             });
