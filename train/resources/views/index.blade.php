@@ -103,7 +103,7 @@
 
             <a href="auth/login"><img src="{{config('app.cdn_url')}}/image/login.png"></a>
 
-            <a href="/admin/phone-register"><img src="{{config('app.cdn_url')}}/image/register.png"></a>
+{{--            <a href="/admin/phone-register"><img src="{{config('app.cdn_url')}}/image/register.png"></a>--}}
 
         </div>
     </div>
