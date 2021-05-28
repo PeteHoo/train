@@ -166,7 +166,7 @@ class LearningMaterialController extends AdminController
                         return $form->response()
                             ->error($v['title'].'下还有章节不能删除');
                     }
-                    if(Special::whereRaw("JSON_CONTAINS(learning_material_id->'$[*]', ".$v['id'].", '$')")->count()){
+                    if(Special::where('material_ids','like','%"'.$v['id'].'"%')->count()){
                         return $form->response()
                             ->error($v['title'].'下还有专题不能删除');
                     }
