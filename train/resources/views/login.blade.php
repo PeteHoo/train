@@ -109,7 +109,7 @@
 
                             @endif
                         </div>
-                        <div class="text-right"><span onclick="forgotPassword()">{{ __('admin.forgot_password') }}</span></div>
+                        <div class="text-right"><span style="cursor:pointer"  onclick="forgotPassword()">{{ __('admin.forgot_password') }}</span></div>
                     </div>
 
 {{--                    <span onclick="gotoRegister()" class="btn btn-primary float-left login-btn">--}}
