@@ -97,11 +97,17 @@ class TestQuestionController extends AdminController
             $grid->actions(function ($actions) {
                 if (Admin::user()->isRole('administrator')) {
                     if ($actions->row->mechanism_id != 1) {
-                        if ($actions->row->status == Constants::VERIFYING||$actions->row->status == Constants::INIT) {
+                        if ($actions->row->status == Constants::VERIFYING) {
                             $actions->append(new ChangeTestQuestionRowAction());
                             $actions->append(new ChangeTestQuestionFailRowAction());
+                            $actions->disableEdit();
+                            return $actions;
+;                        }
+                        if ($actions->row->status == Constants::INIT) {
+                            $actions->append(new ChangeTestQuestionRowAction());
+                            $actions->disableEdit();
+                            return $actions;
                         }
-                        $actions->disableEdit();
                     }
                 }
             });
