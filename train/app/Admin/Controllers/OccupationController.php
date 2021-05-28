@@ -84,15 +84,15 @@ class OccupationController extends AdminController
         return Form::make(new Occupation(), function (Form $form) {
             $form->display('id');
             if(config('app.name')=='共乐学堂'){
-                $form->text('name')->maxLength(6);
+                $form->text('name')->maxLength(6)->required();
                 $form->select('industry_id')->options(Industry::getIndustryData())->required();
             }
-            $form->number('choice_question_num');
-            $form->number('choice_question_score');
-            $form->number('judgment_question_num');
-            $form->number('judgment_question_score');
-            $form->number('exam_time');
-            $form->number('passing_grade');
+            $form->number('choice_question_num')->required();
+            $form->number('choice_question_score')->required();
+            $form->number('judgment_question_num')->required();
+            $form->number('judgment_question_score')->required();
+            $form->number('exam_time')->required();
+            $form->number('passing_grade')->required();
 
             $form->display('created_at');
             $form->display('updated_at');

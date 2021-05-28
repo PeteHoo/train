@@ -171,7 +171,7 @@ class TestQuestionController extends AdminController
     {
         return Form::make(new TestQuestion(), function (Form $form) {
             $form->display('id');
-            $form->textarea('description')->attribute('maxlength', 100);
+            $form->textarea('description')->attribute('maxlength', 100)->required();
             $form->multipleImage('description_image')->limit(4)->savingArray();
             $form->hidden('answer_single_option');
             //新增时候可以选类型

@@ -224,6 +224,17 @@ JS
                     }
                 }
             });
+            $form->deleted(function (Form $form, $result) {
+                // 通过 $result 可以判断数据是否删除成功
+                if (!$result) {
+                    return $form->response()->error('数据删除失败');
+                }
+                // 获取待删除行数据，这里获取的是一个二维数组
+                $data = $form->model()->toArray();
+                foreach ($data as $k=>$v){
+                    ExamDetail::where('exam_id', $v['id'])->delete();
+                }
+            });
         });
     }
 }
