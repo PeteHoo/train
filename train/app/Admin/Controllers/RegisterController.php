@@ -78,7 +78,7 @@ class RegisterController extends AdminController
         //阿里短信
         $aliTask = new AliTask();
         $data['params']['code'] = $code;
-        $result = $aliTask->sendMessage($data['phone'],'SMS_171185461','皮特胡商城', '您正在申请手机注册，验证码为：${code}，5分钟内有效！', $data['params']);
+        $result = $aliTask->sendMessage($data['phone'],'SMS_218020459','和乐谷', '您的短信验证码是${code}，请于10分钟内完成验证。如非本人操作，请忽略本短信。', $data['params']);
         if (!$result) {
             return self::error('', '发送失败');
         }
@@ -150,7 +150,7 @@ class RegisterController extends AdminController
         Redis::setex('fp_'.$data['phone'], 60 * 10, $code);
         Redis::setex('fp_'.$data['phone'].'time',60, 1);
         $data['params']['code'] = $code;
-        $result = $aliTask->sendMessage($data['phone'],'SMS_171185461','皮特胡商城', '您正在申请手机注册，验证码为：${code}，5分钟内有效！', $data['params']);
+        $result = $aliTask->sendMessage($data['phone'],'SMS_218020459','和乐谷', '您的短信验证码是${code}，请于10分钟内完成验证。如非本人操作，请忽略本短信。', $data['params']);
 
         if (!$result) {
             return self::error('', '发送失败');
