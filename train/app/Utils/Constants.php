@@ -112,15 +112,15 @@ class Constants
     const BACKEND_SETTLE = 1;
     const APP_ABOUT_US = 2;
     const APP_REGISTER = 3;
-    const APP_DISCLAIMER=4;
+    const APP_DISCLAIMER = 4;
 
     public static function getAgreementItems()
     {
         return [
             self::BACKEND_SETTLE => '后端-机构入驻',
             self::APP_ABOUT_US => 'APP端-关于我们',
-            self::APP_REGISTER=>'APP端-用户注册',
-            self::APP_DISCLAIMER=>'APP端-免责声明',
+            self::APP_REGISTER => 'APP端-用户注册',
+            self::APP_DISCLAIMER => 'APP端-免责声明',
         ];
     }
 
@@ -141,7 +141,8 @@ class Constants
         ];
     }
 
-    public static function getMemberType($type){
+    public static function getMemberType($type)
+    {
         return getItems(self::getMemberItems(), $type);
     }
 
@@ -156,11 +157,13 @@ class Constants
         ];
     }
 
-    public static function getQuestionType($type){
+    public static function getQuestionType($type)
+    {
         return getItems(self::getQuestionTypeItems(), $type);
     }
 
-    public static function getQuestionKey($value){
+    public static function getQuestionKey($value)
+    {
         return getItems(array_flip(self::getQuestionTypeItems()), $value);
     }
 
@@ -175,7 +178,8 @@ class Constants
         ];
     }
 
-    public static function getQuestionAttributeType($type){
+    public static function getQuestionAttributeType($type)
+    {
         return getItems(self::getQuestionAttributeItems(), $type);
     }
 
@@ -241,8 +245,9 @@ class Constants
     /**
      * 短信类型
      */
-    const LOGIN=1;
-    const CHANGE_PASSWORD=2;
+    const LOGIN = 1;
+    const CHANGE_PASSWORD = 2;
+
     public static function getPhoneCodeItems()
     {
         return [
@@ -252,18 +257,18 @@ class Constants
     }
 
 
-    const PICTURE=1;
-    const VIDEO=2;
-    const MODEL=3;
+    const PICTURE = 1;
+    const VIDEO = 2;
+    const MODEL = 3;
 
-   public static function getSourceMaterialItems()
-   {
-       return [
-           self::PICTURE => '图片',
-           self::VIDEO => '视频',
-           self::MODEL => '模型',
-       ];
-   }
+    public static function getSourceMaterialItems()
+    {
+        return [
+            self::PICTURE => '图片',
+            self::VIDEO => '视频',
+            self::MODEL => '模型',
+        ];
+    }
 
     public static function getSourceMaterialType($attribute)
     {

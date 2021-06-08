@@ -51,7 +51,7 @@ class LearningMaterialController extends AdminController
             $grid->column('industry_id')->display(function ($industry_id) {
                 return Industry::getIndustryDataDetail($industry_id);
             });
-            $grid->column('occupation_id')->display(function ($occupation_id) {
+            $grid->column('occupation_id',config('app.name')=='共乐学堂'?'职业':'内容')->display(function ($occupation_id) {
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
 
@@ -115,7 +115,7 @@ class LearningMaterialController extends AdminController
             $show->field('industry_id')->as(function ($industry_id) {
                 return Industry::getIndustryDataDetail($industry_id);
             });
-            $show->field('occupation_id')->as(function ($occupation_id) {
+            $show->field('occupation_id',config('app.name')=='共乐学堂'?'职业':'内容')->as(function ($occupation_id) {
                 return Occupation::getOccupationDataDetail($occupation_id);
             });
             $show->field('picture')->image(config('app.cdn_file_url'));
@@ -144,7 +144,7 @@ class LearningMaterialController extends AdminController
             $form->textarea('description');
             $form->hidden('mechanism_id')->default(Admin::user()->id);
             $form->select('industry_id')->options(Industry::getIndustryData())->load('occupation_id', 'api-occupation')->required();
-            $form->select('occupation_id')->required();
+            $form->select('occupation_id',config('app.name')=='共乐学堂'?'职业':'内容')->required();
             $form->image('picture');  //可删除
 
             if (Admin::user()->isRole('mechanism')) {

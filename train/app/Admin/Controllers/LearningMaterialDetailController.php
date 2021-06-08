@@ -5,6 +5,7 @@ namespace App\Admin\Controllers;
 use App\Admin\Repositories\LearningMaterialDetail;
 use App\Models\LearningMaterial;
 use App\Models\LearningMaterialChapter;
+use App\Models\Occupation;
 use App\Utils\Constants;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
@@ -22,7 +23,7 @@ class LearningMaterialDetailController extends AdminController
     protected function grid()
     {
         return Grid::make(new LearningMaterialDetail(), function (Grid $grid) {
-            $grid->model()->orderBy('id','DESC');
+            $grid->model()->with('learningMaterial')->orderBy('id','DESC');
             if(Admin::user()->isRole('mechanism')){
                 $learning_materials=LearningMaterial::getLearningMaterialIds(Admin::user()->id);
                 $grid->model()->whereIn('learning_material_id',$learning_materials);
@@ -65,6 +66,7 @@ class LearningMaterialDetailController extends AdminController
                     $filter->equal('learning_material_id')->select(LearningMaterial::getAllLearningMaterialData())->load('chapter_id','api-chapter');
                 }
                 $filter->equal('chapter_id')->select();
+                $filter->equal('learningMaterial.occupation_id','职业')->select(Occupation::getOccupationData());
             });
         });
     }
