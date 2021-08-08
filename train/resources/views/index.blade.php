@@ -91,17 +91,17 @@
 <div id="home_index" border='0' style="background:url({{config('app.cdn_url')}}/image/home.png) no-repeat;background-size:100%,100%; ">
                     <div class="top-right links">
 
-                        <a href="auth/login"><img src="{{config('app.cdn_url')}}/image/login.png"></a>
+                        <a href="auth/login"><img src="{{config('app.cdn_url')}}/image/login2.png"></a>
 
                         <a href="/admin/phone-register"><img src="{{config('app.cdn_url')}}/image/register.png"></a>
 
                     </div>
 </div>
     @elseif(config('app.name')=='食安员培训')
-    <div id="home_index" border='0' style="background:url({{config('app.cdn_url')}}/image/homepage1.jpg) no-repeat;background-size:100%,100%; ">
+    <div id="home_index" border='0' style="background:url({{config('app.cdn_url')}}/image/homepage2.jpg) no-repeat;background-size:100%,100%; ">
         <div class="top-right links">
 
-            <a href="auth/login"><img src="{{config('app.cdn_url')}}/image/login1.png"></a>
+            <a href="auth/login"><img src="{{config('app.cdn_url')}}/image/login2.png"></a>
 
 {{--            <a href="/admin/phone-register"><img src="{{config('app.cdn_url')}}/image/register.png"></a>--}}
 
