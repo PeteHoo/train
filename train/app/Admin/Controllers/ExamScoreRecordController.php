@@ -18,8 +18,10 @@ class ExamScoreRecordController extends AdminController
     protected function grid()
     {
         return Grid::make(new ExamScoreRecord(), function (Grid $grid) {
+            $user_id=request()->get('user_id');
+            $grid->model()->whereHas('appUser')->with(['appUser'])->where('user_id',$user_id);
             $grid->column('id')->sortable();
-            $grid->column('user_id');
+            $grid->column('appUser.name','用户名');
             $grid->column('exam_id');
             $grid->column('score');
             $grid->column('question_count');
@@ -27,10 +29,11 @@ class ExamScoreRecordController extends AdminController
             $grid->column('updated_at')->sortable();
             $grid->disableCreateButton();
             $grid->disableEditButton();
-            $grid->filter(function (Grid\Filter $filter) {
-                $filter->equal('id');
-        
-            });
+            $grid->disableActions();
+//            $grid->filter(function (Grid\Filter $filter) {
+//                $filter->equal('id');
+//
+//            });
         });
     }
 
@@ -44,13 +47,13 @@ class ExamScoreRecordController extends AdminController
     protected function detail($id)
     {
         return Show::make($id, new ExamScoreRecord(), function (Show $show) {
-            $show->field('id');
-            $show->field('user_id');
-            $show->field('exam_id');
-            $show->field('score');
-            $show->field('question_count');
-            $show->field('created_at');
-            $show->field('updated_at');
+//            $show->field('id');
+//            $show->field('user_id');
+//            $show->field('exam_id');
+//            $show->field('score');
+//            $show->field('question_count');
+//            $show->field('created_at');
+//            $show->field('updated_at');
         });
     }
 
@@ -62,14 +65,14 @@ class ExamScoreRecordController extends AdminController
     protected function form()
     {
         return Form::make(new ExamScoreRecord(), function (Form $form) {
-            $form->display('id');
-            $form->text('user_id');
-            $form->text('exam_id');
-            $form->text('score');
-            $form->text('question_count');
-        
-            $form->display('created_at');
-            $form->display('updated_at');
+//            $form->display('id');
+//            $form->text('user_id');
+//            $form->text('exam_id');
+//            $form->text('score');
+//            $form->text('question_count');
+//
+//            $form->display('created_at');
+//            $form->display('updated_at');
         });
     }
 }
