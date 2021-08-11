@@ -14,6 +14,7 @@ use App\Models\Industry;
 use App\Models\LearningMaterialRecord;
 use App\Models\Mechanism;
 use App\Models\Occupation;
+use App\Rules\IDCard;
 use App\Utils\Constants;
 use Dcat\Admin\Admin;
 use Dcat\Admin\Form;
@@ -47,6 +48,9 @@ class AppUserController extends AdminController
             $grid->column('name');
             $grid->column('nick_name');
             $grid->column('phone');
+            if(config('app.name')=='食安员培训'){
+                $grid->column('id_card');
+            }
             $grid->column('sex')->display(function ($sex) {
                 return Constants::getSexType($sex);
             });
@@ -139,6 +143,9 @@ class AppUserController extends AdminController
             $show->field('user_id');
             $show->field('name');
             $show->field('phone');
+            if(config('app.name')=='食安员培训'){
+                $show->field('id_card');
+            }
             $show->field('sex')->as(function ($sex) {
                 return Constants::getSexType($sex);
             });
@@ -185,13 +192,21 @@ class AppUserController extends AdminController
             $form->multipleSelect('industry_id')->options(Industry::getIndustryData())->savingArray()->load('occupation_id', 'api-occupation')->required();
             $form->multipleSelect('occupation_id')->options(Occupation::getOccupationData())->savingArray()->required();
             $form->mobile('phone')->required();
-            $form->password('password')->required();
+            if(config('app.name')=='食安员培训'){
+                $form->text('id_card');
+//                    ->rules([new IDCard()]);
+            }
+            $form->password('password');
             $form->select('status')->options(Constants::getVerifyItems())->required()->default(Constants::VERIFIED);
             $form->display('created_at');
             $form->display('updated_at');
             $form->saving(function ($form) {
                 if ($form->isCreating()) {
                     $form->user_id = getUserId();
+                    if(!$form->password){
+                        return $form->response()
+                            ->error('新增时候密码不能为空');
+                    }
                 }
                 if ($form->password && $form->model()->password != $form->password) {
                     $form->password = md5($form->password);

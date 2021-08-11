@@ -9,6 +9,7 @@ return [
         'name' => '用户名',
         'nick_name' => '用户昵称',
         'phone' => '手机号',
+        'id_card'=>'身份证号',
         'sex' => '性别',
         'birthday' => '生日',
         'password' => '密码',
