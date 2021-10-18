@@ -107,6 +107,7 @@
 
         </div>
     </div>
+    <a href="https://beian.miit.gov.cn/#/Integrated/recordQuery"><div class="copydiv">网站备案号：粤ICP备2021061044号</div></a>
 @endif
 <script>
     $('#home_index').css('height', window.innerHeight);
