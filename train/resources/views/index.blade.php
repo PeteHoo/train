@@ -97,8 +97,7 @@
 
                     </div>
 </div>
-<a href="https://beian.miit.gov.cn/#/Integrated/recordQuery"><div style="margin-top: -40px;color: #ffffff" class="copydiv">网站备案号：粤ICP备2021061044号</div></a>
-@elseif(config('app.name')=='食安员培训')
+    @elseif(config('app.name')=='食安员培训')
     <div id="home_index" border='0' style="background:url({{config('app.cdn_url')}}/image/homepage2.jpg) no-repeat;background-size:100%,100%; ">
         <div class="top-right links">
 
