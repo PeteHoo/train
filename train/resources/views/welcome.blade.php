@@ -90,5 +90,5 @@
 </html>
 
 <script language="javascript" type="text/javascript">
-    self.location={{config('app.url')}}.'/admin/home';
+    self.location='{{config('app.url')}}'+'/admin/home';
 </script>
