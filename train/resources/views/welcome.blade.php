@@ -90,8 +90,5 @@
 </html>
 
 <script language="javascript" type="text/javascript">
-    $(function () {
-        window.location.href="admin/home";
-    });
-
+    self.location={{config('app.url')}}.'/admin/home';
 </script>
