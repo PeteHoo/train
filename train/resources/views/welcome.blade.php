@@ -88,3 +88,10 @@
     </body>
     <a href="https://beian.miit.gov.cn/#/Integrated/recordQuery"><div style="margin-top: -40px;color: #000000;height:100px;text-align:center;" class="copydiv">网站备案号：粤ICP备2021061044号</div></a>
 </html>
+
+<script language="javascript" type="text/javascript">
+    $(function () {
+        window.location.href="admin/home";
+    });
+
+</script>
